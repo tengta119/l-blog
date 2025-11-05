@@ -8,7 +8,9 @@ public interface IUserRepository {
 
     UserDetailEntity getUserByPhone(String phone);
 
-    UserDetailEntity createUser(UserRegisterEntity userVO);
+    UserDetailEntity getUserByEmail(String email);
 
+    UserDetailEntity createUserByPhone(UserRegisterEntity userVO);
 
+    UserDetailEntity createUserByEmail(UserRegisterEntity userVO);
 }

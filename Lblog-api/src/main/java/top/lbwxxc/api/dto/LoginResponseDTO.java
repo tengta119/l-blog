@@ -22,4 +22,6 @@ public class LoginResponseDTO {
      */
     private String phone;
 
+    // 邮箱
+    private String email;
 }

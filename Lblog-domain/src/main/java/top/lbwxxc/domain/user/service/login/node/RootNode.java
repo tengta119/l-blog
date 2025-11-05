@@ -8,6 +8,7 @@ import top.lbwxxc.domain.user.adapter.repository.IUserRepository;
 import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.user.model.entity.LoginUserEntity;
 import top.lbwxxc.domain.user.model.entity.UserDetailEntity;
+import top.lbwxxc.types.enums.VerificationTypeVO;
 import top.lbwxxc.domain.user.service.login.AbstractLoginUserSupport;
 import top.lbwxxc.domain.user.service.login.factory.DefaultUserLoginStrategyFactory;
 import top.lbwxxc.types.design.framework.tree.StrategyHandler;
@@ -28,18 +29,22 @@ public class RootNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultU
     protected UserAccountEntity doApply(LoginUserEntity requestParameter, DefaultUserLoginStrategyFactory.DynamicContext dynamicContext) throws Exception {
         log.info("登录注册 - RootNode 从数据库加载用户信息, requestParameter：{}", requestParameter);
 
-        String phone = requestParameter.getPhone();
+        UserDetailEntity userDetail = null;
+        if (requestParameter.getType().equals(VerificationTypeVO.PHONE.getCode())) {
+            String phone = requestParameter.getPhone();
+            userDetail = userRepository.getUserByPhone(phone);
 
-        UserDetailEntity userByUsername = userRepository.getUserByPhone(phone);
-        log.info("用户信息为 {}", userByUsername);
-
-        if (userByUsername != null) {
-            dynamicContext.setUserId(userByUsername.getId());
-            dynamicContext.setPassword(userByUsername.getPassword());
+        } else if (requestParameter.getType().equals(VerificationTypeVO.EMAIL.getCode())) {
+            String email = requestParameter.getEmail();
+            userDetail = userRepository.getUserByEmail(email);
         }
 
-        dynamicContext.setCode(requestParameter.getCode());
-        dynamicContext.setPhone(phone);
+        log.info("用户信息为 {}", userDetail);
+
+        if (userDetail != null) {
+            dynamicContext.setUserId(userDetail.getId());
+            dynamicContext.setPassword(userDetail.getPassword());
+        }
 
         return router(requestParameter, dynamicContext);
     }
@@ -48,8 +53,8 @@ public class RootNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultU
     public StrategyHandler<LoginUserEntity, DefaultUserLoginStrategyFactory.DynamicContext, UserAccountEntity> get(LoginUserEntity requestParameter, DefaultUserLoginStrategyFactory.DynamicContext dynamicContext) throws Exception {
         if (dynamicContext.getUserId() != null) {
             return loginNode;
-        } else if (requestParameter.getCode() != null) {
-            log.info("phone：{}， code： {}，该用户未注册", requestParameter.getPhone(), requestParameter.getCode());
+        } else if (requestParameter.getReqCode() != null) {
+            log.info("该用户未注册 {}", requestParameter);
             return registerNode;
         }
         return defaultStrategyHandler;

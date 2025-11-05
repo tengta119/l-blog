@@ -101,7 +101,11 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
-
+<!--        发送邮件-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 
         <!-- 阿里云短信发送 -->
         <dependency>

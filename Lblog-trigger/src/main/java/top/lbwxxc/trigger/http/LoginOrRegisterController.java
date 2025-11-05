@@ -29,7 +29,8 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
         LoginUserEntity loginUserEntity = LoginUserEntity.builder()
                 .type(loginRequestDTO.getType())
                 .phone(loginRequestDTO.getPhone())
-                .code(loginRequestDTO.getCode())
+                .email(loginRequestDTO.getEmail())
+                .reqCode(loginRequestDTO.getCode())
                 .reqPassword(loginRequestDTO.getPassword())
                 .build();
         try {
@@ -37,6 +38,7 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
             LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
                     .id(userAccountEntity.getId())
                     .phone(userAccountEntity.getPhone())
+                    .email(userAccountEntity.getEmail())
                     .build();
 
             return Response.<LoginResponseDTO>builder()
@@ -48,7 +50,7 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
         } catch (Exception e) {
             return Response.<LoginResponseDTO>builder()
                     .code(ResponseCode.UN_ERROR.getCode())
-                    .info(ResponseCode.UN_ERROR.getInfo())
+                    .info(e.getMessage())
                     .build();
         }
     }

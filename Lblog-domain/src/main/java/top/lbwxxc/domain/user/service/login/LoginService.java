@@ -9,6 +9,7 @@ import top.lbwxxc.domain.user.adapter.port.ISendCodePort;
 import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.user.model.entity.LoginUserEntity;
 import top.lbwxxc.domain.user.model.entity.VerificationCodeEntity;
+import top.lbwxxc.types.enums.VerificationTypeVO;
 import top.lbwxxc.domain.user.service.ILoginService;
 import top.lbwxxc.domain.user.service.login.factory.DefaultUserLoginStrategyFactory;
 import top.lbwxxc.types.common.Constants;
@@ -30,20 +31,22 @@ public class LoginService implements ILoginService {
     @Override
     public UserAccountEntity LoginOrRegister(LoginUserEntity loginEntity) throws Exception {
         StrategyHandler<LoginUserEntity, DefaultUserLoginStrategyFactory.DynamicContext, UserAccountEntity> handler = defaultUserLoginStrategyFactory.strategyHandler();
-        LoginUserEntity loginUserEntity = LoginUserEntity.builder()
-                .type(loginEntity.getType())
-                .reqPassword(loginEntity.getReqPassword())
-                .phone(loginEntity.getPhone())
-                .code(loginEntity.getCode())
-                .build();
-        return handler.apply(loginUserEntity, new DefaultUserLoginStrategyFactory.DynamicContext());
+
+        return handler.apply(loginEntity, new DefaultUserLoginStrategyFactory.DynamicContext());
     }
 
     @Override
     public void sendVerificationCode(VerificationCodeEntity verificationCodeEntity) {
         String code = RandomUtil.randomNumbers(6);
-        stringRedisTemplate.opsForValue().set(Constants.buildVerificationCodeKey(verificationCodeEntity.getPhone()), code, 30, TimeUnit.SECONDS);
-        sendCodePort.sendVerificationPhoneCode(verificationCodeEntity.getPhone(), code);
+
+        if (verificationCodeEntity.getType().equals(VerificationTypeVO.PHONE.getCode())) {
+            stringRedisTemplate.opsForValue().set(Constants.buildVerificationCodeKey(verificationCodeEntity.getPhone()), code, 120, TimeUnit.SECONDS);
+            sendCodePort.sendVerificationPhoneCode(verificationCodeEntity.getPhone(), code);
+
+        } else if (verificationCodeEntity.getType().equals(VerificationTypeVO.EMAIL.getCode())) {
+            stringRedisTemplate.opsForValue().set(Constants.buildVerificationCodeKey(verificationCodeEntity.getEmail()), code, 120, TimeUnit.SECONDS);
+            sendCodePort.sendVerificationEmailCode(verificationCodeEntity.getEmail(), code);
+        }
     }
 
 

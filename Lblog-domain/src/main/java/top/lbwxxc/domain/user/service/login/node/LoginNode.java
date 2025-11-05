@@ -29,11 +29,13 @@ public class LoginNode extends AbstractLoginUserSupport<LoginUserEntity, Default
     protected UserAccountEntity doApply(LoginUserEntity requestParameter, DefaultUserLoginStrategyFactory.DynamicContext dynamicContext) throws Exception {
         log.info("登录注册服务 - LoginNode");
         String reqPassword = requestParameter.getReqPassword();
+        String reqCode = requestParameter.getReqCode();
+
         String code = stringRedisTemplate.opsForValue().get(Constants.buildVerificationCodeKey(requestParameter.getPhone()));
 
         if (reqPassword != null && passwordEncoder.matches(reqPassword, dynamicContext.getPassword())) {
             dynamicContext.setLogin(true);
-        } else if (requestParameter.getCode() != null && requestParameter.getCode().equals(code)) {
+        } else if (reqCode != null && reqCode.equals(code)) {
             dynamicContext.setLogin(true);
         }
 

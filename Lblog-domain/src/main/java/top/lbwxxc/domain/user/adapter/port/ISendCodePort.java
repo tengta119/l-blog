@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 public interface ISendCodePort {
 
     void sendVerificationPhoneCode(String phone, String code);
+
+    void sendVerificationEmailCode(String email, String code);
 }

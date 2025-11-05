@@ -31,9 +31,8 @@ public class DefaultUserLoginStrategyFactory {
     public static class DynamicContext {
 
         private boolean isLogin;
-        private String phone;
         private String password;
         private Long userId;
-        private String code;
+
     }
 }

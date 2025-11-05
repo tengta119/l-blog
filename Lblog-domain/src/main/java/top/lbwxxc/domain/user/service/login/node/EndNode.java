@@ -19,7 +19,8 @@ public class EndNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultUs
         if (dynamicContext.isLogin()) {
             return UserAccountEntity.builder()
                     .id(dynamicContext.getUserId())
-                    .phone(dynamicContext.getPhone())
+                    .phone(requestParameter.getPhone())
+                    .email(requestParameter.getEmail())
                     .build();
         }
         return router(requestParameter, dynamicContext);

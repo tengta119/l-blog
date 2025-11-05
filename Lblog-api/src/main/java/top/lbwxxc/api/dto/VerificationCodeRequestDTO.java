@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class VerificationCodeRequestDTO {
 
+    // 1：手机验证码，2：邮箱验证码
     String type;
     String phone;
     String email;

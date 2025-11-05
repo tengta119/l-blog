@@ -24,4 +24,6 @@ public class UserAccountEntity {
      */
     private String phone;
 
+    private String email;
+
 }

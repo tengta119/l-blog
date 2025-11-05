@@ -20,56 +20,85 @@ public class UserRepository implements IUserRepository {
 
         User userByPhone = userDao.getUserByPhone(phone);
 
-        if (userByPhone != null) {
+        return getUser(userByPhone);
+    }
+
+    @Override
+    public UserDetailEntity getUserByEmail(String email) {
+
+        User userByEmail = userDao.getUserByEmail(email);
+
+        return getUser(userByEmail);
+    }
+
+    private UserDetailEntity getUser(User user) {
+        if (user != null) {
             return UserDetailEntity.builder()
-                    .id(userByPhone.getId())
-                    .password(userByPhone.getPassword())
-                    .nickname(userByPhone.getNickname())
-                    .avatar(userByPhone.getAvatar())
-                    .birthday(userByPhone.getBirthday())
-                    .backgroundImg(userByPhone.getBackgroundImg())
-                    .phone(userByPhone.getPhone())
-                    .status(userByPhone.getStatus())
-                    .status(userByPhone.getStatus())
-                    .introduction(userByPhone.getIntroduction())
-                    .createTime(userByPhone.getCreateTime())
-                    .updateTime(userByPhone.getUpdateTime())
-                    .isDeleted(userByPhone.getIsDeleted())
-                    .openid(userByPhone.getOpenid())
+                    .id(user.getId())
+                    .password(user.getPassword())
+                    .nickname(user.getNickname())
+                    .avatar(user.getAvatar())
+                    .birthday(user.getBirthday())
+                    .backgroundImg(user.getBackgroundImg())
+                    .phone(user.getPhone())
+                    .status(user.getStatus())
+                    .status(user.getStatus())
+                    .introduction(user.getIntroduction())
+                    .createTime(user.getCreateTime())
+                    .updateTime(user.getUpdateTime())
+                    .isDeleted(user.getIsDeleted())
+                    .openid(user.getOpenid())
                     .build();
         } else {
             return null;
         }
-
     }
 
     @Override
-    public UserDetailEntity createUser(UserRegisterEntity userVO) {
+    public UserDetailEntity createUserByPhone(UserRegisterEntity userVO) {
+
         User user = User.builder()
                 .phone(userVO.getPhone())
                 .password(userVO.getPassword())
                 .nickname("默认名称")
                 .build();
-
-        int insert = userDao.insertSelective(user);
+        userDao.insertSelective(user);
 
         User userByPhone = userDao.getUserByPhone(userVO.getPhone());
 
+        return createUser(userByPhone);
+    }
+
+    @Override
+    public UserDetailEntity createUserByEmail(UserRegisterEntity userVO) {
+
+        User user = User.builder()
+                .email(userVO.getEmail())
+                .password(userVO.getPassword())
+                .nickname("默认名称")
+                .build();
+        userDao.insertSelective(user);
+
+        User userByEmail = userDao.getUserByEmail(userVO.getEmail());
+        return createUser(userByEmail);
+    }
+
+    private UserDetailEntity createUser(User user) {
         return UserDetailEntity.builder()
-                .id(userByPhone.getId())
-                .password(userByPhone.getPassword())
-                .nickname(userByPhone.getNickname())
-                .avatar(userByPhone.getAvatar())
-                .birthday(userByPhone.getBirthday())
-                .backgroundImg(userByPhone.getBackgroundImg())
-                .phone(userByPhone.getPhone())
-                .status(userByPhone.getStatus())
-                .status(userByPhone.getStatus())
-                .introduction(userByPhone.getIntroduction())
-                .createTime(userByPhone.getCreateTime())
-                .updateTime(userByPhone.getUpdateTime())
-                .isDeleted(userByPhone.getIsDeleted())
-                .openid(userByPhone.getOpenid())
+                .id(user.getId())
+                .password(user.getPassword())
+                .nickname(user.getNickname())
+                .avatar(user.getAvatar())
+                .birthday(user.getBirthday())
+                .backgroundImg(user.getBackgroundImg())
+                .phone(user.getPhone())
+                .status(user.getStatus())
+                .status(user.getStatus())
+                .introduction(user.getIntroduction())
+                .createTime(user.getCreateTime())
+                .updateTime(user.getUpdateTime())
+                .isDeleted(user.getIsDeleted())
+                .openid(user.getOpenid())
                 .build();
     }
 }

@@ -87,5 +87,10 @@ public class User implements Serializable {
      */
     private String openid;
 
+    /**
+     * 用户的唯一邮箱
+     */
+    private String email;
+
     private static final long serialVersionUID = 1L;
 }

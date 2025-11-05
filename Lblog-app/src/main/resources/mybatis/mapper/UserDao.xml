@@ -16,38 +16,34 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
         <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
         <result column="openid" jdbcType="VARCHAR" property="openid" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
     </resultMap>
-
     <sql id="Base_Column_List">
-        id, `password`, nickname, avatar, birthday, background_img, phone,
-    sex, `status`, introduction, create_time, update_time, is_deleted, openid
+        id, `password`, nickname, avatar, birthday, background_img, phone, sex, `status`,
+    introduction, create_time, update_time, is_deleted, openid, email
     </sql>
-
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from user
         where id = #{id,jdbcType=BIGINT}
     </select>
-
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from user
         where id = #{id,jdbcType=BIGINT}
     </delete>
-
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.User" useGeneratedKeys="true">
-        insert into user (`password`, nickname,
-                          avatar, birthday, background_img,
-                          phone, sex, `status`,
-                          introduction, create_time, update_time,
-                          is_deleted, openid)
-        values (#{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
-                #{avatar,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{backgroundImg,jdbcType=VARCHAR},
-                #{phone,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
-                #{introduction,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-                #{isDeleted,jdbcType=BIT}, #{openid,jdbcType=VARCHAR})
+        insert into user (`password`, nickname, avatar,
+                          birthday, background_img, phone,
+                          sex, `status`, introduction,
+                          create_time, update_time, is_deleted,
+                          openid, email)
+        values (#{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
+                #{birthday,jdbcType=DATE}, #{backgroundImg,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+                #{sex,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{introduction,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT},
+                #{openid,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
     </insert>
-
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.User" useGeneratedKeys="true">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -90,6 +86,9 @@
             <if test="openid != null">
                 openid,
             </if>
+            <if test="email != null">
+                email,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="password != null">
@@ -130,6 +129,9 @@
             </if>
             <if test="openid != null">
                 #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -175,10 +177,12 @@
             <if test="openid != null">
                 openid = #{openid,jdbcType=VARCHAR},
             </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-
     <update id="updateByPrimaryKey" parameterType="top.lbwxxc.infrastructure.dao.po.User">
         update user
         set `password` = #{password,jdbcType=VARCHAR},
@@ -193,12 +197,20 @@
             create_time = #{createTime,jdbcType=TIMESTAMP},
             update_time = #{updateTime,jdbcType=TIMESTAMP},
             is_deleted = #{isDeleted,jdbcType=BIT},
-            openid = #{openid,jdbcType=VARCHAR}
+            openid = #{openid,jdbcType=VARCHAR},
+            email = #{email,jdbcType=VARCHAR}
         where id = #{id,jdbcType=BIGINT}
     </update>
 
     <select id="getUserByPhone" resultMap="BaseResultMap">
-        select * from user
+        select *
+        from user
         where phone = #{phone}
+    </select>
+
+    <select id="getUserByEmail" resultMap="BaseResultMap">
+        select *
+        from user
+        where email = #{email}
     </select>
 </mapper>

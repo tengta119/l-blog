@@ -20,4 +20,7 @@ public interface UserDao {
 
     // 根据手机号查询用户
     User getUserByPhone(String phone);
+
+    // 根据邮箱查询用户
+    User getUserByEmail(String email);
 }

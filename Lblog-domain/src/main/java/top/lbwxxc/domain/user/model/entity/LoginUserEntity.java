@@ -17,7 +17,9 @@ public class LoginUserEntity {
 
     private String phone;
 
+    private String email;
+
     private String reqPassword;
 
-    private String code;
+    private String reqCode;
 }
