@@ -12,6 +12,7 @@ import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.user.model.entity.LoginUserEntity;
 import top.lbwxxc.domain.user.model.entity.UserRegisterEntity;
 import top.lbwxxc.domain.user.model.entity.UserDetailEntity;
+import top.lbwxxc.types.enums.CreateUserType;
 import top.lbwxxc.types.enums.VerificationTypeVO;
 import top.lbwxxc.domain.user.service.login.AbstractLoginUserSupport;
 import top.lbwxxc.domain.user.service.login.factory.DefaultUserLoginStrategyFactory;
@@ -54,11 +55,13 @@ public class RegisterNode extends AbstractLoginUserSupport<LoginUserEntity, Defa
         if (requestParameter.getType().equals(VerificationTypeVO.PHONE.getCode())) {
 
             userRegisterEntity.setPhone(requestParameter.getPhone());
-            userDetail = userRepository.createUserByPhone(userRegisterEntity);
+            userRegisterEntity.setCreateUserType(CreateUserType.CREATE_USER_PHONE);
+            userDetail = userRepository.createUser(userRegisterEntity);
 
         } else if (requestParameter.getType().equals(VerificationTypeVO.EMAIL.getCode())) {
             userRegisterEntity.setEmail(requestParameter.getEmail());
-            userDetail = userRepository.createUserByEmail(userRegisterEntity);
+            userRegisterEntity.setCreateUserType(CreateUserType.CREATE_USER_EMAIL);
+            userDetail = userRepository.createUser(userRegisterEntity);
         }
 
         if (userDetail == null) {

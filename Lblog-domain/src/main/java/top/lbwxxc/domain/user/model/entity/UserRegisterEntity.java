@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.lbwxxc.types.enums.CreateUserType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserRegisterEntity {
 
-    private String type;
+    CreateUserType createUserType;
+
     private String phone;
     private String email;
     private String openid;

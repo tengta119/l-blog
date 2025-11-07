@@ -3,18 +3,12 @@ package top.lbwxxc.domain.user.adapter.repository;
 
 import top.lbwxxc.domain.user.model.entity.UserRegisterEntity;
 import top.lbwxxc.domain.user.model.entity.UserDetailEntity;
+import top.lbwxxc.types.enums.SelectUserType;
 
 public interface IUserRepository {
 
-    UserDetailEntity getUserByPhone(String phone);
 
-    UserDetailEntity getUserByEmail(String email);
+    UserDetailEntity getUser(String str, SelectUserType selectUserType);
 
-    UserDetailEntity getUserByOpenId(String openid);
-
-    UserDetailEntity createUserByPhone(UserRegisterEntity userVO);
-
-    UserDetailEntity createUserByEmail(UserRegisterEntity userVO);
-
-    UserDetailEntity createUserByOpenId(UserRegisterEntity userVO);
+    UserDetailEntity createUser(UserRegisterEntity userRegisterEntity);
 }

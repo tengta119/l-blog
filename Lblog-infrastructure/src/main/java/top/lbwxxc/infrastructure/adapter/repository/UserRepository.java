@@ -8,6 +8,8 @@ import top.lbwxxc.domain.user.model.entity.UserRegisterEntity;
 import top.lbwxxc.domain.user.model.entity.UserDetailEntity;
 import top.lbwxxc.infrastructure.dao.UserDao;
 import top.lbwxxc.infrastructure.dao.po.User;
+import top.lbwxxc.types.enums.CreateUserType;
+import top.lbwxxc.types.enums.SelectUserType;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -16,93 +18,49 @@ public class UserRepository implements IUserRepository {
     private UserDao userDao;
 
     @Override
-    public UserDetailEntity getUserByPhone(String phone) {
+    public UserDetailEntity getUser(String str, SelectUserType selectUserType) {
 
-        User userByPhone = userDao.getUserByPhone(phone);
-
-        return getUser(userByPhone);
-    }
-
-    @Override
-    public UserDetailEntity getUserByEmail(String email) {
-
-        User userByEmail = userDao.getUserByEmail(email);
-
-        return getUser(userByEmail);
-    }
-
-    @Override
-    public UserDetailEntity getUserByOpenId(String openid) {
-
-        User userByOpenId = userDao.getUserByOpenId(openid);
-
-        return getUser(userByOpenId);
-    }
-
-    private UserDetailEntity getUser(User user) {
+        User user = null;
+        if (selectUserType.equals(SelectUserType.SELECT_USER_EMAIL)) {
+            user = userDao.getUserByEmail(str);
+        } else if (selectUserType.equals(SelectUserType.SELECT_USER_PHONE)) {
+            user = userDao.getUserByPhone(str);
+        } else if (selectUserType.equals(SelectUserType.SELECT_USER_OPENID)) {
+            user = userDao.getUserByOpenId(str);
+        }
         if (user != null) {
-            return UserDetailEntity.builder()
-                    .id(user.getId())
-                    .password(user.getPassword())
-                    .nickname(user.getNickname())
-                    .avatar(user.getAvatar())
-                    .birthday(user.getBirthday())
-                    .backgroundImg(user.getBackgroundImg())
-                    .phone(user.getPhone())
-                    .status(user.getStatus())
-                    .status(user.getStatus())
-                    .introduction(user.getIntroduction())
-                    .createTime(user.getCreateTime())
-                    .updateTime(user.getUpdateTime())
-                    .isDeleted(user.getIsDeleted())
-                    .openid(user.getOpenid())
-                    .build();
+            return getUserDetailEntity(user);
         } else {
             return null;
         }
     }
 
     @Override
-    public UserDetailEntity createUserByPhone(UserRegisterEntity userVO) {
+    public UserDetailEntity createUser(UserRegisterEntity userRegisterEntity) {
+        User user = new User();
+        CreateUserType createUserType = userRegisterEntity.getCreateUserType();
+        if (createUserType.equals(CreateUserType.CREATE_USER_OPENID)) {
+            user.setOpenid(userRegisterEntity.getOpenid());
+            userDao.insertSelective(user);
+            return getUserDetailEntity(userDao.getUserByOpenId(userRegisterEntity.getOpenid()));
+        }
 
-        User user = User.builder()
-                .phone(userVO.getPhone())
-                .password(userVO.getPassword())
-                .nickname("默认名称")
-                .build();
-        userDao.insertSelective(user);
+        user.setPassword(userRegisterEntity.getPassword());
+        if (createUserType.equals(CreateUserType.CREATE_USER_PHONE)) {
+            user.setPhone(userRegisterEntity.getPhone());
+            userDao.insertSelective(user);
+            return getUserDetailEntity(userDao.getUserByPhone(userRegisterEntity.getPhone()));
+        }
 
-        User userByPhone = userDao.getUserByPhone(userVO.getPhone());
-
-        return createUser(userByPhone);
+        if (createUserType.equals(CreateUserType.CREATE_USER_EMAIL)) {
+            user.setEmail(userRegisterEntity.getEmail());
+            userDao.insertSelective(user);
+            return getUserDetailEntity(userDao.getUserByEmail(userRegisterEntity.getEmail()));
+        }
+        return null;
     }
 
-    @Override
-    public UserDetailEntity createUserByEmail(UserRegisterEntity userVO) {
-
-        User user = User.builder()
-                .email(userVO.getEmail())
-                .password(userVO.getPassword())
-                .nickname("默认名称")
-                .build();
-        userDao.insertSelective(user);
-
-        User userByEmail = userDao.getUserByEmail(userVO.getEmail());
-        return createUser(userByEmail);
-    }
-
-    @Override
-    public UserDetailEntity createUserByOpenId(UserRegisterEntity userVO) {
-        User user = User.builder()
-                .openid(userVO.getOpenid())
-                .nickname("默认名称")
-                .build();
-        userDao.insertSelective(user);
-
-        return createUser(userDao.getUserByOpenId(userVO.getOpenid()));
-    }
-
-    private UserDetailEntity createUser(User user) {
+    private UserDetailEntity getUserDetailEntity(User user) {
         return UserDetailEntity.builder()
                 .id(user.getId())
                 .password(user.getPassword())

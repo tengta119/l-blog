@@ -8,6 +8,7 @@ import top.lbwxxc.domain.user.adapter.repository.IUserRepository;
 import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.user.model.entity.LoginUserEntity;
 import top.lbwxxc.domain.user.model.entity.UserDetailEntity;
+import top.lbwxxc.types.enums.SelectUserType;
 import top.lbwxxc.types.enums.VerificationTypeVO;
 import top.lbwxxc.domain.user.service.login.AbstractLoginUserSupport;
 import top.lbwxxc.domain.user.service.login.factory.DefaultUserLoginStrategyFactory;
@@ -32,11 +33,11 @@ public class RootNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultU
         UserDetailEntity userDetail = null;
         if (requestParameter.getType().equals(VerificationTypeVO.PHONE.getCode())) {
             String phone = requestParameter.getPhone();
-            userDetail = userRepository.getUserByPhone(phone);
+            userDetail = userRepository.getUser(phone, SelectUserType.SELECT_USER_PHONE);
 
         } else if (requestParameter.getType().equals(VerificationTypeVO.EMAIL.getCode())) {
             String email = requestParameter.getEmail();
-            userDetail = userRepository.getUserByEmail(email);
+            userDetail = userRepository.getUser(email, SelectUserType.SELECT_USER_EMAIL);
         }
 
         log.info("用户信息为 {}", userDetail);

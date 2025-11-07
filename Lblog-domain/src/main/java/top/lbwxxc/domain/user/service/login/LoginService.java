@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.user.adapter.port.ILoginPort;
 import top.lbwxxc.domain.user.adapter.repository.IUserRepository;
 import top.lbwxxc.domain.user.model.entity.*;
+import top.lbwxxc.types.enums.CreateUserType;
+import top.lbwxxc.types.enums.SelectUserType;
 import top.lbwxxc.types.enums.VerificationTypeVO;
 import top.lbwxxc.domain.user.service.ILoginService;
 import top.lbwxxc.domain.user.service.login.factory.DefaultUserLoginStrategyFactory;
@@ -79,16 +81,17 @@ public class LoginService implements ILoginService {
         if (openid == null) {
             return null;
         }
-        UserDetailEntity userByOpenId = userRepository.getUserByOpenId(openid);
+        UserDetailEntity userByOpenId = userRepository.getUser(openid, SelectUserType.SELECT_USER_OPENID);
         if (userByOpenId == null) {
             UserRegisterEntity userRegisterEntity = UserRegisterEntity.builder()
+                    .createUserType(CreateUserType.CREATE_USER_OPENID)
                     .openid(openid)
                     .build();
-            UserDetailEntity userDetailEntity = userRepository.createUserByOpenId(userRegisterEntity);
+            UserDetailEntity userDetailEntity = userRepository.createUser(userRegisterEntity);
+            StpUtil.login(userDetailEntity.getId());
             return userDetailEntity.getId();
         }
 
-        StpUtil.login(userByOpenId.getId());
         return userByOpenId.getId();
     }
 
