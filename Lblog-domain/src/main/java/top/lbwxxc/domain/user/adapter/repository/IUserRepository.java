@@ -10,7 +10,11 @@ public interface IUserRepository {
 
     UserDetailEntity getUserByEmail(String email);
 
+    UserDetailEntity getUserByOpenId(String openid);
+
     UserDetailEntity createUserByPhone(UserRegisterEntity userVO);
 
     UserDetailEntity createUserByEmail(UserRegisterEntity userVO);
+
+    UserDetailEntity createUserByOpenId(UserRegisterEntity userVO);
 }

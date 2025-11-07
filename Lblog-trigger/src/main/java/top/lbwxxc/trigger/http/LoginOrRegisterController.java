@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import top.lbwxxc.api.ILoginOrRegisterService;
 import top.lbwxxc.api.dto.LoginRequestDTO;
 import top.lbwxxc.api.dto.LoginResponseDTO;
+import top.lbwxxc.api.dto.WxLoginRequestDTO;
+import top.lbwxxc.api.dto.WxLoginResponseDTO;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.user.model.entity.LoginUserEntity;
@@ -54,4 +56,16 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
                     .build();
         }
     }
+
+    @PostMapping("/login/check")
+    @Override
+    public Response<WxLoginResponseDTO> wxLoginCheck(@RequestBody WxLoginRequestDTO wxLoginRequestDTO) {
+        String ticket = wxLoginRequestDTO.getTicket();
+        Long userId = loginService.checkLoginState(ticket);
+
+        return Response.<WxLoginResponseDTO>builder()
+                .data(new WxLoginResponseDTO(userId))
+                .build();
+    }
+
 }

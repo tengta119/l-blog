@@ -40,6 +40,10 @@
         <sa-token>1.44.0</sa-token>
         <dysmsapi.version>2.0.24</dysmsapi.version>
         <hutool.version>5.8.26</hutool.version>
+        <retrofit.version>2.9.0</retrofit.version>
+        <converter-gson.version>2.9.0</converter-gson.version>
+        <adapter-rxjava2.version>2.9.0</adapter-rxjava2.version>
+        <converter-jackson.version>2.9.0</converter-jackson.version>
     </properties>
 
     <developers>
@@ -139,6 +143,25 @@
                 <groupId>com.aliyun</groupId>
                 <artifactId>dysmsapi20170525</artifactId>
                 <version>${dysmsapi.version}</version>
+            </dependency>
+
+<!--            http 请求-->
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>${retrofit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-jackson</artifactId>
+                <version>2.9.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>adapter-rxjava2</artifactId>
+                <version>${adapter-rxjava2.version}</version>
             </dependency>
 
             <dependency>

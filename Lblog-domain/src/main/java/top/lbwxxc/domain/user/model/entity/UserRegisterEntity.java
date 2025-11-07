@@ -15,5 +15,6 @@ public class UserRegisterEntity {
     private String type;
     private String phone;
     private String email;
+    private String openid;
     private String password;
 }

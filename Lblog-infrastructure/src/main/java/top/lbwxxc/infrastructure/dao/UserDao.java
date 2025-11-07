@@ -23,4 +23,6 @@ public interface UserDao {
 
     // 根据邮箱查询用户
     User getUserByEmail(String email);
+
+    User getUserByOpenId(String openid);
 }

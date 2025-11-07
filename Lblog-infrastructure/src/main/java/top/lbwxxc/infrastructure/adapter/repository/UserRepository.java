@@ -31,6 +31,14 @@ public class UserRepository implements IUserRepository {
         return getUser(userByEmail);
     }
 
+    @Override
+    public UserDetailEntity getUserByOpenId(String openid) {
+
+        User userByOpenId = userDao.getUserByOpenId(openid);
+
+        return getUser(userByOpenId);
+    }
+
     private UserDetailEntity getUser(User user) {
         if (user != null) {
             return UserDetailEntity.builder()
@@ -81,6 +89,17 @@ public class UserRepository implements IUserRepository {
 
         User userByEmail = userDao.getUserByEmail(userVO.getEmail());
         return createUser(userByEmail);
+    }
+
+    @Override
+    public UserDetailEntity createUserByOpenId(UserRegisterEntity userVO) {
+        User user = User.builder()
+                .openid(userVO.getOpenid())
+                .nickname("默认名称")
+                .build();
+        userDao.insertSelective(user);
+
+        return createUser(userDao.getUserByOpenId(userVO.getOpenid()));
     }
 
     private UserDetailEntity createUser(User user) {

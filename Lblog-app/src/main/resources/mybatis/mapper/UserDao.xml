@@ -213,4 +213,10 @@
         from user
         where email = #{email}
     </select>
+
+    <select id="getUserByOpenId" resultMap="BaseResultMap">
+        select *
+        from user
+        where openid = #{openid}
+    </select>
 </mapper>
