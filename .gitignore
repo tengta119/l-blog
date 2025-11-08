@@ -20,7 +20,8 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
+Lblog-vue3/.vscode
+Lblog-vue3/node_modules
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
