@@ -14,4 +14,6 @@ public class WxLoginResponseDTO {
 
     // 用户 id
     private Long id;
+    //
+    private String token;
 }

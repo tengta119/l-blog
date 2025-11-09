@@ -38,6 +38,7 @@ public class UserRepository implements IUserRepository {
     @Override
     public UserDetailEntity createUser(UserRegisterEntity userRegisterEntity) {
         User user = new User();
+        user.setNickname("默认名称");
         CreateUserType createUserType = userRegisterEntity.getCreateUserType();
         if (createUserType.equals(CreateUserType.CREATE_USER_OPENID)) {
             user.setOpenid(userRegisterEntity.getOpenid());

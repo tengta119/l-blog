@@ -1,7 +1,9 @@
 package top.lbwxxc.trigger.http;
 
 
+import cn.dev33.satoken.stp.StpUtil;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import top.lbwxxc.api.ILoginOrRegisterService;
 import top.lbwxxc.api.dto.LoginRequestDTO;
@@ -17,6 +19,7 @@ import top.lbwxxc.types.enums.ResponseCode;
 @RestController
 @CrossOrigin("*")
 @RequestMapping()
+@Slf4j
 public class LoginOrRegisterController implements ILoginOrRegisterService {
 
     @Resource
@@ -61,12 +64,25 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
     @PostMapping("/login/check")
     @Override
     public Response<WxLoginResponseDTO> wxLoginCheck(@RequestBody WxLoginRequestDTO wxLoginRequestDTO) {
+        log.info("前端轮询：ticket {}", wxLoginRequestDTO.getTicket());
         String ticket = wxLoginRequestDTO.getTicket();
         Long userId = loginService.checkLoginState(ticket);
-
-        return Response.<WxLoginResponseDTO>builder()
-                .data(new WxLoginResponseDTO(userId))
+        WxLoginResponseDTO wxLoginResponseDTO = WxLoginResponseDTO.builder()
+                .id(userId)
+                .token(StpUtil.getTokenValue())
                 .build();
+        if (userId != null) {
+            return Response.<WxLoginResponseDTO>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(wxLoginResponseDTO)
+                    .build();
+        } else {
+            return Response.<WxLoginResponseDTO>builder()
+                    .code(ResponseCode.WX_NOT_LOGIN.getCode())
+                    .info(ResponseCode.WX_NOT_LOGIN.getInfo())
+                    .build();
+        }
     }
 
 }

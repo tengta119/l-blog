@@ -8,6 +8,8 @@ import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Unmarshaller;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -15,10 +17,43 @@ import org.dom4j.io.SAXReader;
 
 
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.*;
 
 public class XmlUtil {
+
+
+    /**
+     * 将 XML 字符串转换为 Java 对象
+     * @param xmlString XML 字符串
+     * @param clazz 目标对象的 Class
+     * @param <T> 泛型
+     * @return 转换后的 Java 对象
+     */
+    public static <T> T fromXml(String xmlString, Class<T> clazz) {
+        try {
+            // 1. 创建 JAXBContext
+            JAXBContext context = JAXBContext.newInstance(clazz);
+
+            // 2. 创建 Unmarshaller (解组器)
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+
+            // 3. 使用 StringReader 读取 XML 字符串
+            StringReader reader = new StringReader(xmlString);
+
+            // 4. 执行解组
+            @SuppressWarnings("unchecked")
+            T result = (T) unmarshaller.unmarshal(reader);
+
+            return result;
+
+        } catch (Exception e) {
+            // 在实际应用中，这里应该有更健壮的异常处理
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * 解析微信发来的请求(xml)

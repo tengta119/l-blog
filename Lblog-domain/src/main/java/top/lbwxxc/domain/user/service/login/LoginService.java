@@ -88,10 +88,10 @@ public class LoginService implements ILoginService {
                     .openid(openid)
                     .build();
             UserDetailEntity userDetailEntity = userRepository.createUser(userRegisterEntity);
-            StpUtil.login(userDetailEntity.getId());
             return userDetailEntity.getId();
         }
 
+        StpUtil.login(userByOpenId.getId());
         return userByOpenId.getId();
     }
 

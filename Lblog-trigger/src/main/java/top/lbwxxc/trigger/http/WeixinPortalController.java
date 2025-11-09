@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import top.lbwxxc.domain.user.service.ILoginService;
 import top.lbwxxc.types.weixin.MessageTextEntity;
 import top.lbwxxc.types.weixin.SignatureUtil;
+import top.lbwxxc.types.weixin.WxScanEvent;
 import top.lbwxxc.types.weixin.XmlUtil;
 
 
@@ -20,7 +21,6 @@ import top.lbwxxc.types.weixin.XmlUtil;
  */
 @Slf4j
 @RestController()
-@CrossOrigin("*")
 @RequestMapping("/api/v1/weixin/portal/")
 public class WeixinPortalController {
 
@@ -31,7 +31,7 @@ public class WeixinPortalController {
     @Resource
     private ILoginService loginService;
 
-    @GetMapping(value = "receive", produces = "text/plain;charset=utf-8")
+    @GetMapping(value = "receive/", produces = "text/plain;charset=utf-8")
     public String validate(@RequestParam(value = "signature", required = false) String signature,
                            @RequestParam(value = "timestamp", required = false) String timestamp,
                            @RequestParam(value = "nonce", required = false) String nonce,
@@ -54,7 +54,7 @@ public class WeixinPortalController {
     }
 
     //当有用户向公众号发送文本消息时，微信平台会将信息转发到这个方法，该方法处理完请求后，会把信息返回给微信平台，再有微信平台把处理后的消息发送给用户
-    @PostMapping(value = "receive", produces = "application/xml; charset=UTF-8")
+    @PostMapping(value = "receive/", produces = "application/xml; charset=UTF-8")
     public String post(@RequestBody String requestBody,
                        @RequestParam("signature") String signature,
                        @RequestParam("timestamp") String timestamp,
@@ -62,17 +62,19 @@ public class WeixinPortalController {
                        @RequestParam("openid") String openid,
                        @RequestParam(name = "encrypt_type", required = false) String encType,
                        @RequestParam(name = "msg_signature", required = false) String msgSignature) {
+
+        log.info("接收微信公众号信息请求 {} 开始 {}", openid, requestBody);
+
         try {
-            log.info("接收微信公众号信息请求 {} 开始 {}", openid, requestBody);
             // 消息转换
-            MessageTextEntity message = XmlUtil.xmlToBean(requestBody, MessageTextEntity.class);
-            if ("event".equals(message.getMsgType()) && "SCAN".equals(message.getEvent())) {
-                loginService.saveWxLoginState(message.getTicket(), openid);
+            WxScanEvent wxScanEvent = XmlUtil.fromXml(requestBody, WxScanEvent.class);
+            if (wxScanEvent != null && "event".equals(wxScanEvent.getMsgType()) && "SCAN".equals(wxScanEvent.getEvent())) {
+                loginService.saveWxLoginState(wxScanEvent.getTicket(), openid);
                 log.info("登录成功 {}", openid);
                 return buildMessageTextEntity(openid, "登录成功");
             }
 
-            return buildMessageTextEntity(openid, "你好，" + message.getContent());
+            return buildMessageTextEntity(openid, "你好");
         } catch (Exception e) {
             log.error("接收微信公众号信息请求{}失败 {}", openid, requestBody, e);
             return "";

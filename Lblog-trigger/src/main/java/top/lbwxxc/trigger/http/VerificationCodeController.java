@@ -11,6 +11,8 @@ import top.lbwxxc.domain.user.model.entity.VerificationCodeEntity;
 import top.lbwxxc.domain.user.service.login.LoginService;
 import top.lbwxxc.types.enums.ResponseCode;
 
+import java.io.IOException;
+
 
 @RestController
 @Slf4j
@@ -37,4 +39,27 @@ public class VerificationCodeController implements IVerificationCodeService {
                 .data("发送成功")
                 .build();
     }
+
+    @PostMapping("/wxTicket")
+    @Override
+    public Response<String> sendWxTicket() {
+        String ticket;
+        try {
+            ticket = loginService.requestWxTicket();
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            return Response.<String>builder()
+                    .code(ResponseCode.UN_ERROR.getCode())
+                    .info(e.getMessage())
+                    .build();
+        }
+
+        return Response.<String>builder()
+                .code(ResponseCode.SUCCESS.getCode())
+                .info(ResponseCode.SUCCESS.getInfo())
+                .data(ticket)
+                .build();
+    }
+
+
 }

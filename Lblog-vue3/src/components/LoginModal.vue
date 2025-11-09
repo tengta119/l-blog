@@ -13,106 +13,135 @@
                     </div>
                     <button @click="logout" class="mt-2 text-xs text-red-600 hover:text-red-800">点击登出</button>
                 </div>
-                
-                <div class="mt-2">
-                    <div class="text-2xl font-semibold text-gray-900">登录</div>
-                </div>
-                <div class="mt-6">
-                    <form @submit.prevent="userLogin" ref="formRef" class="space-y-4">
-                        <!-- 账户 -->
-                        <div class="mb-4">
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
-                                    </svg>
-                                </div>
-                                <input 
-                                    type="text" 
-                                    v-model="form.username" 
-                                    maxlength="20" 
-                                    placeholder="用户名/邮箱" 
-                                    class="appearance-none bg-transparent border border-gray-300 rounded-lg w-full pl-10 pr-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                                    :class="{'border-red-500 focus:border-red-500': errors.username}"
-                                    @blur="validateUsername"
-                                    required
-                                >
-                            </div>
-                            <p v-if="errors.username" class="mt-1 text-xs text-red-600 text-left">{{ errors.username }}</p>
-                        </div>
-                        <!-- 密码 -->
-                        <div class="mb-4">
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18 20">
-                                        <path d="M17.876.517A1.837 1.837 0 0 0 16.282 0H3.718A1.837 1.837 0 0 0 2.124.517L.517 2.124A1.837 1.837 0 0 0 0 3.718v12.564A1.837 1.837 0 0 0 .517 17.876l1.607 1.607a1.837 1.837 0 0 0 1.594.517h12.564a1.837 1.837 0 0 0 1.594-.517l1.607-1.607A1.837 1.837 0 0 0 20 16.282V3.718a1.837 1.837 0 0 0-.517-1.594L17.876.517ZM15 10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v4Z"/>
-                                    </svg>
-                                </div>
-                                <input 
-                                    type="password" 
-                                    v-model="form.password" 
-                                    maxlength="20" 
-                                    placeholder="密码" 
-                                    class="appearance-none bg-transparent border border-gray-300 rounded-lg w-full pl-10 pr-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                                    :class="{'border-red-500 focus:border-red-500': errors.password}"
-                                    @blur="validatePassword"
-                                    required
-                                >
-                            </div>
-                            <p v-if="errors.password" class="mt-1 text-xs text-red-600 text-left">{{ errors.password }}</p>
-                        </div>
-                        <!-- 验证码 -->
-                        <div class="mb-4">
-                            <div class="flex items-center gap-2">
-                                <div class="relative flex-1">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 3.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm0 12.5a6.986 6.986 0 0 1-4-1.25c.05-1.65 3-2.55 4-2.55s3.95.9 4 2.55A6.986 6.986 0 0 1 10 16Z"/>
-                                        </svg>
-                                    </div>
-                                    <input 
-                                        type="text" 
-                                        v-model="form.code" 
-                                        maxlength="6" 
-                                        placeholder="验证码" 
-                                        class="appearance-none bg-transparent border border-gray-300 rounded-lg w-full pl-10 pr-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                                        :class="{'border-red-500 focus:border-red-500': errors.code}"
-                                        @blur="validateCode"
-                                    >
-                                </div>
-                                <button type="button" @click="sendCode" :disabled="codeDisabled" class="ml-auto bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm px-3 py-2 rounded focus:outline-none focus:shadow-outline">{{ codeBtnText }}</button>
-                            </div>
-                            <p v-if="errors.code" class="mt-1 text-xs text-red-600 text-left">{{ errors.code }}</p>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center">
-                                <input 
-                                    type="checkbox" 
-                                    id="remember" 
-                                    v-model="form.remember" 
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                >
-                                <label for="remember" class="ml-2 text-sm text-gray-600">记住我</label>
-                            </div>
-                            <a href="#" class="text-sm text-blue-600 hover:underline" @click.prevent="forgotPassword">忘记密码？</a>
-                        </div>
-                    </form>
-                </div>
-                <div class="mt-6">
-                    <button 
-                        @click="userLogin" 
-                        class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
-                        :disabled="loading"
-                    >
-                        <span v-if="!loading">立即登录</span>
-                        <span v-else class="inline-flex items-center justify-center gap-2">
-                            <svg class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-                            </svg>
-                            登录中...
-                        </span>
+
+                <!-- 登录方式切换 -->
+                <div class="mt-4 grid grid-cols-2 gap-2">
+                    <button type="button" @click="switchMode('password')" 
+                        class="w-full px-3 py-1.5 rounded text-sm"
+                        :class="mode === 'password' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
+                        账号登录
                     </button>
+                    <button type="button" @click="switchMode('wechat')" 
+                        class="w-full px-3 py-1.5 rounded text-sm"
+                        :class="mode === 'wechat' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
+                        微信扫码登录
+                    </button>
+                </div>
+                <!-- 切换内容容器：固定最小高度，过渡更平滑 -->
+                <div class="mt-6 min-h-[300px]">
+                    <transition name="fade-slide" mode="out-in">
+                        <!-- 密码登录模式 -->
+                        <div v-if="mode === 'password'" key="password">
+                            <form @submit.prevent="userLogin" ref="formRef" class="space-y-4">
+                                <!-- 账户 -->
+                                <div class="mb-4">
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                                            </svg>
+                                        </div>
+                                        <input 
+                                            type="text" 
+                                            v-model="form.username" 
+                                            maxlength="20" 
+                                            placeholder="用户名/邮箱" 
+                                            class="appearance-none bg-transparent border border-gray-300 rounded-lg w-full pl-10 pr-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                                            :class="{'border-red-500 focus:border-red-500': errors.username}"
+                                            @blur="validateUsername"
+                                            required
+                                        >
+                                    </div>
+                                    <p v-if="errors.username" class="mt-1 text-xs text-red-600 text-left">{{ errors.username }}</p>
+                                </div>
+                                <!-- 密码 -->
+                                <div class="mb-4">
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18 20">
+                                                <path d="M17.876.517A1.837 1.837 0 0 0 16.282 0H3.718A1.837 1.837 0 0 0 2.124.517L.517 2.124A1.837 1.837 0 0 0 0 3.718v12.564A1.837 1.837 0 0 0 .517 17.876l1.607 1.607a1.837 1.837 0 0 0 1.594.517h12.564a1.837 1.837 0 0 0 1.594-.517l1.607-1.607A1.837 1.837 0 0 0 20 16.282V3.718a1.837 1.837 0 0 0-.517-1.594L17.876.517ZM15 10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v4Z"/>
+                                            </svg>
+                                        </div>
+                                        <input 
+                                            type="password" 
+                                            v-model="form.password" 
+                                            maxlength="20" 
+                                            placeholder="密码" 
+                                            class="appearance-none bg-transparent border border-gray-300 rounded-lg w-full pl-10 pr-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                                            :class="{'border-red-500 focus:border-red-500': errors.password}"
+                                            @blur="validatePassword"
+                                            required
+                                        >
+                                    </div>
+                                    <p v-if="errors.password" class="mt-1 text-xs text-red-600 text-left">{{ errors.password }}</p>
+                                </div>
+                                <!-- 验证码 -->
+                                <div class="mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <div class="relative flex-1">
+                                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 3.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm0 12.5a6.986 6.986 0 0 1-4-1.25c.05-1.65 3-2.55 4-2.55s3.95.9 4 2.55A6.986 6.986 0 0 1 10 16Z"/>
+                                                </svg>
+                                            </div>
+                                            <input 
+                                                type="text" 
+                                                v-model="form.code" 
+                                                maxlength="6" 
+                                                placeholder="验证码" 
+                                                class="appearance-none bg-transparent border border-gray-300 rounded-lg w-full pl-10 pr-3 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                                                :class="{'border-red-500 focus:border-red-500': errors.code}"
+                                                @blur="validateCode"
+                                            >
+                                        </div>
+                                        <button type="button" @click="sendCode" :disabled="codeDisabled" class="ml-auto bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm px-3 py-2 rounded focus:outline-none focus:shadow-outline">{{ codeBtnText }}</button>
+                                    </div>
+                                    <p v-if="errors.code" class="mt-1 text-xs text-red-600 text-left">{{ errors.code }}</p>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <input 
+                                            type="checkbox" 
+                                            id="remember" 
+                                            v-model="form.remember" 
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                        >
+                                        <label for="remember" class="ml-2 text-sm text-gray-600">记住我</label>
+                                    </div>
+                                    <a href="#" class="text-sm text-blue-600 hover:underline" @click.prevent="forgotPassword">忘记密码？</a>
+                                </div>
+                            </form>
+                            <div class="mt-6">
+                                <button 
+                                    @click="userLogin" 
+                                    class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-2.5 px-4 rounded-lg focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed"
+                                    :disabled="loading"
+                                >
+                                    <span v-if="!loading">立即登录</span>
+                                    <span v-else class="inline-flex items-center justify-center gap-2">
+                                        <svg class="w-4 h-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                        </svg>
+                                        登录中...
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- 微信扫码登录模式 -->
+                        <div v-else key="wechat">
+                            <div class="text-sm text-gray-600 mb-3 text-center">{{ wxStatus }}</div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-48 h-48 border border-gray-200 rounded-lg flex items-center justify-center bg-white">
+                                    <img v-if="wxQrUrl" :src="wxQrUrl" alt="微信二维码" class="w-full h-full object-contain" />
+                                    <span v-else class="text-gray-400 text-sm">二维码生成中...</span>
+                                </div>
+                                <div class="mt-3 flex gap-2">
+                                    <button type="button" @click="refreshWxQr" class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-2 rounded">刷新二维码</button>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
                 </div>
             </div>
             </div>
@@ -122,7 +151,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { login, requestCode } from '@/api/admin/user.js';
+import { login, requestCode, requestWxTicket, checkWxLogin } from '@/api/admin/user.js';
 import { showMessage} from '@/composables/util'
 import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { setToken, removeToken } from '@/composables/auth'
@@ -133,6 +162,15 @@ const loading = ref(false)
 const formRef = ref(null);
 const currentUser = ref(null);
 const router = useRouter();
+
+// 登录方式：密码或微信
+const mode = ref('password');
+
+// 微信扫码登录相关状态
+const wxTicket = ref('');
+const wxQrUrl = ref('');
+let wxPollingTimer = null;
+const wxStatus = ref('请使用微信扫码');
 
 const form = reactive({
     username: '',
@@ -169,6 +207,12 @@ const close = () => {
     codeDisabled.value = false;
     codeBtnText.value = '获取验证码';
     countdown.value = 60;
+    // reset wechat login state
+    stopWxPolling();
+    wxTicket.value = '';
+    wxQrUrl.value = '';
+    wxStatus.value = '请使用微信扫码';
+    mode.value = 'password';
 };
 
 const open = () => {
@@ -184,7 +228,7 @@ defineExpose({
 // 按回车键后，执行登录事件
 function onKeyUp(e) {
     console.log(e)
-    if (e.key == 'Enter') {
+    if (e.key == 'Enter' && mode.value === 'password') {
         userLogin()
     }
 }
@@ -259,6 +303,83 @@ const userLogin = async () => {
     } finally {
         loading.value = false
     }
+};
+
+// 切换登录方式
+const switchMode = async (m) => {
+    mode.value = m;
+    if (m === 'wechat') {
+        await startWxLogin();
+    } else {
+        stopWxPolling();
+    }
+};
+
+// 开始微信扫码登录：获取票据并生成二维码
+const startWxLogin = async () => {
+    try {
+        wxStatus.value = '二维码生成中...';
+        const resp = await requestWxTicket();
+        const data = resp?.data;
+        if (!data || data.code !== '0000') {
+            showMessage((data && data.msg) || '获取微信票据失败', (data && data.info) || 'error');
+            wxStatus.value = '获取二维码失败，请重试';
+            return;
+        }
+        const ticket = data?.data?.ticket ?? data?.ticket ?? data?.data ?? '';
+        if (!ticket) {
+            wxStatus.value = '票据为空，无法生成二维码';
+            return;
+        }
+        wxTicket.value = ticket;
+        wxQrUrl.value = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${encodeURIComponent(ticket)}`;
+        wxStatus.value = '请使用微信扫码';
+        startWxPolling();
+    } catch (e) {
+        console.error('获取微信票据失败:', e);
+        wxStatus.value = '获取二维码失败，请重试';
+        showMessage('获取微信二维码失败', 'error');
+    }
+};
+
+// 轮询检查微信登录是否成功
+const startWxPolling = () => {
+    stopWxPolling();
+    wxPollingTimer = setInterval(async () => {
+        try {
+            if (!wxTicket.value) return;
+            const resp = await checkWxLogin(wxTicket.value);
+			console.log('轮询微信登录响应:', resp);
+            const data = resp?.data;
+			const userData = data?.data ?? {};
+            if (data.code === '0000') {
+                if (form.remember) {
+                    localStorage.setItem('userId', userData.id);
+					setToken(userData.token);
+                } else {
+                    sessionStorage.setItem('userId', userData.id);
+					setToken(userData.token);
+                }
+				showMessage(`登录成功, 用户 id: ${userData.id}`, 'success');
+                await router.push('/admin');
+                close();
+                stopWxPolling();
+            } 
+        } catch (e) {
+            console.error('轮询微信登录失败:', e);
+        }
+    }, 2000);
+};
+
+const stopWxPolling = () => {
+    if (wxPollingTimer) {
+        clearInterval(wxPollingTimer);
+        wxPollingTimer = null;
+    }
+};
+
+const refreshWxQr = async () => {
+    await startWxLogin();
 };
 
 // 发送验证码
@@ -389,5 +510,21 @@ const logout = () => {
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+}
+
+/* 登录方式切换内容的过渡动画 */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: all 0.25s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(6px);
+}
+.fade-slide-enter-to,
+.fade-slide-leave-from {
+    opacity: 1;
+    transform: translateY(0);
 }
 </style>

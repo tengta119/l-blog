@@ -7,4 +7,6 @@ import top.lbwxxc.api.response.Response;
 public interface IVerificationCodeService {
 
     Response<String> sendVerificationCode(VerificationCodeRequestDTO verificationCodeRequestDTO);
+
+    Response<String> sendWxTicket();
 }
