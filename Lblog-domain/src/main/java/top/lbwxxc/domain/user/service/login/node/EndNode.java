@@ -1,6 +1,7 @@
 package top.lbwxxc.domain.user.service.login.node;
 
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
@@ -21,6 +22,7 @@ public class EndNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultUs
                     .id(dynamicContext.getUserId())
                     .phone(requestParameter.getPhone())
                     .email(requestParameter.getEmail())
+                    .token(StpUtil.getTokenInfo().tokenValue)
                     .build();
         }
         return router(requestParameter, dynamicContext);

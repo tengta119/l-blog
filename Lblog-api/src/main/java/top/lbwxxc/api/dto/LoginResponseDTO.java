@@ -24,4 +24,6 @@ public class LoginResponseDTO {
 
     // 邮箱
     private String email;
+
+    private String token;
 }

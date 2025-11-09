@@ -26,4 +26,6 @@ public class UserAccountEntity {
 
     private String email;
 
+    private String token;
+
 }

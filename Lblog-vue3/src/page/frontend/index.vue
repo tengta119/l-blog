@@ -1,6 +1,13 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { initCollapses } from 'flowbite'
+import LoginModal from '@/components/LoginModal.vue'
+
+const loginModal = ref(null)
+
+const openLoginModal = () => {
+    loginModal.value.open()
+}
 
 // 初始化 flowbit 相关组件
 onMounted(() => {
@@ -41,7 +48,7 @@ onMounted(() => {
                 </div>
                 
                 <!-- 登录 -->
-                <div class="text-gray-900 ml-1 mr-1 hover:text-blue-700 cursor-pointer">登录</div>
+                <div @click="openLoginModal" class="text-gray-900 ml-1 mr-1 hover:text-blue-700 cursor-pointer">登录</div>
 
                 <button data-collapse-toggle="navbar-search" type="button"
                     class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -90,5 +97,6 @@ onMounted(() => {
         </div>
     </div>
 </nav>
+<LoginModal ref="loginModal" />
 </template>
 

@@ -41,6 +41,7 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
                     .id(userAccountEntity.getId())
                     .phone(userAccountEntity.getPhone())
                     .email(userAccountEntity.getEmail())
+                    .token(userAccountEntity.getToken())
                     .build();
 
             return Response.<LoginResponseDTO>builder()
