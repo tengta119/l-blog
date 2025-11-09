@@ -16,9 +16,10 @@ public class LoginRequestDTO {
 
     private String phone;
 
+    private String email;
+
     private String code;
 
-    private String email;
 
     private String password;
 }
