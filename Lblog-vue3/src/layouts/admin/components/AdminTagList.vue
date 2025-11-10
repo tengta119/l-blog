@@ -1,23 +1,23 @@
 <template>
     <!-- 左边：标签导航栏 -->
-    <div class="fixed top-[64px] h-[44px] px-2 right-0 left-0 z-50 flex items-center bg-white transition-transform transform-gpu duration-200 ease-out shadow will-change-transform overflow-hidden" :style="{ transform: `translateX(${menuStore.menuWidth})` }">
-		<el-tabs v-model="editableTabsValue" type="card" class="demo-tabs" closable @tab-remove="removeTab" style="min-width: 10px;">
-            <el-tab-pane v-for="item in editableTabs" :key="item.name" :label="item.title" :name="item.name">
+    <div class="fixed top-[64px] h-[44px] px-2 right-0 z-50 flex items-center bg-white transition-[left] duration-200 ease-in-out shadow overflow-hidden" :style="{ left: menuStore.menuWidth }">
+        <el-tabs v-model="activeTab" type="card" class="demo-tabs flex-1 min-w-0" @tab-change="tabChange" @tab-remove="removeTab"  style="min-width: 10px;">
+            <el-tab-pane v-for="item in tabList" :key="item.path" :label="item.title" :name="item.path" :closable="item.path != '/admin/index'">
             </el-tab-pane>
         </el-tabs>
 
 		<!-- 右侧下拉菜单 -->
-        <span class="ml-auto flex items-center justify-center h-[32px] w-[32px]">
-            <el-dropdown>
+        <span class="ml-auto flex items-cenfy-center h-[32px] w-[32px]">
+		    <el-dropdown @command="handleCloseTab">
                 <span class="el-dropdown-link">
                     <el-icon>
-                        <arrow-down />
+                        <ArrowDown />
                     </el-icon>
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item>关闭其他</el-dropdown-item>
-                        <el-dropdown-item>关闭全部</el-dropdown-item>
+                        <el-dropdown-item command="closeOthers">关闭其他</el-dropdown-item>
+                        <el-dropdown-item command="closeAll">关闭全部</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -27,53 +27,11 @@
 </template>
 
 <script setup>
-import { useMenuStore } from '@/stores/menu'
-
-const menuStore = useMenuStore()
-import { ref } from 'vue'
+import { useTabList } from '@/composables/useTagList.js'
 import { ArrowDown } from '@element-plus/icons-vue'
-let tabIndex = 2
-const editableTabsValue = ref('2')
-const editableTabs = ref([
-    {
-        title: 'Tab 1',
-        name: '1',
-        content: 'Tab 1 content',
-    },
-    {
-        title: 'Tab 2',
-        name: '2',
-        content: 'Tab 2 content',
-    },
-])
-
-const addTab = (targetName) => {
-    const newTabName = `${++tabIndex}`
-    editableTabs.value.push({
-        title: 'New Tab',
-        name: newTabName,
-        content: 'New Tab content',
-    })
-    editableTabsValue.value = newTabName
-}
-const removeTab = (targetName) => {
-    const tabs = editableTabs.value
-    let activeName = editableTabsValue.value
-    if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-                const nextTab = tabs[index + 1] || tabs[index - 1]
-                if (nextTab) {
-                    activeName = nextTab.name
-                }
-            }
-        })
-    }
-
-    editableTabsValue.value = activeName
-    editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
-}
+const { menuStore, activeTab, tabList, tabChange, removeTab, handleCloseTab } = useTabList()
 </script>
+
 
 <style>
 .demo-tabs {
