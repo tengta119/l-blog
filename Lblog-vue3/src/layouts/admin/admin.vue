@@ -3,7 +3,7 @@
     <el-container class="h-screen overflow-hidden">
     
 		<!-- 左边侧边栏 -->
-        <el-aside :width='menuStore.menuWidth' class="transition-[width] duration-200 overflow-hidden">
+        <el-aside :width='menuStore.menuWidth' class="transition-[width] duration-200 ease-in-out overflow-hidden">
             <AdminMenu></AdminMenu>
         </el-aside>
         

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-slate-800 h-full text-white menu-container transition-[width] duration-200 overflow-y-auto overflow-x-hidden" :style="{ width: menuStore.menuWidth }">
+    <div class="bg-slate-800 h-full text-white menu-container transition-[width] duration-200 ease-in-out overflow-y-auto overflow-x-hidden" :style="{ width: menuStore.menuWidth }">
         <!-- 顶部 Logo, 指定高度为 64px, 和右边的 Header 头保持一样高 -->
         <div class="flex items-center justify-center h-[64px]">
             <img src="@/assets/lblog-logo.png" alt="logo" class="h-[64px]">
