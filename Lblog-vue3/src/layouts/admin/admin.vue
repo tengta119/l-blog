@@ -1,9 +1,9 @@
 <template>
     <!-- 外层容器 -->
-    <el-container>
+    <el-container class="h-screen overflow-hidden">
     
-        <!-- 左边侧边栏 -->
-        <el-aside>
+		<!-- 左边侧边栏 -->
+        <el-aside :width='menuStore.menuWidth' class="transition-[width] duration-200 overflow-hidden">
             <AdminMenu></AdminMenu>
         </el-aside>
         
@@ -14,7 +14,7 @@
                 <AdminHeader></AdminHeader>
             </el-header>
             
-            <el-main>
+            <el-main class="min-h-0 overflow-auto" style="scrollbar-gutter: stable;">
                 <!-- 标签导航栏 -->
                 <AdminTagList></AdminTagList>
 
@@ -36,6 +36,9 @@ import AdminFooter from './components/AdminFooter.vue';
 import AdminHeader from './components/AdminHeader.vue';
 import AdminMenu from './components/AdminMenu.vue';
 import AdminTagList from './components/AdminTagList.vue';
+import { useMenuStore } from '@/stores/menu'
+
+const menuStore = useMenuStore()
 </script>
 
 <style scoped>

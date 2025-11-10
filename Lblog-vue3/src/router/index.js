@@ -1,5 +1,9 @@
 import Index from '@/page/frontend/index.vue'
 import AdminIndex from '@/page/admin/index.vue'
+import AdminArticleList from '@/page/admin/article-list.vue'
+import AdminCategoryList from '@/page/admin/category-list.vue'
+import AdminTagList from '@/page/admin/tag-list.vue'
+import AdminBlogSetting from '@/page/admin/blog-setting.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Admin from '@/layouts/admin/admin.vue'
 // 统一在这里声明所有路由
@@ -15,13 +19,44 @@ const routes = [
         path: "/admin", // 后台首页
         component: Admin, // 对应 admin.vue 布局文件
         meta: {
-                    title: 'Admin 后台首页'
+            title: 'Admin 后台首页'
         },
         // 使用到 admin.vue 布局的，都需要放置在其子路由下面
         children: [
             {
                 path: "/admin/index",
-                component: AdminIndex, // 主内容区域，具体需要渲染的页面
+                component: AdminIndex,
+                meta: {
+                    title: '仪表盘'
+                }
+            },
+            {
+                path: "/admin/article/list",
+                component: AdminArticleList,
+                meta: {
+                    title: '文章管理'
+                }
+            },
+            {
+                path: "/admin/category/list",
+                component: AdminCategoryList,
+                meta: {
+                    title: '分类管理'
+                }
+            },
+            {
+                path: "/admin/tag/list",
+                component: AdminTagList,
+                meta: {
+                    title: '标签管理'
+                }
+            },
+            {
+                path: "/admin/blog/setting",
+                component: AdminBlogSetting,
+                meta: {
+                    title: '博客设置'
+                }
             }
         ]
     }
