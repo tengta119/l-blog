@@ -1,7 +1,7 @@
 import Index from '@/page/frontend/index.vue'
 import AdminIndex from '@/page/admin/index.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
-
+import Admin from '@/layouts/admin/admin.vue'
 // 统一在这里声明所有路由
 const routes = [
     {
@@ -12,11 +12,18 @@ const routes = [
         }
     },
     {
-        path: '/admin',
-        component: AdminIndex,
+        path: "/admin", // 后台首页
+        component: Admin, // 对应 admin.vue 布局文件
         meta: {
-            title: '管理后台'
-        }
+                    title: 'Admin 后台首页'
+        },
+        // 使用到 admin.vue 布局的，都需要放置在其子路由下面
+        children: [
+            {
+                path: "/admin/index",
+                component: AdminIndex, // 主内容区域，具体需要渲染的页面
+            }
+        ]
     }
 ]
 
