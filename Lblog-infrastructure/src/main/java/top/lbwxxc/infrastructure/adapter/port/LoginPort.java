@@ -10,7 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
-import top.lbwxxc.domain.user.adapter.port.ILoginPort;
+import top.lbwxxc.domain.login.adapter.port.ILoginPort;
 import top.lbwxxc.infrastructure.gateway.AliyunSmsHelper;
 import top.lbwxxc.infrastructure.gateway.IWeixinApiService;
 import top.lbwxxc.infrastructure.gateway.dto.WeixinQrCodeRequestDTO;

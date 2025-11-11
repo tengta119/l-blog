@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
-import top.lbwxxc.domain.user.model.entity.LoginUserEntity;
-import top.lbwxxc.domain.user.service.login.factory.DefaultUserLoginStrategyFactory;
+import top.lbwxxc.domain.login.model.entity.UserAccountEntity;
+import top.lbwxxc.domain.login.model.entity.LoginUserEntity;
+import top.lbwxxc.domain.login.service.login.factory.DefaultUserLoginStrategyFactory;
 import top.lbwxxc.types.design.framework.tree.StrategyHandler;
 
 @Slf4j

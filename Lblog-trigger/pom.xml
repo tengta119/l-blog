@@ -32,10 +32,12 @@
             <groupId>top.lbwxxc</groupId>
             <artifactId>Lblog-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>top.lbwxxc</groupId>
             <artifactId>Lblog-types</artifactId>
         </dependency>
+
         <dependency>
             <groupId>top.lbwxxc</groupId>
             <artifactId>Lblog-domain</artifactId>

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import top.lbwxxc.api.IVerificationCodeService;
 import top.lbwxxc.api.dto.VerificationCodeRequestDTO;
 import top.lbwxxc.api.response.Response;
-import top.lbwxxc.domain.user.model.entity.VerificationCodeEntity;
-import top.lbwxxc.domain.user.service.login.LoginService;
+import top.lbwxxc.domain.login.model.entity.VerificationCodeEntity;
+import top.lbwxxc.domain.login.service.login.LoginService;
 import top.lbwxxc.types.enums.ResponseCode;
 
 import java.io.IOException;

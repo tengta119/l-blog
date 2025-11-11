@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import top.lbwxxc.domain.user.service.ILoginService;
+import top.lbwxxc.domain.login.service.ILoginService;
 import top.lbwxxc.types.weixin.MessageTextEntity;
 import top.lbwxxc.types.weixin.SignatureUtil;
 import top.lbwxxc.types.weixin.WxScanEvent;

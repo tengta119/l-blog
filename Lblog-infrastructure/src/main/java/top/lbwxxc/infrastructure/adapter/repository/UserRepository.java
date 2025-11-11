@@ -3,9 +3,9 @@ package top.lbwxxc.infrastructure.adapter.repository;
 
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
-import top.lbwxxc.domain.user.adapter.repository.IUserRepository;
-import top.lbwxxc.domain.user.model.entity.UserRegisterEntity;
-import top.lbwxxc.domain.user.model.entity.UserDetailEntity;
+import top.lbwxxc.domain.login.adapter.repository.IUserRepository;
+import top.lbwxxc.domain.login.model.entity.UserRegisterEntity;
+import top.lbwxxc.domain.login.model.entity.UserDetailEntity;
 import top.lbwxxc.infrastructure.dao.UserDao;
 import top.lbwxxc.infrastructure.dao.po.User;
 import top.lbwxxc.types.enums.CreateUserType;
