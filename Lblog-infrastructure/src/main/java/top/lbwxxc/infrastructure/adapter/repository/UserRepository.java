@@ -27,6 +27,8 @@ public class UserRepository implements IUserRepository {
             user = userDao.getUserByPhone(str);
         } else if (selectUserType.equals(SelectUserType.SELECT_USER_OPENID)) {
             user = userDao.getUserByOpenId(str);
+        } else if (selectUserType.equals(SelectUserType.SELECT_USER_ID)) {
+            user = userDao.selectByPrimaryKey(Long.parseLong(str));
         }
         if (user != null) {
             return getUserDetailEntity(user);
@@ -59,6 +61,16 @@ public class UserRepository implements IUserRepository {
             return getUserDetailEntity(userDao.getUserByEmail(userRegisterEntity.getEmail()));
         }
         return null;
+    }
+
+    @Override
+    public int updateUserPasswordById(String str, SelectUserType selectUserType, String password) {
+        if (selectUserType.equals(SelectUserType.SELECT_USER_EMAIL)) {
+            return userDao.updateUserPasswordByEmail(str, password);
+        } else if (selectUserType.equals(SelectUserType.SELECT_USER_PHONE)) {
+            return userDao.updateUserPasswordByPhone(str, password);
+        }
+        return 0;
     }
 
     private UserDetailEntity getUserDetailEntity(User user) {

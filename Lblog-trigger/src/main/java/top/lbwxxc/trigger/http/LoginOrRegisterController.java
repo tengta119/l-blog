@@ -6,15 +6,14 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import top.lbwxxc.api.ILoginOrRegisterService;
-import top.lbwxxc.api.dto.LoginRequestDTO;
-import top.lbwxxc.api.dto.LoginResponseDTO;
-import top.lbwxxc.api.dto.WxLoginRequestDTO;
-import top.lbwxxc.api.dto.WxLoginResponseDTO;
+import top.lbwxxc.api.dto.*;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.user.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.user.model.entity.LoginUserEntity;
-import top.lbwxxc.domain.user.service.login.LoginService;
+import top.lbwxxc.domain.user.service.ILoginService;
 import top.lbwxxc.types.enums.ResponseCode;
+import top.lbwxxc.types.enums.SelectUserType;
+import top.lbwxxc.types.enums.VerificationTypeVO;
 
 @RestController
 @CrossOrigin("*")
@@ -23,7 +22,7 @@ import top.lbwxxc.types.enums.ResponseCode;
 public class LoginOrRegisterController implements ILoginOrRegisterService {
 
     @Resource
-    private LoginService loginService;
+    private ILoginService loginService;
 
     // 登录
     // 1、账号密码登录
@@ -79,6 +78,40 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
             return Response.<WxLoginResponseDTO>builder()
                     .code(ResponseCode.WX_NOT_LOGIN.getCode())
                     .info(ResponseCode.WX_NOT_LOGIN.getInfo())
+                    .build();
+        }
+    }
+
+    @PostMapping("/updatePassword")
+    @Override
+    public Response<String> updateUserPasswordByVerifyCode(@RequestBody UpdatePasswordByVerifyCodeRequestDTO updatePasswordByVerifyCodeRequestDTO) {
+        String newPassword = updatePasswordByVerifyCodeRequestDTO.getNewPassword();
+        String verificationCode = updatePasswordByVerifyCodeRequestDTO.getVerificationCode();
+        String str = null;
+        SelectUserType selectUserType = null;
+        if (updatePasswordByVerifyCodeRequestDTO.getType().equals(VerificationTypeVO.EMAIL.getCode())) {
+            str = updatePasswordByVerifyCodeRequestDTO.getEmail();
+            selectUserType = SelectUserType.SELECT_USER_EMAIL;
+        }  else if (updatePasswordByVerifyCodeRequestDTO.getType().equals(VerificationTypeVO.PHONE.getCode())) {
+            str = updatePasswordByVerifyCodeRequestDTO.getPhone();
+            selectUserType = SelectUserType.SELECT_USER_PHONE;
+        }
+
+        if (str == null) {
+            throw new RuntimeException("请输入正确的账号");
+        }
+
+        try {
+            loginService.updatePassword(str, selectUserType, newPassword, verificationCode);
+            return Response.<String>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data("修改密码成功")
+                    .build();
+        } catch (Exception e) {
+            return Response.<String>builder()
+                    .code(ResponseCode.UN_ERROR.getCode())
+                    .info(e.getMessage())
                     .build();
         }
     }

@@ -25,4 +25,9 @@ public interface UserDao {
     User getUserByEmail(String email);
 
     User getUserByOpenId(String openid);
+
+    // 更新用户密码
+    int updateUserPasswordByPhone(String phone, String password);
+
+    int updateUserPasswordByEmail(String email, String password);
 }

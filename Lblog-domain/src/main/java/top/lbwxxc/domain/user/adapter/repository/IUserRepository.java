@@ -11,4 +11,6 @@ public interface IUserRepository {
     UserDetailEntity getUser(String str, SelectUserType selectUserType);
 
     UserDetailEntity createUser(UserRegisterEntity userRegisterEntity);
+
+    int updateUserPasswordById(String str, SelectUserType selectUserType, String password);
 }

@@ -219,4 +219,16 @@
         from user
         where openid = #{openid}
     </select>
+
+    <update id="updateUserPasswordByPhone">
+        update user
+        set password = #{password}
+        where phone = #{phone}
+    </update>
+
+    <update id="updateUserPasswordByEmail">
+        update user
+        set = password = #{password}
+        where email = #{email}
+    </update>
 </mapper>

@@ -1,10 +1,7 @@
 package top.lbwxxc.api;
 
 
-import top.lbwxxc.api.dto.LoginRequestDTO;
-import top.lbwxxc.api.dto.LoginResponseDTO;
-import top.lbwxxc.api.dto.WxLoginRequestDTO;
-import top.lbwxxc.api.dto.WxLoginResponseDTO;
+import top.lbwxxc.api.dto.*;
 import top.lbwxxc.api.response.Response;
 
 public interface ILoginOrRegisterService {
@@ -13,4 +10,6 @@ public interface ILoginOrRegisterService {
 
 
     Response<WxLoginResponseDTO> wxLoginCheck(WxLoginRequestDTO wxLoginRequestDTO);
+
+    Response<String> updateUserPasswordByVerifyCode(UpdatePasswordByVerifyCodeRequestDTO updatePasswordByVerifyCodeRequestDTO);
 }

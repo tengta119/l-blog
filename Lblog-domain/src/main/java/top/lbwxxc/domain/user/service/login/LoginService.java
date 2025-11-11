@@ -7,6 +7,7 @@ import com.google.common.cache.Cache;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.user.adapter.port.ILoginPort;
 import top.lbwxxc.domain.user.adapter.repository.IUserRepository;
@@ -36,6 +37,8 @@ public class LoginService implements ILoginService {
     DefaultUserLoginStrategyFactory defaultUserLoginStrategyFactory;
     @Resource
     private IUserRepository userRepository;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Resource
     private Cache<String, String> cache;
@@ -93,6 +96,26 @@ public class LoginService implements ILoginService {
 
         StpUtil.login(userByOpenId.getId());
         return userByOpenId.getId();
+    }
+
+    @Override
+    public void updatePassword(String str, SelectUserType selectUserType, String newPassword, String ReqCode) {
+        UserDetailEntity userDetailEntity = userRepository.getUser(str, selectUserType);
+        if (userDetailEntity == null) {
+            throw new RuntimeException("该用户不存在");
+        }
+
+        String code = stringRedisTemplate.opsForValue().get(Constants.buildVerificationCodeKey(String.valueOf(str)));
+        if (code == null || !code.equals(ReqCode)) {
+            throw new RuntimeException("验证错误");
+        }
+
+        int index = userRepository.updateUserPasswordById(str, selectUserType, passwordEncoder.encode(newPassword));
+        if (index != 1) {
+            throw new RuntimeException("更新密码失败");
+        }
+
+        log.info("{} 用户更新密码成功", str);
     }
 
 }

@@ -19,5 +19,9 @@ export function checkWxLogin(ticket) {
     return axios.post("/login/check", { ticket })
 }
 
+export function updatePassword(type, phone, email, newPassword, verificationCode) {
+    return axios.post("/updatePassword", {type, phone, email, newPassword, verificationCode})
+}
+
 
 
