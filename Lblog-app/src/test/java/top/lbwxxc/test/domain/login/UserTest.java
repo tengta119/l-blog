@@ -1,4 +1,4 @@
-package top.lbwxxc.test.domain.user;
+package top.lbwxxc.test.domain.login;
 
 
 import jakarta.annotation.Resource;
