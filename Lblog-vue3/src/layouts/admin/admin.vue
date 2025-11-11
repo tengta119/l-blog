@@ -19,13 +19,18 @@
                 <AdminTagList></AdminTagList>
 
                 <!-- 主内容（根据路由动态展示不同页面） -->
-                <router-view></router-view>
+                <router-view v-slot="{ Component }">
+                    <!-- max 指定最多缓存 10 个组件 -->
+                    <KeepAlive :max="10">
+                        <component :is="Component"></component>
+                    </KeepAlive>
+                </router-view>
             </el-main>
             
             <!-- 底栏容器 -->
-            <el-footer>
+            <!-- <el-footer>
                 <AdminFooter></AdminFooter>
-            </el-footer>
+            </el-footer> -->
         </el-container>
     </el-container>
 </template>
@@ -43,6 +48,10 @@ const menuStore = useMenuStore()
 
 <style scoped>
 .el-header {
+    padding: 0!important;
+}
+
+.el-footer {
     padding: 0!important;
 }
 </style>

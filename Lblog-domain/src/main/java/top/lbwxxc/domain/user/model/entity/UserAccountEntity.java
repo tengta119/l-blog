@@ -19,13 +19,6 @@ public class UserAccountEntity {
      */
     private Long id;
 
-    /**
-     * 手机号
-     */
-    private String phone;
-
-    private String email;
-
     private String token;
 
 }

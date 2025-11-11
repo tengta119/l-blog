@@ -20,8 +20,6 @@ public class EndNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultUs
         if (dynamicContext.isLogin()) {
             return UserAccountEntity.builder()
                     .id(dynamicContext.getUserId())
-                    .phone(requestParameter.getPhone())
-                    .email(requestParameter.getEmail())
                     .token(StpUtil.getTokenInfo().tokenValue)
                     .build();
         }

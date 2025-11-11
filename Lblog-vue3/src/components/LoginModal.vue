@@ -284,12 +284,8 @@ const userLogin = async () => {
         // Store user data in localStorage or state management
         if (form.remember) {
             localStorage.setItem('userId', userData.id);
-            localStorage.setItem('userPhone', userData.phone || '');
-            localStorage.setItem('userEmail', userData.email || '');
         } else {
             sessionStorage.setItem('userId', userData.id);
-            sessionStorage.setItem('userPhone', userData.phone || '');
-            sessionStorage.setItem('userEmail', userData.email || '');
         }
         setToken(userData.token || '');
         
