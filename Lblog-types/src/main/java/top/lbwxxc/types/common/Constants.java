@@ -18,4 +18,14 @@ public class Constants {
     public static String buildUserRoleKey(Long userId) {
         return USER_ROLE + ":" + userId;
     }
+
+    /**
+     * 用户 ID
+     */
+    public final static String USER_ID = "userId";
+
+    /**
+     * Sa-Token 登录的 Token KEY 前缀
+     */
+    public static final String SA_TOKEN_TOKEN_KEY_PREFIX = "Authorization:login:token:";
 }
