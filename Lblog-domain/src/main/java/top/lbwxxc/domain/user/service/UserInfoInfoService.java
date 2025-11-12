@@ -7,22 +7,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.user.adapter.repository.IRolePermissionRepository;
+import top.lbwxxc.domain.user.adapter.repository.IUserInfoRepository;
+import top.lbwxxc.domain.user.holder.LoginUserContextHolder;
 import top.lbwxxc.domain.user.model.entity.PermissionEntity;
 import top.lbwxxc.domain.user.model.entity.RoleEntity;
 import top.lbwxxc.domain.user.model.entity.RolePermissionRelEntity;
+import top.lbwxxc.domain.user.model.entity.UserInfoEntity;
 import top.lbwxxc.types.common.Constants;
-import top.lbwxxc.types.util.JsonUtils;
+import top.lbwxxc.types.common.RedisConstants;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
-public class UserService implements IUserService {
+public class UserInfoInfoService implements IUserInfoService {
 
     @Resource
     private IRolePermissionRepository rolePermissionRepository;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private IUserInfoRepository userInfoRepository;
 
     @Override
     public void pushRolePermission2Redis() {
@@ -34,5 +40,21 @@ public class UserService implements IUserService {
         stringRedisTemplate.opsForValue().set(Constants.USER_ROLE, JSON.toJSONString(roleEntities));
         stringRedisTemplate.opsForValue().set(Constants.USER_PERMISSION, JSON.toJSONString(permissionEntities));
         stringRedisTemplate.opsForValue().set(Constants.USER_REL_ROLE_PERMISSION, JSON.toJSONString(rolePermissionRelEntities));
+    }
+
+    @Override
+    public UserInfoEntity getUserInfo() {
+        String userInfoKey = RedisConstants.buildUserInfoKey(LoginUserContextHolder.getUserId());
+        String userInfoStr = stringRedisTemplate.opsForValue().get(userInfoKey);
+        UserInfoEntity userInfo = null;
+        if (userInfoStr == null) {
+            userInfo = userInfoRepository.getUserInfoById(LoginUserContextHolder.getUserId());
+            stringRedisTemplate.opsForValue().set(userInfoKey, JSON.toJSONString(userInfo), 3, TimeUnit.HOURS);
+        } else {
+            log.info("查询用户详细信息击中缓存 {}", userInfoStr);
+            userInfo = JSON.parseObject(userInfoStr, UserInfoEntity.class);
+        }
+
+        return userInfo;
     }
 }

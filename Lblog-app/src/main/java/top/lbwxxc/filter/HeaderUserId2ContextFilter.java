@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import top.lbwxxc.holder.LoginUserContextHolder;
+import top.lbwxxc.domain.user.holder.LoginUserContextHolder;
 import top.lbwxxc.types.common.Constants;
 
 import java.io.IOException;

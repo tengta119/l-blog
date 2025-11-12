@@ -67,7 +67,10 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+        </dependency>
 
         <!-- 系统模块 -->
         <dependency>

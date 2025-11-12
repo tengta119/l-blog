@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import top.lbwxxc.domain.user.service.IUserService;
+import top.lbwxxc.domain.user.service.IUserInfoService;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -15,7 +15,7 @@ import top.lbwxxc.domain.user.service.IUserService;
 public class UerTest {
 
     @Resource
-    private IUserService userService;
+    private IUserInfoService userService;
 
     @Test
     public void test() {
