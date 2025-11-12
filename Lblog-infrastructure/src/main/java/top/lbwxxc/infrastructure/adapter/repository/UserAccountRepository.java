@@ -3,19 +3,27 @@ package top.lbwxxc.infrastructure.adapter.repository;
 
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
-import top.lbwxxc.domain.login.adapter.repository.IUserRepository;
+import top.lbwxxc.domain.login.adapter.repository.IUserAccountRepository;
 import top.lbwxxc.domain.login.model.entity.UserRegisterEntity;
 import top.lbwxxc.domain.login.model.entity.UserDetailEntity;
+import top.lbwxxc.domain.login.model.entity.UserRoleEntity;
 import top.lbwxxc.infrastructure.dao.UserDao;
+import top.lbwxxc.infrastructure.dao.UserRoleRelDao;
 import top.lbwxxc.infrastructure.dao.po.User;
+import top.lbwxxc.infrastructure.dao.po.UserRoleRel;
 import top.lbwxxc.types.enums.CreateUserType;
 import top.lbwxxc.types.enums.SelectUserType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
-public class UserRepository implements IUserRepository {
+public class UserAccountRepository implements IUserAccountRepository {
 
     @Resource
     private UserDao userDao;
+    @Resource
+    private UserRoleRelDao userRoleRelDao;
 
     @Override
     public UserDetailEntity getUser(String str, SelectUserType selectUserType) {
@@ -71,6 +79,25 @@ public class UserRepository implements IUserRepository {
             return userDao.updateUserPasswordByPhone(str, password);
         }
         return 0;
+    }
+
+    @Override
+    public UserRoleEntity getUserRoleById(long userId) {
+
+        List<UserRoleRel> userRoleRels = userRoleRelDao.selectByUserId(userId);
+        if (userRoleRels == null || userRoleRels.isEmpty()) {
+            return null;
+        }
+
+        List<Long> roleIds = new ArrayList<>();
+        for (UserRoleRel userRoleRel : userRoleRels) {
+            roleIds.add(userRoleRel.getRoleId());
+        }
+
+        return UserRoleEntity.builder()
+                .userId(userId)
+                .roleIds(roleIds)
+                .build();
     }
 
     private UserDetailEntity getUserDetailEntity(User user) {

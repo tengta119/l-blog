@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.login.adapter.port.ILoginPort;
-import top.lbwxxc.domain.login.adapter.repository.IUserRepository;
+import top.lbwxxc.domain.login.adapter.repository.IUserAccountRepository;
 import top.lbwxxc.domain.login.model.entity.*;
 import top.lbwxxc.types.enums.CreateUserType;
 import top.lbwxxc.types.enums.SelectUserType;
@@ -36,7 +36,7 @@ public class LoginService implements ILoginService {
     @Resource
     DefaultUserLoginStrategyFactory defaultUserLoginStrategyFactory;
     @Resource
-    private IUserRepository userRepository;
+    private IUserAccountRepository userRepository;
     @Resource
     private PasswordEncoder passwordEncoder;
 

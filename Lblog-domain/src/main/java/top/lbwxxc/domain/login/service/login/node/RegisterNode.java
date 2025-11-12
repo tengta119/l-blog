@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import top.lbwxxc.domain.login.adapter.repository.IUserRepository;
+import top.lbwxxc.domain.login.adapter.repository.IUserAccountRepository;
 import top.lbwxxc.domain.login.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.login.model.entity.LoginUserEntity;
 import top.lbwxxc.domain.login.model.entity.UserRegisterEntity;
@@ -26,7 +26,7 @@ public class RegisterNode extends AbstractLoginUserSupport<LoginUserEntity, Defa
     @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
-    private IUserRepository userRepository;
+    private IUserAccountRepository userRepository;
     @Resource
     private PasswordEncoder passwordEncoder;
     @Resource

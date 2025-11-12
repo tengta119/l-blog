@@ -27,6 +27,7 @@ public class UserTest {
         LoginUserEntity loginUserEntity = new LoginUserEntity();
         loginUserEntity.setPhone("15981160633");
         loginUserEntity.setReqPassword("123456");
+        loginUserEntity.setType("0");
         UserAccountEntity apply = handler.apply(loginUserEntity, new DefaultUserLoginStrategyFactory.DynamicContext());
         System.out.println(apply);
     }

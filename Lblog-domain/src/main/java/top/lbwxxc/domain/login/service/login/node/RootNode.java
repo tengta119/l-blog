@@ -4,7 +4,7 @@ package top.lbwxxc.domain.login.service.login.node;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import top.lbwxxc.domain.login.adapter.repository.IUserRepository;
+import top.lbwxxc.domain.login.adapter.repository.IUserAccountRepository;
 import top.lbwxxc.domain.login.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.login.model.entity.LoginUserEntity;
 import top.lbwxxc.domain.login.model.entity.UserDetailEntity;
@@ -19,7 +19,7 @@ import top.lbwxxc.types.design.framework.tree.StrategyHandler;
 public class RootNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultUserLoginStrategyFactory.DynamicContext, UserAccountEntity> {
 
     @Resource
-    private IUserRepository userRepository;
+    private IUserAccountRepository userRepository;
     @Resource
     private LoginNode loginNode;
     @Resource

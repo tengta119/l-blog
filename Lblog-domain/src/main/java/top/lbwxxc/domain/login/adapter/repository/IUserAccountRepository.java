@@ -3,9 +3,10 @@ package top.lbwxxc.domain.login.adapter.repository;
 
 import top.lbwxxc.domain.login.model.entity.UserRegisterEntity;
 import top.lbwxxc.domain.login.model.entity.UserDetailEntity;
+import top.lbwxxc.domain.login.model.entity.UserRoleEntity;
 import top.lbwxxc.types.enums.SelectUserType;
 
-public interface IUserRepository {
+public interface IUserAccountRepository {
 
 
     UserDetailEntity getUser(String str, SelectUserType selectUserType);
@@ -13,4 +14,6 @@ public interface IUserRepository {
     UserDetailEntity createUser(UserRegisterEntity userRegisterEntity);
 
     int updateUserPasswordById(String str, SelectUserType selectUserType, String password);
+
+    UserRoleEntity getUserRoleById(long userId);
 }
