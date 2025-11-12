@@ -16,6 +16,6 @@ public class Constants {
     public final static String USER_REL_ROLE_PERMISSION = "user:rel:role:permission";
 
     public static String buildUserRoleKey(Long userId) {
-        return USER_ROLE + userId;
+        return USER_ROLE + ":" + userId;
     }
 }

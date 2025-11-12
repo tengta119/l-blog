@@ -1,6 +1,7 @@
 package top.lbwxxc.domain.user.service;
 
 
+import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -30,8 +31,8 @@ public class UserService implements IUserService {
         List<RolePermissionRelEntity> rolePermissionRelEntities = rolePermissionRepository.queryAllRoleRelPermission();
         log.info("查询系统权限信息\n {} \n {} \n {}", roleEntities, permissionEntities, rolePermissionRelEntities);
 
-        stringRedisTemplate.opsForValue().set(Constants.USER_ROLE, JsonUtils.toJsonString(roleEntities));
-        stringRedisTemplate.opsForValue().set(Constants.USER_PERMISSION, JsonUtils.toJsonString(permissionEntities));
-        stringRedisTemplate.opsForValue().set(Constants.USER_REL_ROLE_PERMISSION, JsonUtils.toJsonString(rolePermissionRelEntities));
+        stringRedisTemplate.opsForValue().set(Constants.USER_ROLE, JSON.toJSONString(roleEntities));
+        stringRedisTemplate.opsForValue().set(Constants.USER_PERMISSION, JSON.toJSONString(permissionEntities));
+        stringRedisTemplate.opsForValue().set(Constants.USER_REL_ROLE_PERMISSION, JSON.toJSONString(rolePermissionRelEntities));
     }
 }
