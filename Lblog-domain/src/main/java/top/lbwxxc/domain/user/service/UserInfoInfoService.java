@@ -1,14 +1,15 @@
 package top.lbwxxc.domain.user.service;
 
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import top.lbwxxc.domain.holder.LoginUserContextHolder;
 import top.lbwxxc.domain.user.adapter.repository.IRolePermissionRepository;
 import top.lbwxxc.domain.user.adapter.repository.IUserInfoRepository;
-import top.lbwxxc.domain.user.holder.LoginUserContextHolder;
 import top.lbwxxc.domain.user.model.entity.PermissionEntity;
 import top.lbwxxc.domain.user.model.entity.RoleEntity;
 import top.lbwxxc.domain.user.model.entity.RolePermissionRelEntity;
@@ -56,5 +57,10 @@ public class UserInfoInfoService implements IUserInfoService {
         }
 
         return userInfo;
+    }
+
+    @Override
+    public void logout() {
+        StpUtil.logout(LoginUserContextHolder.getUserId());
     }
 }

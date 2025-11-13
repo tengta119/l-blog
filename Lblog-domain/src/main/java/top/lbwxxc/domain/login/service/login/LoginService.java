@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import top.lbwxxc.domain.holder.LoginUserContextHolder;
 import top.lbwxxc.domain.login.adapter.port.ILoginPort;
 import top.lbwxxc.domain.login.adapter.repository.IUserAccountRepository;
 import top.lbwxxc.domain.login.model.entity.*;
@@ -116,6 +117,11 @@ public class LoginService implements ILoginService {
         }
 
         log.info("{} 用户更新密码成功", str);
+    }
+
+    @Override
+    public void logout() {
+        StpUtil.logout(LoginUserContextHolder.getUserId());
     }
 
 }

@@ -8,4 +8,6 @@ public interface IUserInfoService {
     void pushRolePermission2Redis();
 
     UserInfoEntity getUserInfo();
+
+    void logout();
 }

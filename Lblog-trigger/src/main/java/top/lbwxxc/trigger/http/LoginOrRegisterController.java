@@ -17,8 +17,8 @@ import top.lbwxxc.types.enums.VerificationTypeVO;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping()
 @Slf4j
+@RequestMapping("/login/")
 public class LoginOrRegisterController implements ILoginOrRegisterService {
 
     @Resource
@@ -27,7 +27,7 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
     // 登录
     // 1、账号密码登录
     // 2、电话验证码登录，不存在账号时自动注册后登录
-    @PostMapping("/login")
+    @PostMapping("login")
     @Override
     public Response<LoginResponseDTO> loginOrRegister(@RequestBody LoginRequestDTO loginRequestDTO) {
         LoginUserEntity loginUserEntity = LoginUserEntity.builder()
@@ -58,7 +58,7 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
         }
     }
 
-    @PostMapping("/login/check")
+    @PostMapping("check")
     @Override
     public Response<WxLoginResponseDTO> wxLoginCheck(@RequestBody WxLoginRequestDTO wxLoginRequestDTO) {
         log.info("前端轮询：ticket {}", wxLoginRequestDTO.getTicket());
@@ -82,7 +82,7 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
         }
     }
 
-    @PostMapping("/updatePassword")
+    @PostMapping("updatePassword")
     @Override
     public Response<String> updateUserPasswordByVerifyCode(@RequestBody UpdatePasswordByVerifyCodeRequestDTO updatePasswordByVerifyCodeRequestDTO) {
         String newPassword = updatePasswordByVerifyCodeRequestDTO.getNewPassword();
@@ -114,6 +114,18 @@ public class LoginOrRegisterController implements ILoginOrRegisterService {
                     .info(e.getMessage())
                     .build();
         }
+    }
+
+    @PostMapping("logout")
+    @Override
+    public Response<String> logout() {
+
+        loginService.logout();
+
+        return Response.<String>builder()
+                .code(ResponseCode.SUCCESS.getCode())
+                .info(ResponseCode.SUCCESS.getInfo())
+                .build();
     }
 
 }

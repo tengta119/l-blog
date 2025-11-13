@@ -17,7 +17,7 @@ import java.io.IOException;
 @RestController
 @Slf4j
 @CrossOrigin("*")
-@RequestMapping("/code")
+@RequestMapping("/code/")
 public class VerificationCodeController implements IVerificationCodeService {
 
     @Resource
@@ -25,7 +25,7 @@ public class VerificationCodeController implements IVerificationCodeService {
 
 
     @Override
-    @PostMapping("/send")
+    @PostMapping("send")
     public Response<String> sendVerificationCode(@RequestBody VerificationCodeRequestDTO verificationCodeRequestDTO) {
         VerificationCodeEntity verificationCodeEntity = VerificationCodeEntity.builder()
                 .type(verificationCodeRequestDTO.getType())
@@ -40,7 +40,7 @@ public class VerificationCodeController implements IVerificationCodeService {
                 .build();
     }
 
-    @PostMapping("/wxTicket")
+    @PostMapping("wxTicket")
     @Override
     public Response<String> sendWxTicket() {
         String ticket;

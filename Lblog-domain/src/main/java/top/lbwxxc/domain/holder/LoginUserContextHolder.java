@@ -1,4 +1,4 @@
-package top.lbwxxc.domain.user.holder;
+package top.lbwxxc.domain.holder;
 
 
 

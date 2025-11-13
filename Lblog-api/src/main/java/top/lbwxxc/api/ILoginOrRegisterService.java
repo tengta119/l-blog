@@ -12,4 +12,6 @@ public interface ILoginOrRegisterService {
     Response<WxLoginResponseDTO> wxLoginCheck(WxLoginRequestDTO wxLoginRequestDTO);
 
     Response<String> updateUserPasswordByVerifyCode(UpdatePasswordByVerifyCodeRequestDTO updatePasswordByVerifyCodeRequestDTO);
+
+    public Response<String> logout();
 }

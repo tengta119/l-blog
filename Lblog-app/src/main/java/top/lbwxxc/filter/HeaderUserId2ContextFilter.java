@@ -1,6 +1,7 @@
 package top.lbwxxc.filter;
 
 
+import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,10 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import top.lbwxxc.domain.user.holder.LoginUserContextHolder;
+import top.lbwxxc.domain.holder.LoginUserContextHolder;
 import top.lbwxxc.types.common.Constants;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -33,9 +36,16 @@ public class HeaderUserId2ContextFilter extends OncePerRequestFilter {
      */
     private static final String TOKEN_HEADER_VALUE_PREFIX = "Bearer ";
 
+    ArrayList<String> uriNotMatch = new ArrayList<>(List.of(new String[]{"/login/login", "/login/check", "/code/send", "/code/wxTicket", "/api/v1/weixin/portal/receive/"}));
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
+
+        if (uriNotMatch.contains(request.getRequestURI())) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         log.info("==================> TokenConvertFilter");
         // 从请求头中获取 Token 数据

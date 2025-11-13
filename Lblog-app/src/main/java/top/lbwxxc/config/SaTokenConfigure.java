@@ -21,12 +21,15 @@ public class SaTokenConfigure implements WebMvcConfigurer {
 
             SaRouter
                     .match("/**")
+                    .notMatch("/login/login")
+                    .notMatch("/login/check")
                     .notMatch("/code/**")
                     .notMatch("/api/v1/weixin/portal/**")
-                    .notMatch("/login/**")
                     .check(r -> StpUtil.checkLogin());
 
 
-        })).addPathPatterns("/**");
+        }))
+        .addPathPatterns("/**")
+        .excludePathPatterns("/error");
     }
 }

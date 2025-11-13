@@ -21,4 +21,7 @@ public interface ILoginService {
     Long checkLoginState(String ticket);
 
     void updatePassword(String str, SelectUserType selectUserType, String newPassword, String ReqCode);
+
+    void logout();
+
 }

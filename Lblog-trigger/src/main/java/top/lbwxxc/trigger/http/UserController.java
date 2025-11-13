@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.UserService;
-import top.lbwxxc.api.dto.LoginResponseDTO;
 import top.lbwxxc.api.dto.UserInfoResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.user.model.entity.UserInfoEntity;
