@@ -42,6 +42,7 @@ public class HeaderUserId2ContextFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
 
+        log.info("请求源：{}", request.getRequestURL().toString());
         if (uriNotMatch.contains(request.getRequestURI())) {
             chain.doFilter(request, response);
             return;
@@ -50,8 +51,15 @@ public class HeaderUserId2ContextFilter extends OncePerRequestFilter {
         log.info("==================> TokenConvertFilter");
         // 从请求头中获取 Token 数据
         String tokenValue = request.getHeader(TOKEN_HEADER_KEY);
+
+        if (tokenValue == null) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         // 将 Token 前缀去除
         String token = tokenValue.replace(TOKEN_HEADER_VALUE_PREFIX, "");
+
         // 构建 Redis Key
         String tokenRedisKey = Constants.SA_TOKEN_TOKEN_KEY_PREFIX + token;
         // 查询 Redis, 获取用户 ID

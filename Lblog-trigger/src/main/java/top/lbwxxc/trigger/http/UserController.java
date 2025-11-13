@@ -16,7 +16,6 @@ import top.lbwxxc.types.enums.ResponseCode;
 
 @Slf4j
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/user/")
 public class UserController implements UserService {
 

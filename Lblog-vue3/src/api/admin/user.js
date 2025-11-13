@@ -27,7 +27,7 @@ export function requestWxTicket() {
     return axios.post("/code/wxTicket")
 }
 
-export function requestUserInfo() {
+export function getUserInfo() {
     return axios.post("/user/info")
 }
 

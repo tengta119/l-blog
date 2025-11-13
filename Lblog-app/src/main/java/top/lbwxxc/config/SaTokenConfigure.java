@@ -1,9 +1,12 @@
 package top.lbwxxc.config;
 
+import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaHttpMethod;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,6 +21,11 @@ public class SaTokenConfigure implements WebMvcConfigurer {
         // 注册路由拦截器，自定义认证规则
         registry.addInterceptor(new SaInterceptor(handler -> {
             log.info("Sa-Token 拦截器： {}", handler);
+
+
+            SaRouter.match(SaHttpMethod.OPTIONS)
+                    .free(r -> System.out.println("--------OPTIONS预检请求，不做处理"))
+                    .back();
 
             SaRouter
                     .match("/**")

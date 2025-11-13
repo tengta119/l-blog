@@ -4,15 +4,6 @@
             <div class="relative w-full max-w-md p-8 border border-gray-100 shadow-xl rounded-xl bg-white">
                 <button @click="close" aria-label="关闭" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 focus:outline-none">✕</button>
             <div class="text-center px-4">
-                <!-- 用户信息显示 -->
-                <div v-if="currentUser" class="mb-4 p-3 bg-blue-50 rounded-lg">
-                    <div class="text-sm text-blue-800">
-                        <div>当前登录用户ID: {{ currentUser.id }}</div>
-                        <div v-if="currentUser.phone">手机号: {{ currentUser.phone }}</div>
-                        <div v-if="currentUser.email">邮箱: {{ currentUser.email }}</div>
-                    </div>
-                    <button @click="logout" class="mt-2 text-xs text-red-600 hover:text-red-800">点击登出</button>
-                </div>
 
                 <!-- 登录方式切换 -->
                 <div class="mt-4 grid grid-cols-2 gap-2">
@@ -155,14 +146,14 @@ import { login, requestCode, requestWxTicket, checkWxLogin } from '@/api/admin/u
 import { showMessage} from '@/composables/util'
 import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 import { setToken, removeToken } from '@/composables/auth'
-
+import { useUserStore } from '@/stores/user'
 const show = ref(false);
 // 登录按钮加载
 const loading = ref(false)
 const formRef = ref(null);
 const currentUser = ref(null);
 const router = useRouter();
-
+const userStore = useUserStore()
 // 登录方式：密码或微信
 const mode = ref('password');
 
@@ -289,7 +280,10 @@ const userLogin = async () => {
         }
         setToken(userData.token || '');
         
-        showMessage(`登录成功, 用户 id: ${userData.id}`, 'success');
+        userStore.setUserInfo();
+        console.log('userStore.userInfo:' + userStore.userInfo)
+        
+        showMessage(`登录成功`, 'success');
         await router.push('/admin');
         close();
 
@@ -481,19 +475,6 @@ const getCurrentUser = () => {
         };
     }
     return null;
-};
-
-// 登出功能
-const logout = () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userPhone');
-    localStorage.removeItem('userEmail');
-    sessionStorage.removeItem('userId');
-    sessionStorage.removeItem('userPhone');
-    sessionStorage.removeItem('userEmail');
-    removeToken();
-    alert('已登出');
-    close();
 };
 
 </script>

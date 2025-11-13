@@ -16,7 +16,6 @@ import top.lbwxxc.types.enums.SelectUserType;
 import top.lbwxxc.types.enums.VerificationTypeVO;
 
 @RestController
-@CrossOrigin("*")
 @Slf4j
 @RequestMapping("/login/")
 public class LoginOrRegisterController implements ILoginOrRegisterService {

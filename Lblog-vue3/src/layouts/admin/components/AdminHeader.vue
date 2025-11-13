@@ -38,7 +38,7 @@
                     <!-- 头像 Avatar -->
                     <el-avatar class="mr-2" :size="25"
                         src="https://img.quanxiaoha.com/quanxiaoha/f97361c0429d4bb1bc276ab835843065.jpg" />
-                    Admin
+                    {{ userStore.userInfo.nickname }}
                     <el-icon class="el-icon--right">
                         <ArrowDown />
                     </el-icon>
@@ -46,7 +46,7 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item>修改密码</el-dropdown-item>
-                        <el-dropdown-item>退出登录</el-dropdown-item>
+                        <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -58,6 +58,15 @@
 import { Fold, FullScreen, ArrowDown, Expand, Aim, Refresh } from '@element-plus/icons-vue'
 import { useMenuStore } from '@/stores/menu'
 import { useFullscreen } from '@vueuse/core'
+import { logout } from '@/api/admin/user'
+import router from '@/router'
+import { showMessage} from '@/composables/util'
+import { removeToken } from '@/composables/auth'
+import { useUserStore } from '@/stores/user'
+
+// 引入了用户 Store
+const userStore = useUserStore()
+console.log('userStore.userInfo:' + userStore.userInfo.value)
 // 引入了菜单 store
 const menuStore = useMenuStore()
 const { isFullscreen, toggle } = useFullscreen()
@@ -67,4 +76,13 @@ const handleMenuWidth = () => {
     // 动态设置菜单的宽度大小
     menuStore.handleMenuWidth()
 }
+// 退出登录
+const handleLogout = async () => {
+    await logout()
+    removeToken();
+    showMessage('已登出', 'success');
+    router.push('/')
+}
+
+
 </script>

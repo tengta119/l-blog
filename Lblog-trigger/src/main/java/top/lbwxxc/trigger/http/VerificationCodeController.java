@@ -16,7 +16,6 @@ import java.io.IOException;
 
 @RestController
 @Slf4j
-@CrossOrigin("*")
 @RequestMapping("/code/")
 public class VerificationCodeController implements IVerificationCodeService {
 
