@@ -45,13 +45,15 @@
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item>修改密码</el-dropdown-item>
+                        <el-dropdown-item @click="openUpdatePasswordModal">修改密码</el-dropdown-item>
                         <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
         </div>
     </div>
+    <!-- 引入更新密码弹窗组件 -->
+    <UpdatePasswordModal ref="updatePasswordModalRef" />
 </template>
 
 <script setup > 
@@ -63,6 +65,13 @@ import router from '@/router'
 import { showMessage} from '@/composables/util'
 import { removeToken } from '@/composables/auth'
 import { useUserStore } from '@/stores/user'
+import {ref} from 'vue'
+import UpdatePasswordModal from '@/components/UpdatePasswordModal.vue'
+const updatePasswordModalRef = ref(null)
+
+const openUpdatePasswordModal = () => {
+    updatePasswordModalRef.value.open()
+}
 
 // 引入了用户 Store
 const userStore = useUserStore()
