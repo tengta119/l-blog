@@ -83,7 +83,7 @@ public class StpInterfaceImpl implements StpInterface {
                     RoleEntity roleEntity = roleId2RoleEntity.getOrDefault(roleId, null);
                     userRoleKeys.add(roleEntity.getRoleKey());
                 }
-                log.info("用户 {}，对应的权限 {}", userId, userRoleKeys);
+                log.info("用户 {}，对应的角色 {}", userId, userRoleKeys);
                 return userRoleKeys;
             }
         }
