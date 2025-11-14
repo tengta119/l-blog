@@ -1,7 +1,8 @@
-package top.lbwxxc.api.dto;
+package top.lbwxxc.api.dto.category;
 
 
 import lombok.*;
+import top.lbwxxc.api.dto.BasePageQuery;
 
 import java.time.LocalDate;
 

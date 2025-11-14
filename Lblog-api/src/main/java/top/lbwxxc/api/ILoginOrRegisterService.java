@@ -1,7 +1,7 @@
 package top.lbwxxc.api;
 
 
-import top.lbwxxc.api.dto.*;
+import top.lbwxxc.api.dto.login.*;
 import top.lbwxxc.api.response.Response;
 
 public interface ILoginOrRegisterService {

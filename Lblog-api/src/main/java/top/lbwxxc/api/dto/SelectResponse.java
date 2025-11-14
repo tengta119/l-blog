@@ -6,16 +6,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class LoginResponseDTO {
+public class SelectResponse {
 
     /**
-     * 主键ID
+     * Select 下拉列表的展示文字
      */
-    private Long id;
+    private String label;
 
-    private String token;
+    /**
+     * Select 下拉列表的 value 值，如 ID 等
+     */
+    private Object value;
 }

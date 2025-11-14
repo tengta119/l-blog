@@ -1,4 +1,5 @@
-package top.lbwxxc.api.dto;
+package top.lbwxxc.api.dto.login;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +8,11 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class AddCategoryRequestDTO {
+@Data
+public class WxLoginRequestDTO {
 
-    private String name;
+    // 前端生成二维码的 ticket
+    private String ticket;
+
 }

@@ -5,7 +5,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import top.lbwxxc.api.IVerificationCodeService;
-import top.lbwxxc.api.dto.VerificationCodeRequestDTO;
+import top.lbwxxc.api.dto.login.VerificationCodeRequestDTO;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.login.model.entity.VerificationCodeEntity;
 import top.lbwxxc.domain.login.service.login.LoginService;

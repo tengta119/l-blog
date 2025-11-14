@@ -1,10 +1,10 @@
 package top.lbwxxc.api;
 
 
-import top.lbwxxc.api.dto.AddCategoryRequestDTO;
-import top.lbwxxc.api.dto.DeleteCategoryRequestDTO;
-import top.lbwxxc.api.dto.FindCategoryPageListRequestDTO;
-import top.lbwxxc.api.dto.FindCategoryPageListResponseDTO;
+import top.lbwxxc.api.dto.category.AddCategoryRequestDTO;
+import top.lbwxxc.api.dto.category.DeleteCategoryRequestDTO;
+import top.lbwxxc.api.dto.category.FindCategoryPageListRequestDTO;
+import top.lbwxxc.api.dto.category.FindCategoryPageListResponseDTO;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 

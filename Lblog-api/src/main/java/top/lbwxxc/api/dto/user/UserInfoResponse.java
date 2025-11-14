@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto;
+package top.lbwxxc.api.dto.user;
 
 
 import lombok.*;

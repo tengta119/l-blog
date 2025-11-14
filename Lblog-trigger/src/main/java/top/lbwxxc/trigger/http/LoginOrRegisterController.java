@@ -6,7 +6,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import top.lbwxxc.api.ILoginOrRegisterService;
-import top.lbwxxc.api.dto.*;
+import top.lbwxxc.api.dto.login.*;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.login.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.login.model.entity.LoginUserEntity;

@@ -3,12 +3,11 @@ package top.lbwxxc.trigger.http;
 
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.UserService;
-import top.lbwxxc.api.dto.UserInfoResponse;
+import top.lbwxxc.api.dto.user.UserInfoResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.user.model.entity.UserInfoEntity;
 import top.lbwxxc.domain.user.service.IUserInfoService;
