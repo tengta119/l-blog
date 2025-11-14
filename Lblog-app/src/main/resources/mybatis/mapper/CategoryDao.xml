@@ -92,4 +92,13 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
+    <select id="selectCategoryByPageAndData" resultMap="BaseResultMap">
+        select *
+        from category
+        where is_deleted = 0
+          and date(create_time) between #{startDate} and #{endDate}
+        order by id
+        limit #{offset}, #{pageSize}
+    </select>
+
 </mapper>
