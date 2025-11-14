@@ -25,4 +25,6 @@ public interface CategoryDao {
     List<Category> selectCategoryByPageAndData(int offset, int pageSize, String name, LocalDate startDate, LocalDate endDate);
 
     int logicalDelete(Long id);
+
+    List<Category> selectAllCategory();
 }

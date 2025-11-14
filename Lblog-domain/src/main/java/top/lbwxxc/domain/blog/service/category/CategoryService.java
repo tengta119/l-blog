@@ -51,4 +51,22 @@ public class CategoryService implements ICategoryService {
     public int deleteCategory(long categoryId) {
         return blogRepository.deleteCategory(categoryId);
     }
+
+    @Override
+    public List<CategoryEntity> findAllCategory() {
+
+        String key = RedisConstants.buildCategoryPageKey("");
+        List<CategoryEntity> allCategory;
+        String categoryStr = stringRedisTemplate.opsForValue().get(key);
+        if (categoryStr == null) {
+            allCategory = blogRepository.findAllCategory();
+            log.info("从数据库查询文章分类 select：{}", allCategory);
+            stringRedisTemplate.opsForValue().set(key,JSON.toJSONString(allCategory));
+        } else {
+            log.info("查询文章分类 select 命中缓存 {}", categoryStr);
+            allCategory = JSON.parseArray(categoryStr, CategoryEntity.class);
+        }
+
+        return allCategory;
+    }
 }

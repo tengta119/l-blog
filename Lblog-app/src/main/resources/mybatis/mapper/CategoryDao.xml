@@ -109,4 +109,8 @@
         set is_deleted = 1
         where id = #{id}
     </update>
+
+    <select id="selectAllCategory" resultMap="BaseResultMap">
+        select * from category
+    </select>
 </mapper>

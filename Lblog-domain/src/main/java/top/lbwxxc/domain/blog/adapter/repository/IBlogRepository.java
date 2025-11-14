@@ -13,4 +13,6 @@ public interface IBlogRepository {
     List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate);
 
     int deleteCategory(long categoryId);
+
+    List<CategoryEntity> findAllCategory();
 }

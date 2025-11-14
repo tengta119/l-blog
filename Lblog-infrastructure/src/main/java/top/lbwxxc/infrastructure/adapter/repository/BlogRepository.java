@@ -35,6 +35,22 @@ public class BlogRepository implements IBlogRepository {
     public List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate) {
 
         List<Category> categories = categoryDao.selectCategoryByPageAndData((page - 1) * pageSize, pageSize, name, startDate, endDate);
+        return getCategoryEntities(categories);
+    }
+
+    @Override
+    public int deleteCategory(long categoryId) {
+        return categoryDao.logicalDelete(categoryId);
+    }
+
+    @Override
+    public List<CategoryEntity> findAllCategory() {
+
+        List<Category> categories = categoryDao.selectAllCategory();
+        return getCategoryEntities(categories);
+    }
+
+    private List<CategoryEntity> getCategoryEntities(List<Category> categories) {
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         for (Category category : categories) {
             CategoryEntity categoryEntity = new CategoryEntity();
@@ -43,12 +59,6 @@ public class BlogRepository implements IBlogRepository {
             categoryEntity.setCreateTime(category.getCreateTime());
             categoryEntities.add(categoryEntity);
         }
-
         return categoryEntities;
-    }
-
-    @Override
-    public int deleteCategory(long categoryId) {
-        return categoryDao.logicalDelete(categoryId);
     }
 }

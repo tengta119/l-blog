@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminCategoryService;
+import top.lbwxxc.api.dto.SelectResponse;
 import top.lbwxxc.api.dto.category.AddCategoryRequestDTO;
 import top.lbwxxc.api.dto.category.DeleteCategoryRequestDTO;
 import top.lbwxxc.api.dto.category.FindCategoryPageListRequestDTO;
@@ -21,6 +22,7 @@ import top.lbwxxc.types.enums.ResponseCode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -49,7 +51,7 @@ public class AdminCategoryController implements IAdminCategoryService {
                 .build();
     }
 
-    @PostMapping("select")
+    @PostMapping("list")
     @Override
     public PageResponse<FindCategoryPageListResponseDTO> findCategoryList(@RequestBody FindCategoryPageListRequestDTO findCategoryPageListRequestDTO) {
 
@@ -94,6 +96,34 @@ public class AdminCategoryController implements IAdminCategoryService {
         return Response.<String>builder()
                 .code(ResponseCode.UN_ERROR.getCode())
                 .info("删除文章分类失败")
+                .build();
+    }
+
+    @PostMapping("select/list")
+    @Override
+    public Response<List<SelectResponse>> findCategorySelectList() {
+
+        List<CategoryEntity> allCategory = categoryService.findAllCategory();
+        List<SelectResponse> selectRspVOS = null;
+        if (!allCategory.isEmpty()) {
+            selectRspVOS = allCategory.stream().map(categoryEntity ->  SelectResponse.builder()
+                    .label(categoryEntity.getName())
+                    .value(categoryEntity.getId())
+                    .build())
+                    .toList();
+        }
+
+        if (selectRspVOS != null) {
+            return Response.<List<SelectResponse>>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(selectRspVOS)
+                    .build();
+        }
+
+        return Response.<List<SelectResponse>>builder()
+                .code(ResponseCode.UN_ERROR.getCode())
+                .info("获取文章分类失败")
                 .build();
     }
 }

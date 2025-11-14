@@ -14,4 +14,6 @@ public interface ICategoryService {
     List<CategoryEntity> findCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate);
 
     int deleteCategory(long categoryId);
+
+    List<CategoryEntity> findAllCategory();
 }
