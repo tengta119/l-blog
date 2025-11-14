@@ -32,9 +32,9 @@ public class BlogRepository implements IBlogRepository {
     }
 
     @Override
-    public List<CategoryEntity> queryCategoryList(int page, int pageSize, LocalDate startDate, LocalDate endDate) {
+    public List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate) {
 
-        List<Category> categories = categoryDao.selectCategoryByPageAndData((page - 1) * pageSize, pageSize, startDate, endDate);
+        List<Category> categories = categoryDao.selectCategoryByPageAndData((page - 1) * pageSize, pageSize, name, startDate, endDate);
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         for (Category category : categories) {
             CategoryEntity categoryEntity = new CategoryEntity();

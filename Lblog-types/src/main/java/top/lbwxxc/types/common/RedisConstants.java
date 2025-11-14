@@ -10,7 +10,7 @@ public class RedisConstants {
     }
 
     public static final String CATEGORY_INFO_PAGE = "category:info:page";
-    public static String buildCategoryPageKey(int page) {
+    public static String buildCategoryPageKey(String page) {
         return CATEGORY_INFO_PAGE + ":" + page;
     }
 }

@@ -29,15 +29,15 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<CategoryEntity> findCategoryList(int page, int pageSize, LocalDate startDate, LocalDate endDate) {
+    public List<CategoryEntity> findCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate) {
 
-        String key = RedisConstants.buildCategoryPageKey(page);
+        String key = RedisConstants.buildCategoryPageKey(page + name);
         List<CategoryEntity> categoryEntities;
 
         String categoryStr = stringRedisTemplate.opsForValue().get(key);
         if (categoryStr == null) {
-            categoryEntities = blogRepository.queryCategoryList(page, pageSize, startDate, endDate);
-            stringRedisTemplate.opsForValue().set(key,JSON.toJSONString(categoryEntities));
+            categoryEntities = blogRepository.queryCategoryList(page, pageSize, name, startDate, endDate);
+            //stringRedisTemplate.opsForValue().set(key, JSON.toJSONString(categoryEntities));
             log.info("从数据库查询文章分类：{}", categoryEntities);
         } else {
             log.info("查询文章分类命中缓存 {}", categoryStr);

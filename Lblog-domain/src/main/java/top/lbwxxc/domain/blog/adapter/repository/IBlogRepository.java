@@ -10,5 +10,5 @@ public interface IBlogRepository {
 
     int addCategory(String name);
 
-    List<CategoryEntity> queryCategoryList(int page, int pageSize, LocalDate startDate, LocalDate endDate);
+    List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate);
 }

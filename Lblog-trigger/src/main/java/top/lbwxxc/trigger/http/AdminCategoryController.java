@@ -56,7 +56,8 @@ public class AdminCategoryController implements IAdminCategoryService {
         int size = findCategoryPageListRequestDTO.getSize();
         LocalDate startDate = findCategoryPageListRequestDTO.getStartDate();
         LocalDate endDate = findCategoryPageListRequestDTO.getEndDate();
-        List<CategoryEntity> categoryList = categoryService.findCategoryList(current, size, startDate, endDate);
+        String name = findCategoryPageListRequestDTO.getName();
+        List<CategoryEntity> categoryList = categoryService.findCategoryList(current, size, name, startDate, endDate);
 
         PageResponse<FindCategoryPageListResponseDTO> pageResponse = new PageResponse<>();
         if (categoryList.isEmpty()) {

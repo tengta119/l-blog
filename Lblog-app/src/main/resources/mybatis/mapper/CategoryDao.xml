@@ -96,7 +96,10 @@
         select *
         from category
         where is_deleted = 0
-          and date(create_time) between #{startDate} and #{endDate}
+            and date(create_time) between #{startDate} and #{endDate}
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')  <!-- 拼接%实现模糊匹配，仅当name非空时生效 -->
+            </if>
         order by id
         limit #{offset}, #{pageSize}
     </select>

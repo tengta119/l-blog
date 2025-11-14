@@ -22,5 +22,5 @@ public interface CategoryDao {
 
     int updateByPrimaryKey(Category record);
 
-    List<Category> selectCategoryByPageAndData(int offset, int pageSize, LocalDate startDate, LocalDate endDate);
+    List<Category> selectCategoryByPageAndData(int offset, int pageSize, String name, LocalDate startDate, LocalDate endDate);
 }

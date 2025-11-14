@@ -11,5 +11,5 @@ public interface ICategoryService {
 
     int addCategory(String name);
 
-    List<CategoryEntity> findCategoryList(int page, int pageSize, LocalDate startDate, LocalDate endDate);
+    List<CategoryEntity> findCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate);
 }
