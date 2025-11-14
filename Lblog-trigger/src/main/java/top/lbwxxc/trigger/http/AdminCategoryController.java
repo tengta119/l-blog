@@ -22,7 +22,6 @@ import top.lbwxxc.types.enums.ResponseCode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -54,12 +53,12 @@ public class AdminCategoryController implements IAdminCategoryService {
     @PostMapping("list")
     @Override
     public PageResponse<FindCategoryPageListResponseDTO> findCategoryList(@RequestBody FindCategoryPageListRequestDTO findCategoryPageListRequestDTO) {
-
         int current = findCategoryPageListRequestDTO.getCurrent();
         int size = findCategoryPageListRequestDTO.getSize();
         LocalDate startDate = findCategoryPageListRequestDTO.getStartDate();
         LocalDate endDate = findCategoryPageListRequestDTO.getEndDate();
         String name = findCategoryPageListRequestDTO.getName();
+        log.info("请求参数 current: {}, size: {}, startDate: {}, endDate: {}, name: {}", current, size, startDate, endDate, name);
         List<CategoryEntity> categoryList = categoryService.findCategoryList(current, size, name, startDate, endDate);
 
         PageResponse<FindCategoryPageListResponseDTO> pageResponse = new PageResponse<>();
@@ -78,6 +77,10 @@ public class AdminCategoryController implements IAdminCategoryService {
                     .build());
         }
         pageResponse.setData(categoryPageListResponseDTOS);
+        pageResponse.setCode(ResponseCode.SUCCESS.getCode());
+        pageResponse.setInfo(ResponseCode.SUCCESS.getInfo());
+        pageResponse.setPages(current);
+        pageResponse.setSize(size);
         return pageResponse;
     }
 
