@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminCategoryService;
 import top.lbwxxc.api.dto.AddCategoryRequestDTO;
+import top.lbwxxc.api.dto.DeleteCategoryRequestDTO;
 import top.lbwxxc.api.dto.FindCategoryPageListRequestDTO;
 import top.lbwxxc.api.dto.FindCategoryPageListResponseDTO;
 import top.lbwxxc.api.response.PageResponse;
@@ -76,5 +77,23 @@ public class AdminCategoryController implements IAdminCategoryService {
         }
         pageResponse.setData(categoryPageListResponseDTOS);
         return pageResponse;
+    }
+
+    @PostMapping("delete")
+    @Override
+    public Response<String> deleteCategory(@RequestBody DeleteCategoryRequestDTO deleteCategoryRequestDTO) {
+
+        int i = categoryService.deleteCategory(deleteCategoryRequestDTO.getId());
+        if (i > 0) {
+            return Response.<String>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .build();
+        }
+
+        return Response.<String>builder()
+                .code(ResponseCode.UN_ERROR.getCode())
+                .info("删除文章分类失败")
+                .build();
     }
 }

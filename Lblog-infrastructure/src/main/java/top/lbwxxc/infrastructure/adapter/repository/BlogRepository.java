@@ -46,4 +46,9 @@ public class BlogRepository implements IBlogRepository {
 
         return categoryEntities;
     }
+
+    @Override
+    public int deleteCategory(long categoryId) {
+        return categoryDao.logicalDelete(categoryId);
+    }
 }

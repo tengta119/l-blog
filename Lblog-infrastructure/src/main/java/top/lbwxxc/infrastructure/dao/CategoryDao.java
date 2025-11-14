@@ -23,4 +23,6 @@ public interface CategoryDao {
     int updateByPrimaryKey(Category record);
 
     List<Category> selectCategoryByPageAndData(int offset, int pageSize, String name, LocalDate startDate, LocalDate endDate);
+
+    int logicalDelete(Long id);
 }

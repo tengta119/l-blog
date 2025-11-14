@@ -104,4 +104,9 @@
         limit #{offset}, #{pageSize}
     </select>
 
+    <update id="logicalDelete">
+        update category
+        set is_deleted = 1
+        where id = #{id}
+    </update>
 </mapper>

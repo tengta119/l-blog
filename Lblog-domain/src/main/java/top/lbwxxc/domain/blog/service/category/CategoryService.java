@@ -46,4 +46,9 @@ public class CategoryService implements ICategoryService {
 
         return categoryEntities;
     }
+
+    @Override
+    public int deleteCategory(long categoryId) {
+        return blogRepository.deleteCategory(categoryId);
+    }
 }
