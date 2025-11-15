@@ -22,7 +22,7 @@
         <el-card shadow="never">
             <!-- 新增按钮 -->
             <div class="mb-5">
-                <el-button type="primary">
+                <el-button type="primary" @click="addCategoryBtnClick">
                     <el-icon class="mr-1">
                         <Plus />
                     </el-icon>
@@ -30,7 +30,7 @@
             </div>
 
             <!-- 分页列表 -->
-            <el-table :data="tableData" border stripe style="width: 100%">
+            <el-table :data="tableData" border stripe style="width: 100%" v-loading="tableLoading">
                 <el-table-column prop="name" label="分类名称" width="180" />
                 <el-table-column prop="createTime" label="创建时间" width="180">
                     <template #default="{ row }">
@@ -39,7 +39,7 @@
                 </el-table-column>
                 <el-table-column label="操作" >
                     <template #default="scope">
-                        <el-button type="danger" size="small">
+                        <el-button type="danger" size="small" @click="deleteCategorySubmit(scope.row)">
                             <el-icon class="mr-1">
                                 <Delete />
                             </el-icon>
@@ -52,29 +52,48 @@
             <div class="mt-10 flex justify-center">
                 <el-pagination v-model:current-page="current" v-model:page-size="size" :page-sizes="[10, 20, 50]"
                 :small="false" :background="true" layout="total, sizes, prev, pager, next, jumper"
-                :total="total" @size-change="handleSizeChange" @current-change="getTableData"  />
+                :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange"  />
             </div>
 
         </el-card>
 
     </div>
+
+    <FormDialog ref="formDialogRef" title="添加文章分类" destroyOnClose @submit="onSubmit">
+        <el-form ref="formRef" :rules="rules" :model="form">
+                    <el-form-item label="分类名称" prop="name" label-width="80px" size="large">
+                        <el-input v-model="form.name" placeholder="请输入分类名称" maxlength="20" show-word-limit clearable/>
+                    </el-form-item>
+                </el-form>
+    </FormDialog>
+
 </template>
+
+
 
 <script setup>
 // 引入所需图标
 import { Search, RefreshRight, Plus, Delete } from '@element-plus/icons-vue'
 import { ref, reactive } from 'vue'
 import moment from 'moment'
-import { getCategoryPageList } from '@/api/admin/category'
+import { getCategoryPageList, addCategory, deleteCategory } from '@/api/admin/category'
 // 分页查询的分类名称
 const searchCategoryName = ref('')
+import FormDialog from '@/components/FormDialog.vue'
 // 日期
 const pickDate = ref('')
-
+import { showMessage, showModel  } from '@/composables/util'
 // 查询条件：开始结束时间
 const startDate = reactive({})
 const endDate = reactive({})
+const formDialogRef = ref(null)
 
+// 表格加载 Loading
+const tableLoading = ref(false)
+// 新增分类按钮点击事件
+const addCategoryBtnClick = () => {
+    formDialogRef.value.open()
+}
 // 监听日期组件改变事件，并将开始结束时间设置到变量中
 const datepickerChange = (e) => {
     startDate.value = moment(e[0]).format('YYYY-MM-DD')
@@ -92,6 +111,59 @@ const total = ref(0)
 // 每页显示的数据量，给了个默认值 10
 const size = ref(10)
 
+const formRef = ref(null)
+// 对话框是否显示
+const dialogVisible = ref(false)
+
+// 添加文章分类表单对象
+const form = reactive({
+    name: ''
+})
+
+// 规则校验
+const rules = {
+    name: [
+        {
+            required: true,
+            message: '分类名称不能为空',
+            trigger: 'blur',
+        },
+        { min: 1, max: 20, message: '分类名称字数要求大于 1 个字符，小于 20 个字符', trigger: 'blur' },
+    ]
+}
+
+const onSubmit = () => {
+    // 先验证 form 表单字段
+    formRef.value.validate((valid) => {
+        if (!valid) {
+            console.log('表单验证不通过')
+            return false
+        }
+        formDialogRef.value.showBtnLoading()
+		// 请求添加分类接口
+        addCategory(form).then((res) => {
+            const data = res.data
+            if (data.code == '0000') {
+                showMessage('添加成功')
+                // 将表单中分类名称置空
+                form.name = ''
+                // 隐藏对话框
+                formDialogRef.value.close()
+                // 重新请求分页接口，渲染数据
+                getTableData()
+            } else {
+                // 获取服务端返回的错误消息
+                let message = data.info || '添加失败'
+                // 提示错误消息
+                showMessage(message, 'error')
+            }
+        }).finally(() => {
+            formDialogRef.value.closeBtnLoading()
+        })
+
+    })
+}
+
 // 重置查询条件
 const reset = () => {
     searchCategoryName.value = ''
@@ -107,8 +179,38 @@ const handleSizeChange = (chooseSize) => {
     getTableData()
 }
 
+const handleCurrentChange = (page) => {
+    current.value = page
+    getTableData()
+}
+
+const deleteCategorySubmit = (row) => {
+    console.log(row.id)
+    showModel('是否确定要删除该分类？').then(() => {
+        deleteCategory(row.id)
+        deleteCategory({id: row.id}).then((res) => {
+            const data = res.data
+            if (data.code == '0000') {
+                showMessage('删除成功')
+                // 重新请求分页接口，渲染数据
+                getTableData()
+            } else {
+                // 获取服务端返回的错误消息
+                let message = data.info || '删除失败'
+                // 提示错误消息
+                showMessage(message, 'error')
+            }
+        })
+    }).catch(() => {
+        console.log('取消了')
+    })
+}
+
 // 获取分页数据
 function getTableData() {
+
+    // 显示表格 loading
+    tableLoading.value = true
     // 调用后台分页接口，并传入所需参数
     console.log(searchCategoryName.value, startDate.value, endDate.value, current.value, size.value)
     if (current.value == 0) {
@@ -121,10 +223,11 @@ function getTableData() {
         const data = res.data
         if (data.code == '0000') {
             tableData.value = data.data
-            current.value = data.current
-            size.value = data.size
             total.value = data.total
         }
+    }).finally(() => {
+        // 隐藏表格 loading
+        tableLoading.value = false
     })
 }
 getTableData()

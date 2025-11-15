@@ -15,4 +15,6 @@ public interface IBlogRepository {
     int deleteCategory(long categoryId);
 
     List<CategoryEntity> findAllCategory();
+
+    int findCategorySize();
 }

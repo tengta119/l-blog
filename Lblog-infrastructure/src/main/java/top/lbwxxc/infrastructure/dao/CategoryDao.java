@@ -27,4 +27,6 @@ public interface CategoryDao {
     int logicalDelete(Long id);
 
     List<Category> selectAllCategory();
+
+    int selectCategorySize();
 }

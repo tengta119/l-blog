@@ -60,7 +60,7 @@ public class AdminCategoryController implements IAdminCategoryService {
         String name = findCategoryPageListRequestDTO.getName();
         log.info("请求参数 current: {}, size: {}, startDate: {}, endDate: {}, name: {}", current, size, startDate, endDate, name);
         List<CategoryEntity> categoryList = categoryService.findCategoryList(current, size, name, startDate, endDate);
-
+        int categorySize = categoryService.findCategorySize();
         PageResponse<FindCategoryPageListResponseDTO> pageResponse = new PageResponse<>();
         if (categoryList.isEmpty()) {
             pageResponse.setCode(ResponseCode.UN_ERROR.getCode());
@@ -81,6 +81,7 @@ public class AdminCategoryController implements IAdminCategoryService {
         pageResponse.setInfo(ResponseCode.SUCCESS.getInfo());
         pageResponse.setPages(current);
         pageResponse.setSize(size);
+        pageResponse.setTotal(categorySize);
         return pageResponse;
     }
 

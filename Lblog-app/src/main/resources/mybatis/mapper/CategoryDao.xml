@@ -102,7 +102,7 @@
             <if test="name != null and name != ''">
                 and name like concat('%', #{name}, '%')  <!-- 拼接%实现模糊匹配，仅当name非空时生效 -->
             </if>
-        order by id
+        order by id desc
         limit #{offset}, #{pageSize}
     </select>
 
@@ -114,5 +114,11 @@
 
     <select id="selectAllCategory" resultMap="BaseResultMap">
         select * from category
+    </select>
+
+    <select id="selectCategorySize">
+        select count(1)
+        from category
+        where is_deleted = 0
     </select>
 </mapper>

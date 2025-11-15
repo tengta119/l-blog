@@ -69,4 +69,9 @@ public class CategoryService implements ICategoryService {
 
         return allCategory;
     }
+
+    @Override
+    public int findCategorySize() {
+        return blogRepository.findCategorySize();
+    }
 }

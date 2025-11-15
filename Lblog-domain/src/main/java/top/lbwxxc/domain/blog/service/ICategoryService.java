@@ -16,4 +16,6 @@ public interface ICategoryService {
     int deleteCategory(long categoryId);
 
     List<CategoryEntity> findAllCategory();
+
+    int findCategorySize();
 }

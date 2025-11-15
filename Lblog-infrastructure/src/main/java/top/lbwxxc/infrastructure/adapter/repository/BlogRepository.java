@@ -50,6 +50,11 @@ public class BlogRepository implements IBlogRepository {
         return getCategoryEntities(categories);
     }
 
+    @Override
+    public int findCategorySize() {
+        return categoryDao.selectCategorySize();
+    }
+
     private List<CategoryEntity> getCategoryEntities(List<Category> categories) {
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         for (Category category : categories) {

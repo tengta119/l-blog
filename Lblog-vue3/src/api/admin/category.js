@@ -1,8 +1,8 @@
 import axios from "@/axios";
 
 // 增加文章分类
-export function addCategory(name) {
-    return axios.post('/category/add', name)
+export function addCategory(data) {
+    return axios.post('/category/add', data)
 }
 
 // 获取文章分类列表
@@ -11,8 +11,8 @@ export function getCategoryPageList(data) {
 }
 
 // 删除文章分类
-export function deleteCategory(id) {
-    return axios.post('/category/delete', id)
+export function deleteCategory(data) {
+    return axios.post('/category/delete', data)
 }
 
 // 获取文章分类下拉列表
