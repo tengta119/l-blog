@@ -85,14 +85,14 @@ public class LoginService implements ILoginService {
         if (openid == null) {
             return null;
         }
-        UserDetailEntity userByOpenId = userRepository.getUser(openid, SelectUserType.SELECT_USER_OPENID);
+        LoginUserDetailEntity userByOpenId = userRepository.getUser(openid, SelectUserType.SELECT_USER_OPENID);
         if (userByOpenId == null) {
             UserRegisterEntity userRegisterEntity = UserRegisterEntity.builder()
                     .createUserType(CreateUserType.CREATE_USER_OPENID)
                     .openid(openid)
                     .build();
-            UserDetailEntity userDetailEntity = userRepository.createUser(userRegisterEntity);
-            return userDetailEntity.getId();
+            LoginUserDetailEntity loginUserDetailEntity = userRepository.createUser(openid, "", CreateUserType.CREATE_USER_OPENID);
+            return loginUserDetailEntity.getId();
         }
 
         StpUtil.login(userByOpenId.getId());
@@ -101,8 +101,8 @@ public class LoginService implements ILoginService {
 
     @Override
     public void updatePassword(String str, SelectUserType selectUserType, String newPassword, String ReqCode) {
-        UserDetailEntity userDetailEntity = userRepository.getUser(str, selectUserType);
-        if (userDetailEntity == null) {
+        LoginUserDetailEntity loginUserDetailEntity = userRepository.getUser(str, selectUserType);
+        if (loginUserDetailEntity == null) {
             throw new RuntimeException("该用户不存在");
         }
 

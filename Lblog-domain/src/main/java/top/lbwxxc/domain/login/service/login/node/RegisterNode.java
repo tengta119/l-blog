@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.login.adapter.repository.IUserAccountRepository;
 import top.lbwxxc.domain.login.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.login.model.entity.LoginUserEntity;
-import top.lbwxxc.domain.login.model.entity.UserRegisterEntity;
-import top.lbwxxc.domain.login.model.entity.UserDetailEntity;
+import top.lbwxxc.domain.login.model.entity.LoginUserDetailEntity;
 import top.lbwxxc.types.enums.CreateUserType;
 import top.lbwxxc.types.enums.VerificationTypeVO;
 import top.lbwxxc.domain.login.service.login.AbstractLoginUserSupport;
@@ -47,28 +46,23 @@ public class RegisterNode extends AbstractLoginUserSupport<LoginUserEntity, Defa
             throw new RuntimeException("验证码异常");
         }
 
-        UserRegisterEntity userRegisterEntity = UserRegisterEntity.builder()
-                .password(passwordEncoder.encode(requestParameter.getReqPassword()))
-                .build();
-
-        UserDetailEntity userDetail = null;
+        String reqPassword = passwordEncoder.encode(requestParameter.getReqPassword());
+        LoginUserDetailEntity userLogin = null;
+        // mysql 会有触发器，自动创建用户的相关信息
         if (requestParameter.getType().equals(VerificationTypeVO.PHONE.getCode())) {
 
-            userRegisterEntity.setPhone(requestParameter.getPhone());
-            userRegisterEntity.setCreateUserType(CreateUserType.CREATE_USER_PHONE);
-            userDetail = userRepository.createUser(userRegisterEntity);
+            userLogin = userRepository.createUser(requestParameter.getPhone(), reqPassword, CreateUserType.CREATE_USER_PHONE);
 
         } else if (requestParameter.getType().equals(VerificationTypeVO.EMAIL.getCode())) {
-            userRegisterEntity.setEmail(requestParameter.getEmail());
-            userRegisterEntity.setCreateUserType(CreateUserType.CREATE_USER_EMAIL);
-            userDetail = userRepository.createUser(userRegisterEntity);
+
+            userLogin = userRepository.createUser(requestParameter.getEmail(), reqPassword, CreateUserType.CREATE_USER_EMAIL);
         }
 
-        if (userDetail == null) {
+        if (userLogin == null) {
             throw new RuntimeException("创建账号失败");
         }
 
-        dynamicContext.setUserId(userDetail.getId());
+        dynamicContext.setUserId(userLogin.getId());
 
         dynamicContext.setLogin(true);
         // satoken 会将 token 注入到 response 中

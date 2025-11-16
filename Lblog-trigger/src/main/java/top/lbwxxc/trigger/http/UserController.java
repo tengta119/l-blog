@@ -35,7 +35,7 @@ public class UserController implements UserService {
                     .phone(userInfo.getPhone())
                     .openid(userInfo.getOpenid())
                     .email(userInfo.getEmail())
-                    .nickname(userInfo.getNickname())
+                    .author(userInfo.getAuthor())
                     .avatar(userInfo.getAvatar())
                     .birthday(userInfo.getBirthday())
                     .backgroundImg(userInfo.getBackgroundImg())

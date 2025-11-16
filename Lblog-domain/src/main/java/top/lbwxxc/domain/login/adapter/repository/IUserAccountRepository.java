@@ -1,17 +1,17 @@
 package top.lbwxxc.domain.login.adapter.repository;
 
 
-import top.lbwxxc.domain.login.model.entity.UserRegisterEntity;
-import top.lbwxxc.domain.login.model.entity.UserDetailEntity;
+import top.lbwxxc.domain.login.model.entity.LoginUserDetailEntity;
 import top.lbwxxc.domain.login.model.entity.UserRoleEntity;
+import top.lbwxxc.types.enums.CreateUserType;
 import top.lbwxxc.types.enums.SelectUserType;
 
 public interface IUserAccountRepository {
 
 
-    UserDetailEntity getUser(String str, SelectUserType selectUserType);
+    LoginUserDetailEntity getUser(String str, SelectUserType selectUserType);
 
-    UserDetailEntity createUser(UserRegisterEntity userRegisterEntity);
+    LoginUserDetailEntity createUser(String str, String password, CreateUserType createUserType);
 
     int updateUserPasswordById(String str, SelectUserType selectUserType, String password);
 

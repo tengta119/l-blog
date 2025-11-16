@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.login.adapter.repository.IUserAccountRepository;
 import top.lbwxxc.domain.login.model.entity.UserAccountEntity;
 import top.lbwxxc.domain.login.model.entity.LoginUserEntity;
-import top.lbwxxc.domain.login.model.entity.UserDetailEntity;
+import top.lbwxxc.domain.login.model.entity.LoginUserDetailEntity;
 import top.lbwxxc.types.enums.SelectUserType;
 import top.lbwxxc.types.enums.VerificationTypeVO;
 import top.lbwxxc.domain.login.service.login.AbstractLoginUserSupport;
@@ -30,21 +30,21 @@ public class RootNode extends AbstractLoginUserSupport<LoginUserEntity, DefaultU
     protected UserAccountEntity doApply(LoginUserEntity requestParameter, DefaultUserLoginStrategyFactory.DynamicContext dynamicContext) throws Exception {
         log.info("登录注册 - RootNode 从数据库加载用户信息, requestParameter：{}", requestParameter);
 
-        UserDetailEntity userDetail = null;
+        LoginUserDetailEntity loginUserDetail = null;
         if (requestParameter.getType().equals(VerificationTypeVO.PHONE.getCode())) {
             String phone = requestParameter.getPhone();
-            userDetail = userRepository.getUser(phone, SelectUserType.SELECT_USER_PHONE);
+            loginUserDetail = userRepository.getUser(phone, SelectUserType.SELECT_USER_PHONE);
 
         } else if (requestParameter.getType().equals(VerificationTypeVO.EMAIL.getCode())) {
             String email = requestParameter.getEmail();
-            userDetail = userRepository.getUser(email, SelectUserType.SELECT_USER_EMAIL);
+            loginUserDetail = userRepository.getUser(email, SelectUserType.SELECT_USER_EMAIL);
         }
 
-        log.info("用户信息为 {}", userDetail);
+        log.info("用户信息为 {}", loginUserDetail);
 
-        if (userDetail != null) {
-            dynamicContext.setUserId(userDetail.getId());
-            dynamicContext.setPassword(userDetail.getPassword());
+        if (loginUserDetail != null) {
+            dynamicContext.setUserId(loginUserDetail.getId());
+            dynamicContext.setPassword(loginUserDetail.getPassword());
         }
 
         return router(requestParameter, dynamicContext);

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -38,7 +39,7 @@ public class UserInfoEntity {
     /**
      * 昵称
      */
-    private String nickname;
+    private String author;
 
     /**
      * 头像
@@ -48,7 +49,7 @@ public class UserInfoEntity {
     /**
      * 生日
      */
-    private Date birthday;
+    private LocalDate birthday;
 
     /**
      * 背景图

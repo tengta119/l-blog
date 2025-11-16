@@ -3,6 +3,7 @@ package top.lbwxxc.api.dto.user;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -30,7 +31,7 @@ public class UserInfoResponse {
     /**
      * 昵称
      */
-    private String nickname;
+    private String author;
 
     /**
      * 头像
@@ -40,7 +41,7 @@ public class UserInfoResponse {
     /**
      * 生日
      */
-    private Date birthday;
+    private LocalDate birthday;
 
     /**
      * 背景图

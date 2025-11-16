@@ -6,17 +6,10 @@ import top.lbwxxc.infrastructure.dao.po.User;
 @Mapper
 public interface UserDao {
 
-    int deleteByPrimaryKey(Long id);
-
-    int insert(User record);
 
     int insertSelective(User record);
 
     User selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
 
     // 根据手机号查询用户
     User getUserByPhone(String phone);

@@ -38,7 +38,7 @@
                     <!-- 头像 Avatar -->
                     <el-avatar class="mr-2" :size="25"
                         src="https://img.quanxiaoha.com/quanxiaoha/f97361c0429d4bb1bc276ab835843065.jpg" />
-                    {{ userStore.userInfo.nickname }}
+                    {{ userStore.userInfo.author }}
                     <el-icon class="el-icon--right">
                         <ArrowDown />
                     </el-icon>

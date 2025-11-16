@@ -4,23 +4,14 @@
     <resultMap id="BaseResultMap" type="top.lbwxxc.infrastructure.dao.po.User">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="nickname" jdbcType="VARCHAR" property="nickname" />
-        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-        <result column="birthday" jdbcType="DATE" property="birthday" />
-        <result column="background_img" jdbcType="VARCHAR" property="backgroundImg" />
-        <result column="phone" jdbcType="VARCHAR" property="phone" />
-        <result column="sex" jdbcType="TINYINT" property="sex" />
-        <result column="status" jdbcType="TINYINT" property="status" />
-        <result column="introduction" jdbcType="VARCHAR" property="introduction" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
         <result column="openid" jdbcType="VARCHAR" property="openid" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
         <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     </resultMap>
     <sql id="Base_Column_List">
-        id, `password`, nickname, avatar, birthday, background_img, phone, sex, `status`,
-    introduction, create_time, update_time, is_deleted, openid, email
+        id, `password`, openid, phone, email, `status`, is_deleted
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -28,63 +19,18 @@
         from user
         where id = #{id,jdbcType=BIGINT}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from user
-        where id = #{id,jdbcType=BIGINT}
-    </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.User" useGeneratedKeys="true">
-        insert into user (`password`, nickname, avatar,
-                          birthday, background_img, phone,
-                          sex, `status`, introduction,
-                          create_time, update_time, is_deleted,
-                          openid, email)
-        values (#{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
-                #{birthday,jdbcType=DATE}, #{backgroundImg,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
-                #{sex,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{introduction,jdbcType=VARCHAR},
-                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BIT},
-                #{openid,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
-    </insert>
+
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.User" useGeneratedKeys="true">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="password != null">
                 `password`,
             </if>
-            <if test="nickname != null">
-                nickname,
-            </if>
-            <if test="avatar != null">
-                avatar,
-            </if>
-            <if test="birthday != null">
-                birthday,
-            </if>
-            <if test="backgroundImg != null">
-                background_img,
+            <if test="openid != null">
+                openid,
             </if>
             <if test="phone != null">
                 phone,
-            </if>
-            <if test="sex != null">
-                sex,
-            </if>
-            <if test="status != null">
-                `status`,
-            </if>
-            <if test="introduction != null">
-                introduction,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
-            <if test="isDeleted != null">
-                is_deleted,
-            </if>
-            <if test="openid != null">
-                openid,
             </if>
             <if test="email != null">
                 email,
@@ -94,113 +40,17 @@
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
             </if>
-            <if test="nickname != null">
-                #{nickname,jdbcType=VARCHAR},
-            </if>
-            <if test="avatar != null">
-                #{avatar,jdbcType=VARCHAR},
-            </if>
-            <if test="birthday != null">
-                #{birthday,jdbcType=DATE},
-            </if>
-            <if test="backgroundImg != null">
-                #{backgroundImg,jdbcType=VARCHAR},
+            <if test="openid != null">
+                #{openid,jdbcType=VARCHAR},
             </if>
             <if test="phone != null">
                 #{phone,jdbcType=VARCHAR},
             </if>
-            <if test="sex != null">
-                #{sex,jdbcType=TINYINT},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=TINYINT},
-            </if>
-            <if test="introduction != null">
-                #{introduction,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDeleted != null">
-                #{isDeleted,jdbcType=BIT},
-            </if>
-            <if test="openid != null">
-                #{openid,jdbcType=VARCHAR},
-            </if>
             <if test="email != null">
-                #{email,jdbcType=VARCHAR},
+                #{email,jdbcType=DATE},
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="top.lbwxxc.infrastructure.dao.po.User">
-        update user
-        <set>
-            <if test="password != null">
-                `password` = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="nickname != null">
-                nickname = #{nickname,jdbcType=VARCHAR},
-            </if>
-            <if test="avatar != null">
-                avatar = #{avatar,jdbcType=VARCHAR},
-            </if>
-            <if test="birthday != null">
-                birthday = #{birthday,jdbcType=DATE},
-            </if>
-            <if test="backgroundImg != null">
-                background_img = #{backgroundImg,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="sex != null">
-                sex = #{sex,jdbcType=TINYINT},
-            </if>
-            <if test="status != null">
-                `status` = #{status,jdbcType=TINYINT},
-            </if>
-            <if test="introduction != null">
-                introduction = #{introduction,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="isDeleted != null">
-                is_deleted = #{isDeleted,jdbcType=BIT},
-            </if>
-            <if test="openid != null">
-                openid = #{openid,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=BIGINT}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="top.lbwxxc.infrastructure.dao.po.User">
-        update user
-        set `password` = #{password,jdbcType=VARCHAR},
-            nickname = #{nickname,jdbcType=VARCHAR},
-            avatar = #{avatar,jdbcType=VARCHAR},
-            birthday = #{birthday,jdbcType=DATE},
-            background_img = #{backgroundImg,jdbcType=VARCHAR},
-            phone = #{phone,jdbcType=VARCHAR},
-            sex = #{sex,jdbcType=TINYINT},
-            `status` = #{status,jdbcType=TINYINT},
-            introduction = #{introduction,jdbcType=VARCHAR},
-            create_time = #{createTime,jdbcType=TIMESTAMP},
-            update_time = #{updateTime,jdbcType=TIMESTAMP},
-            is_deleted = #{isDeleted,jdbcType=BIT},
-            openid = #{openid,jdbcType=VARCHAR},
-            email = #{email,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=BIGINT}
-    </update>
 
     <select id="getUserByPhone" resultMap="BaseResultMap">
         select *
