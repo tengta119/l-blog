@@ -61,10 +61,10 @@
 
     <FormDialog ref="formDialogRef" title="添加文章分类" destroyOnClose @submit="onSubmit">
         <el-form ref="formRef" :rules="rules" :model="form">
-                    <el-form-item label="分类名称" prop="name" label-width="80px" size="large">
-                        <el-input v-model="form.name" placeholder="请输入分类名称" maxlength="20" show-word-limit clearable/>
-                    </el-form-item>
-                </el-form>
+            <el-form-item label="分类名称" prop="name" label-width="80px" size="large">
+                <el-input v-model="form.name" placeholder="请输入分类名称" maxlength="20" show-word-limit clearable/>
+            </el-form-item>
+        </el-form>
     </FormDialog>
 
 </template>

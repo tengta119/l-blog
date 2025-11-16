@@ -5,13 +5,17 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
 import top.lbwxxc.domain.blog.adapter.repository.IBlogRepository;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
+import top.lbwxxc.domain.blog.model.entity.TagEntity;
 import top.lbwxxc.infrastructure.dao.CategoryDao;
+import top.lbwxxc.infrastructure.dao.TagDao;
 import top.lbwxxc.infrastructure.dao.po.Category;
+import top.lbwxxc.infrastructure.dao.po.Tag;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class BlogRepository implements IBlogRepository {
@@ -19,6 +23,8 @@ public class BlogRepository implements IBlogRepository {
 
     @Resource
     private CategoryDao categoryDao;
+    @Resource
+    private TagDao tagDao;
 
     @Override
     public int addCategory(String name) {
@@ -53,6 +59,71 @@ public class BlogRepository implements IBlogRepository {
     @Override
     public int findCategorySize() {
         return categoryDao.selectCategorySize();
+    }
+
+    @Override
+    public int addTag(String name) {
+
+        Tag tag = Tag.builder()
+                .name(name)
+                .updateTime(LocalDateTime.now())
+                .createTime(LocalDateTime.now())
+                .isDeleted(0)
+                .build();
+
+        return tagDao.insert(tag);
+    }
+
+    @Override
+    public int addTags(List<String> tags) {
+
+        List<Tag> tagList = tags.stream().map(name ->
+                Tag.builder()
+                        .name(name)
+                        .updateTime(LocalDateTime.now())
+                        .createTime(LocalDateTime.now())
+                        .isDeleted(0)
+                        .build()
+        ).toList();
+
+        return tagDao.insetTags(tagList);
+    }
+
+    @Override
+    public List<TagEntity> queryTagList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate) {
+
+        List<Tag> tags = tagDao.selectTagByPageAndData((page - 1) * pageSize, pageSize, name, startDate, endDate);
+        return getTagEntities(tags);
+    }
+
+    @Override
+    public int deleteTag(long tagId) {
+        return tagDao.logicalDelete(tagId);
+    }
+
+    @Override
+    public List<TagEntity> findAllTag() {
+        List<Tag> tags = tagDao.selectTagAll();
+        return getTagEntities(tags);
+    }
+
+    @Override
+    public int findTagSize() {
+        return tagDao.selectTagSize();
+    }
+
+    private List<TagEntity> getTagEntities(List<Tag> tags) {
+        List<TagEntity> tagEntities = new ArrayList<>();
+        for (Tag tag : tags) {
+            TagEntity tagEntity = new TagEntity();
+            tagEntity.setId(tag.getId());
+            tagEntity.setName(tag.getName());
+            tagEntity.setCreateTime(LocalDateTime.now());
+
+            tagEntities.add(tagEntity);
+        }
+
+        return tagEntities;
     }
 
     private List<CategoryEntity> getCategoryEntities(List<Category> categories) {

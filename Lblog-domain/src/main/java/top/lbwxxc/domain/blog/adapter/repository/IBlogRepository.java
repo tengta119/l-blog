@@ -2,6 +2,7 @@ package top.lbwxxc.domain.blog.adapter.repository;
 
 
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
+import top.lbwxxc.domain.blog.model.entity.TagEntity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,4 +18,17 @@ public interface IBlogRepository {
     List<CategoryEntity> findAllCategory();
 
     int findCategorySize();
+
+    int addTag(String name);
+
+    int addTags(List<String> tags);
+
+    List<TagEntity> queryTagList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate);
+
+    int deleteTag(long categoryId);
+
+    List<TagEntity> findAllTag();
+
+    int findTagSize();
+
 }
