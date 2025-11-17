@@ -46,10 +46,17 @@ spring:
         username:  # 发件人邮箱
         password:     # 邮箱授权码（非登录密码）
         default-encoding: UTF-8  # 编码
-
+    servlet:
+        multipart:
+            max-file-size: 10MB # 单个文件最大大小
+            max-request-size: 100MB # 单次请求最大大小
 aliyun:
     accessKeyId:
     accessKeySecret:
+    oss:
+        endpoint:
+        bucket-name:
+        file-path-prefix:
 
 # 微信公众号对接
 wx:
