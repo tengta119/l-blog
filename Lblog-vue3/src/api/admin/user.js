@@ -31,6 +31,10 @@ export function getUserInfo() {
     return axios.post("/user/info")
 }
 
+export function updateUserInfo(data) {
+    return axios.post("/user/update", data)
+}
+
 
 
 
