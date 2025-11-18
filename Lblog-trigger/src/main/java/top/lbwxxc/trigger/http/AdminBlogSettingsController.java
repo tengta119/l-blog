@@ -11,6 +11,7 @@ import top.lbwxxc.api.IAdminBlogSettingsService;
 import top.lbwxxc.api.dto.settings.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
+import top.lbwxxc.domain.blog.model.entity.BlogSettingsEntity;
 import top.lbwxxc.domain.blog.model.entity.ExternalUrlEntity;
 import top.lbwxxc.domain.blog.service.IBlogSettingsService;
 import top.lbwxxc.types.enums.ResponseCode;
@@ -36,6 +37,23 @@ public class AdminBlogSettingsController implements IAdminBlogSettingsService {
 
         return getStringResponse(i, "博客设置失败");
     }
+
+    @PostMapping("find")
+    @Override
+    public Response<FindBlogSettingsResponseDTO> findBlogSettings() {
+        BlogSettingsEntity blogSettings = blogSettingsService.getBlogSettings();
+
+        return Response.<FindBlogSettingsResponseDTO>builder()
+                .code(ResponseCode.SUCCESS.getCode())
+                .info(ResponseCode.SUCCESS.getInfo())
+                .data(FindBlogSettingsResponseDTO.builder()
+                        .name(blogSettings.getName())
+                        .logo(blogSettings.getLogo())
+                        .build()
+                )
+                .build();
+    }
+
 
     @PostMapping("external-url/add")
     @Override

@@ -9,6 +9,8 @@ public interface IAdminBlogSettingsService {
 
     Response<String> updateBlogSettings(UpdateBlogSettingsRequestVO updateBlogSettingsRequestVO);
 
+    Response<FindBlogSettingsResponseDTO> findBlogSettings();
+
     Response<String> addExternalUrl(AddExternalUrlRequestDTO addExternalUrlRequestDTO);
 
     Response<String> updateExternalUrl(UpdateExternalUrlRequestDTO updateExternalUrlRequestDTO);

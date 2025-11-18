@@ -3,6 +3,7 @@ package top.lbwxxc.domain.blog.service.settings;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.blog.adapter.repository.IBlogRepository;
+import top.lbwxxc.domain.blog.model.entity.BlogSettingsEntity;
 import top.lbwxxc.domain.blog.model.entity.ExternalUrlEntity;
 import top.lbwxxc.domain.blog.service.IBlogSettingsService;
 
@@ -17,6 +18,11 @@ public class BlogSettingsService implements IBlogSettingsService {
     @Override
     public int updateBlogSettings(String logo, String name) {
         return blogRepository.updateBlogSettings(logo, name);
+    }
+
+    @Override
+    public BlogSettingsEntity getBlogSettings() {
+        return blogRepository.getBlogSettings();
     }
 
     @Override

@@ -4,6 +4,7 @@ package top.lbwxxc.infrastructure.adapter.repository;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
 import top.lbwxxc.domain.blog.adapter.repository.IBlogRepository;
+import top.lbwxxc.domain.blog.model.entity.BlogSettingsEntity;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
 import top.lbwxxc.domain.blog.model.entity.ExternalUrlEntity;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
@@ -133,6 +134,16 @@ public class BlogRepository implements IBlogRepository {
         }
 
         return blogSettingsDao.updateByPrimaryKeySelective(blogSettings);
+    }
+
+    @Override
+    public BlogSettingsEntity getBlogSettings() {
+        BlogSettings blogSettings = blogSettingsDao.selectByPrimaryKey(1L);
+
+        return BlogSettingsEntity.builder()
+                .name(blogSettings.getName())
+                .logo(blogSettings.getLogo())
+                .build();
     }
 
     @Override

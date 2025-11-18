@@ -1,6 +1,7 @@
 package top.lbwxxc.domain.blog.adapter.repository;
 
 
+import top.lbwxxc.domain.blog.model.entity.BlogSettingsEntity;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
 import top.lbwxxc.domain.blog.model.entity.ExternalUrlEntity;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
@@ -33,6 +34,8 @@ public interface IBlogRepository {
     int findTagSize();
 
     int updateBlogSettings(String logo, String name);
+
+    BlogSettingsEntity getBlogSettings();
 
     int addExternalUrl(String name, String logo, String url);
 
