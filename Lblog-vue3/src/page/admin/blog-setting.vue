@@ -66,6 +66,8 @@
 import { reactive } from 'vue';
 import { updateUserInfo, getUserInfo } from '@/api/admin/user';
 import {Plus} from '@element-plus/icons-vue'
+import { getBlogSettings } from '@/api/admin/blogSettings';
+
 const formUser = reactive({
     author: '',
     avatar: '',
@@ -94,7 +96,6 @@ function initUserInfo() {
         }
     })
 }
-
 initUserInfo()
 
 const formBlog = reactive({
@@ -102,6 +103,18 @@ const formBlog = reactive({
     name: ''
 })
 
+function initBlogSettings() {
+    getBlogSettings().then(res => {
+        console.log(res)
+        const data = res.data
+        if (data.code == '0000') {
+            const blogSettings = data.data
+            formBlog.logo = blogSettings.logo
+            formBlog.name = blogSettings.name
+        }
+    })
+}
+initBlogSettings()
 
 </script>
 
