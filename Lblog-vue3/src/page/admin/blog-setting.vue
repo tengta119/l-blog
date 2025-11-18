@@ -8,8 +8,8 @@
                 </el-form-item>
 
                 <el-form-item label="作者头像" prop="avatar">
-                    <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                        :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                    <el-upload class="avatar-uploader" action="#" :auto-upload="false"
+                        :show-file-list="false" :on-change="handleAvatarChange">
                         <img v-if="formUser.avatar" :src="formUser.avatar" class="avatar" />
                         <el-icon v-else class="avatar-uploader-icon">
                             <Plus />
@@ -36,25 +36,33 @@
                     </el-radio-group>
                 </el-form-item>
 
-
+                <el-form-item>
+    	            <el-button type="primary" :loading="UserbtnLoading" @click="onUserSubmit">保存</el-button>
+	            </el-form-item>
 
             </el-form>
         </el-card>
 
         <el-card shadow="never" class="mt-5">
             <el-form :model="formBlog" ref="formBlogRef" :rules="rules" label-width="120px">
+
                 <el-form-item label="博客名称" prop="name">
                     <el-input v-model="formBlog.name" placeholder="请输入博客名称"></el-input>
                 </el-form-item>
+
                 <el-form-item label="博客logo" prop="logo">
-                    <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                        :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                    <el-upload class="avatar-uploader" action="#" :auto-upload="false"
+                        :show-file-list="false" :on-change="handleBlogLogoChange">
                         <img v-if="formBlog.logo" :src="formBlog.logo" class="avatar" />
                         <el-icon v-else class="avatar-uploader-icon">
                             <Plus />
                         </el-icon>
                     </el-upload>
                 </el-form-item>
+
+                <el-form-item>
+    	            <el-button type="primary" :loading="BlogbtnLoading" @click="onBlogSubmit">保存</el-button>
+	            </el-form-item>
             </el-form>  
         </el-card>
 
@@ -63,11 +71,13 @@
 
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { updateUserInfo, getUserInfo } from '@/api/admin/user';
 import {Plus} from '@element-plus/icons-vue'
-import { getBlogSettings } from '@/api/admin/blogSettings';
-
+import { getBlogSettings } from '@/api/admin/blogsettings';
+import { uploadFile } from '@/api/admin/file';
+import { showMessage } from '@/composables/util';
+import { updateBlogSettings } from '@/api/admin/blogsettings';
 const formUser = reactive({
     author: '',
     avatar: '',
@@ -98,6 +108,41 @@ function initUserInfo() {
 }
 initUserInfo()
 
+const handleAvatarChange = (file) => {
+    const formData = new FormData()
+    formData.append('file', file.raw)
+    uploadFile(formData).then(res => {
+        console.log(res)
+        const data = res.data
+        if (data.code == '0000') {
+            showMessage('上传成功')
+            formUser.avatar = data.data.url
+        }
+    })
+}
+
+const UserbtnLoading = ref(false)
+const onUserSubmit = () => {
+    UserbtnLoading.value = true
+    updateUserInfo({
+        author: formUser.author,
+        avatar: formUser.avatar,
+        phone: formUser.phone,
+        email: formUser.email,
+        introduction: formUser.introduction,
+        birthday: formUser.birthday,
+        backgroundImg: formUser.backgroundImg,
+        sex: formUser.sex
+    }).then(res => {
+        console.log(res)
+        const data = res.data
+        if (data.code == '0000') {
+            showMessage('保存成功')
+            UserbtnLoading.value = false
+        }
+    })
+}
+
 const formBlog = reactive({
     logo: '',
     name: ''
@@ -115,6 +160,37 @@ function initBlogSettings() {
     })
 }
 initBlogSettings()
+
+const handleBlogLogoChange = (file) => {
+    const formData = new FormData()
+    formData.append('file', file.raw)
+    uploadFile(formData).then(res => {
+        console.log(res)
+        const data = res.data
+        if (data.code == '0000') {
+            showMessage('上传成功')
+            formBlog.logo = data.data.url
+        }
+    })
+}
+
+const BlogbtnLoading = ref(false)
+const onBlogSubmit = () => {
+    BlogbtnLoading.value = true
+    updateBlogSettings({
+        logo: formBlog.logo,
+        name: formBlog.name
+    }).then(res => {
+        console.log(res)
+        const data = res.data
+        if (data.code == '0000') {
+            showMessage('保存成功')
+            BlogbtnLoading.value = false
+        }
+    })
+}
+
+
 
 </script>
 
