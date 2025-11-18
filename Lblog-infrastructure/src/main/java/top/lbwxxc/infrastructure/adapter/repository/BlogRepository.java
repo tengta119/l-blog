@@ -9,9 +9,11 @@ import top.lbwxxc.domain.blog.model.entity.TagEntity;
 import top.lbwxxc.infrastructure.dao.BlogSettingsDao;
 import top.lbwxxc.infrastructure.dao.CategoryDao;
 import top.lbwxxc.infrastructure.dao.TagDao;
+import top.lbwxxc.infrastructure.dao.UserExternalUrlsDao;
 import top.lbwxxc.infrastructure.dao.po.BlogSettings;
 import top.lbwxxc.infrastructure.dao.po.Category;
 import top.lbwxxc.infrastructure.dao.po.Tag;
+import top.lbwxxc.infrastructure.dao.po.UserExternalUrls;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,6 +30,8 @@ public class BlogRepository implements IBlogRepository {
     private TagDao tagDao;
     @Resource
     private BlogSettingsDao blogSettingsDao;
+    @Resource
+    private UserExternalUrlsDao userExternalUrlsDao;
 
     @Override
     public int addCategory(String name) {
@@ -118,13 +122,28 @@ public class BlogRepository implements IBlogRepository {
     @Override
     public int updateBlogSettings(String logo, String name) {
 
-        BlogSettings blogSettings = BlogSettings.builder()
-                .logo(logo)
-                .name(name)
-                .id(1L)
-                .build();
+        BlogSettings blogSettings = BlogSettings.builder().id(1L).build();
+
+        if (logo != null && !logo.isEmpty()) {
+            blogSettings.setLogo(logo);
+        }
+        if (name != null && !name.isEmpty()) {
+            blogSettings.setName(name);
+        }
 
         return blogSettingsDao.updateByPrimaryKeySelective(blogSettings);
+    }
+
+    @Override
+    public int addExternalUrl(String name, String logo, String url) {
+
+        UserExternalUrls userExternalUrls = UserExternalUrls.builder()
+                .url(url)
+                .platform(name)
+                .icon(logo)
+                .build();
+
+        return userExternalUrlsDao.insertSelective(userExternalUrls);
     }
 
     private List<TagEntity> getTagEntities(List<Tag> tags) {

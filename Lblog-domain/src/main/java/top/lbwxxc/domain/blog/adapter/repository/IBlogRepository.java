@@ -33,4 +33,5 @@ public interface IBlogRepository {
 
     int updateBlogSettings(String logo, String name);
 
+    int addExternalUrl(String name, String logo, String url);
 }
