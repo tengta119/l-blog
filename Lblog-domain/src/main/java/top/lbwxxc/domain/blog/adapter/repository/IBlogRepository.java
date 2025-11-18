@@ -2,6 +2,7 @@ package top.lbwxxc.domain.blog.adapter.repository;
 
 
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
+import top.lbwxxc.domain.blog.model.entity.ExternalUrlEntity;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
 
 import java.time.LocalDate;
@@ -36,4 +37,8 @@ public interface IBlogRepository {
     int addExternalUrl(String name, String logo, String url);
 
     int updateExternalUrl(Long id, String name, String logo, String url);
+
+    List<ExternalUrlEntity> findExternalUrlList(int page, int pageSize);
+
+    int findExternalUrlSize();
 }

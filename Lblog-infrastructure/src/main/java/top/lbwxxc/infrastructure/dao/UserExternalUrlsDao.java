@@ -4,6 +4,8 @@ package top.lbwxxc.infrastructure.dao;
 import org.apache.ibatis.annotations.Mapper;
 import top.lbwxxc.infrastructure.dao.po.UserExternalUrls;
 
+import java.util.List;
+
 @Mapper
 public interface UserExternalUrlsDao {
     int deleteByPrimaryKey(Long id);
@@ -17,4 +19,8 @@ public interface UserExternalUrlsDao {
     int updateByPrimaryKeySelective(UserExternalUrls record);
 
     int updateByPrimaryKey(UserExternalUrls record);
+
+    List<UserExternalUrls> selectUserExternalUrlsPage(int offset, int limit);
+
+    int selectUserExternalUrlsCount();
 }

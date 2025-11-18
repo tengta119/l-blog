@@ -92,4 +92,14 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
+    <select id="selectUserExternalUrlsPage" resultMap="BaseResultMap">
+        select *
+        from user_external_urls
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="selectUserExternalUrlsCount" >
+        select count(1)
+        from user_external_urls
+    </select>
 </mapper>

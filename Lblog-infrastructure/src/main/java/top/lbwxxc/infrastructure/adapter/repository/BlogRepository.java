@@ -5,6 +5,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
 import top.lbwxxc.domain.blog.adapter.repository.IBlogRepository;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
+import top.lbwxxc.domain.blog.model.entity.ExternalUrlEntity;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
 import top.lbwxxc.infrastructure.dao.BlogSettingsDao;
 import top.lbwxxc.infrastructure.dao.CategoryDao;
@@ -161,6 +162,27 @@ public class BlogRepository implements IBlogRepository {
         }
 
         return userExternalUrlsDao.updateByPrimaryKeySelective(userExternalUrls);
+    }
+
+    @Override
+    public List<ExternalUrlEntity> findExternalUrlList(int page, int pageSize) {
+        List<UserExternalUrls> userExternalUrls = userExternalUrlsDao.selectUserExternalUrlsPage((page - 1) * pageSize, pageSize);
+        List<ExternalUrlEntity> externalUrlEntities = new ArrayList<>();
+        for (UserExternalUrls userExternalUrl : userExternalUrls) {
+            ExternalUrlEntity externalUrlEntity = ExternalUrlEntity.builder()
+                    .id(userExternalUrl.getId())
+                    .url(userExternalUrl.getUrl())
+                    .name(userExternalUrl.getPlatform())
+                    .logo(userExternalUrl.getIcon())
+                    .build();
+            externalUrlEntities.add(externalUrlEntity);
+        }
+        return externalUrlEntities;
+    }
+
+    @Override
+    public int findExternalUrlSize() {
+        return userExternalUrlsDao.selectUserExternalUrlsCount();
     }
 
     private List<TagEntity> getTagEntities(List<Tag> tags) {

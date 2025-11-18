@@ -6,17 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UpdateBlogSettingsEntity {
+public class ExternalUrlEntity {
 
-    private String logo;
-
+    private Long id;
     private String name;
-
-    private HashMap<String, String> platforms;
+    private String url;
+    private String logo;
 }

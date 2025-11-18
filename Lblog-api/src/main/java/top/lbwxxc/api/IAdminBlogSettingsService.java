@@ -1,9 +1,8 @@
 package top.lbwxxc.api;
 
 
-import top.lbwxxc.api.dto.settings.AddExternalUrlRequestDTO;
-import top.lbwxxc.api.dto.settings.UpdateBlogSettingsRequestVO;
-import top.lbwxxc.api.dto.settings.UpdateExternalUrlRequestDTO;
+import top.lbwxxc.api.dto.settings.*;
+import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 
 public interface IAdminBlogSettingsService {
@@ -13,4 +12,6 @@ public interface IAdminBlogSettingsService {
     Response<String> addExternalUrl(AddExternalUrlRequestDTO addExternalUrlRequestDTO);
 
     Response<String> updateExternalUrl(UpdateExternalUrlRequestDTO updateExternalUrlRequestDTO);
+
+    PageResponse<FindExternalUrlListResponseDTO> findExternalUrlList(FindExternalUrlListRequestDTO findExternalUrlListRequestDTO);
 }
