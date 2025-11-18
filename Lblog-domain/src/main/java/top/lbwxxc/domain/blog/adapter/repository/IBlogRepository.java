@@ -31,4 +31,6 @@ public interface IBlogRepository {
 
     int findTagSize();
 
+    int updateBlogSettings(String logo, String name);
+
 }

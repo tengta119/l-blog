@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 import top.lbwxxc.domain.blog.adapter.repository.IBlogRepository;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
+import top.lbwxxc.infrastructure.dao.BlogSettingsDao;
 import top.lbwxxc.infrastructure.dao.CategoryDao;
 import top.lbwxxc.infrastructure.dao.TagDao;
+import top.lbwxxc.infrastructure.dao.po.BlogSettings;
 import top.lbwxxc.infrastructure.dao.po.Category;
 import top.lbwxxc.infrastructure.dao.po.Tag;
 
@@ -15,7 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class BlogRepository implements IBlogRepository {
@@ -25,6 +26,8 @@ public class BlogRepository implements IBlogRepository {
     private CategoryDao categoryDao;
     @Resource
     private TagDao tagDao;
+    @Resource
+    private BlogSettingsDao blogSettingsDao;
 
     @Override
     public int addCategory(String name) {
@@ -110,6 +113,18 @@ public class BlogRepository implements IBlogRepository {
     @Override
     public int findTagSize() {
         return tagDao.selectTagSize();
+    }
+
+    @Override
+    public int updateBlogSettings(String logo, String name) {
+
+        BlogSettings blogSettings = BlogSettings.builder()
+                .logo(logo)
+                .name(name)
+                .id(1L)
+                .build();
+
+        return blogSettingsDao.updateByPrimaryKeySelective(blogSettings);
     }
 
     private List<TagEntity> getTagEntities(List<Tag> tags) {
