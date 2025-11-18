@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminBlogSettingsService;
 import top.lbwxxc.api.dto.settings.AddExternalUrlRequestDTO;
 import top.lbwxxc.api.dto.settings.UpdateBlogSettingsRequestVO;
+import top.lbwxxc.api.dto.settings.UpdateExternalUrlRequestDTO;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.service.IBlogSettingsService;
 import top.lbwxxc.types.enums.ResponseCode;
@@ -45,6 +46,18 @@ public class AdminBlogSettingsController implements IAdminBlogSettingsService {
         return getStringResponse(i, "第三方平台添加失败");
     }
 
+    @PostMapping("external-url/update")
+    @Override
+    public Response<String> updateExternalUrl(@RequestBody UpdateExternalUrlRequestDTO updateExternalUrlRequestDTO) {
+        Long id = updateExternalUrlRequestDTO.getId();
+        String url = updateExternalUrlRequestDTO.getUrl();
+        String name = updateExternalUrlRequestDTO.getName();
+        String logo = updateExternalUrlRequestDTO.getLogo();
+
+        int i = blogSettingsService.updateExternalUrl(id, name, logo, url);
+
+        return getStringResponse(i, "修改第三方平台信息失败");
+    }
 
 
     private Response<String> getStringResponse(int i, String info) {

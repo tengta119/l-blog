@@ -21,4 +21,9 @@ public class BlogSettingsService implements IBlogSettingsService {
         return blogRepository.addExternalUrl(name, logo, url);
     }
 
+    @Override
+    public int updateExternalUrl(Long id, String name, String logo, String url) {
+        return blogRepository.updateExternalUrl(id, name, logo, url);
+    }
+
 }

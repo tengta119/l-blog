@@ -146,6 +146,23 @@ public class BlogRepository implements IBlogRepository {
         return userExternalUrlsDao.insertSelective(userExternalUrls);
     }
 
+    @Override
+    public int updateExternalUrl(Long id, String name, String logo, String url) {
+        UserExternalUrls userExternalUrls = UserExternalUrls.builder().id(id).build();
+
+        if (logo != null && !logo.isEmpty()) {
+            userExternalUrls.setIcon(logo);
+        }
+        if (name != null && !name.isEmpty()) {
+            userExternalUrls.setPlatform(name);
+        }
+        if (url != null && !url.isEmpty()) {
+            userExternalUrls.setUrl(url);
+        }
+
+        return userExternalUrlsDao.updateByPrimaryKeySelective(userExternalUrls);
+    }
+
     private List<TagEntity> getTagEntities(List<Tag> tags) {
         List<TagEntity> tagEntities = new ArrayList<>();
         for (Tag tag : tags) {
