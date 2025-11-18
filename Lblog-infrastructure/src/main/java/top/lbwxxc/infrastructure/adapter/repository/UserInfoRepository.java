@@ -11,6 +11,8 @@ import top.lbwxxc.infrastructure.dao.UserDetailDao;
 import top.lbwxxc.infrastructure.dao.po.User;
 import top.lbwxxc.infrastructure.dao.po.UserDetail;
 
+import java.time.LocalDate;
+
 @Repository
 @Slf4j
 public class UserInfoRepository implements IUserInfoRepository {
@@ -37,5 +39,37 @@ public class UserInfoRepository implements IUserInfoRepository {
                 .introduction(userDetail.getIntroduction())
                 .sex(userDetail.getSex())
                 .build();
+    }
+
+    @Override
+    public int updateUserInfo(UserInfoEntity userInfo) {
+
+        UserDetail userDetailUpdate = new UserDetail();
+        userDetailUpdate.setId(userInfo.getId());
+
+        String author = userInfo.getAuthor();
+        if (author != null && !author.isEmpty()) {
+            userDetailUpdate.setAuthor(author);
+        }
+        String introduction = userInfo.getIntroduction();
+        if (introduction != null && !introduction.isEmpty()) {
+            userDetailUpdate.setIntroduction(introduction);
+        }
+        String avatar = userInfo.getAvatar();
+        if (avatar != null && !avatar.isEmpty()) {
+            userDetailUpdate.setAvatar(avatar);
+        }
+        LocalDate birthday = userInfo.getBirthday();
+        if (birthday != null) {
+            userDetailUpdate.setBirthday(birthday);
+        }
+        String backgroundImg = userInfo.getBackgroundImg();
+        if (backgroundImg != null && !backgroundImg.isEmpty()) {
+            userDetailUpdate.setBackgroundImg(backgroundImg);
+        }
+        int sex = userInfo.getSex();
+        userDetailUpdate.setSex(sex);
+
+        return userDetailDao.updateByPrimaryKeySelective(userDetailUpdate);
     }
 }

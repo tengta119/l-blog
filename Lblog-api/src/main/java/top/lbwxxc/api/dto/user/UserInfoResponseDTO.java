@@ -4,13 +4,12 @@ package top.lbwxxc.api.dto.user;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UserInfoResponse {
+public class UserInfoResponseDTO {
 
     /**
      * 手机号

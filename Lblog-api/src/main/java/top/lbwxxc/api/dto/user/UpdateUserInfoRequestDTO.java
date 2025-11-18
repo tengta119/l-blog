@@ -1,4 +1,4 @@
-package top.lbwxxc.domain.user.model.entity;
+package top.lbwxxc.api.dto.user;
 
 
 import lombok.AllArgsConstructor;
@@ -12,23 +12,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 @Builder
-public class UserInfoEntity {
-
-    /**
-     * 主键ID
-     */
-    private Long id;
+public class UpdateUserInfoRequestDTO {
 
     /**
      * 手机号
      */
     private String phone;
-
-
-    /**
-     * 微信用户的唯一标识
-     */
-    private String openid;
 
     /**
      * 用户的唯一邮箱
@@ -65,7 +54,4 @@ public class UserInfoEntity {
      * 个人简介
      */
     private String introduction;
-
-
-
 }

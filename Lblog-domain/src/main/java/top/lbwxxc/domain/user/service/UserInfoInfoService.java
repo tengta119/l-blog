@@ -63,4 +63,10 @@ public class UserInfoInfoService implements IUserInfoService {
     public void logout() {
         StpUtil.logout(LoginUserContextHolder.getUserId());
     }
+
+    @Override
+    public int updateUserInfo(UserInfoEntity userInfo) {
+        userInfo.setId(LoginUserContextHolder.getUserId());
+        return userInfoRepository.updateUserInfo(userInfo);
+    }
 }

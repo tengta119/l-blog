@@ -6,4 +6,6 @@ import top.lbwxxc.domain.user.model.entity.UserInfoEntity;
 public interface IUserInfoRepository {
 
     UserInfoEntity getUserInfoById(Long id);
+
+    int updateUserInfo(UserInfoEntity userInfo);
 }

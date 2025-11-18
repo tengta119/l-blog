@@ -10,4 +10,6 @@ public interface IUserInfoService {
     UserInfoEntity getUserInfo();
 
     void logout();
+
+    int updateUserInfo(UserInfoEntity userInfo);
 }
