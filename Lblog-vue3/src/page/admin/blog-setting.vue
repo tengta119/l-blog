@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-card shadow="never">
-            <el-form :model="formUser" ref="formUserRef" :rules="rules" label-width="120px">
+            <el-form :model="formUser" ref="formUserRef" :rules="userRules" label-width="120px">
 
                 <el-form-item label="作者" prop="author">
                     <el-input v-model="formUser.author" placeholder="请输入作者"></el-input>
@@ -25,8 +25,8 @@
                     <el-input v-model="formUser.email" placeholder="请输入邮箱"></el-input>
                 </el-form-item>
 
-                <el-form-item label="自我介绍" prop="avatar">
-                    <el-input v-model="formUser.introduction" placeholder="请输入头像" type="textarea"></el-input>
+                <el-form-item label="自我介绍" prop="introduction">
+                    <el-input v-model="formUser.introduction" placeholder="请输入自我介绍" type="textarea"></el-input>
                 </el-form-item>
 
                 <el-form-item label="性别" prop="sex">
@@ -44,7 +44,7 @@
         </el-card>
 
         <el-card shadow="never" class="mt-5">
-            <el-form :model="formBlog" ref="formBlogRef" :rules="rules" label-width="120px">
+            <el-form :model="formBlog" ref="formBlogRef" :rules="blogRules" label-width="120px">
 
                 <el-form-item label="博客名称" prop="name">
                     <el-input v-model="formBlog.name" placeholder="请输入博客名称"></el-input>
@@ -190,7 +190,36 @@ const onBlogSubmit = () => {
     })
 }
 
+const userRules = {
+    author: [
+        { required: true, message: '作者不能为空', trigger: 'blur' },
+        { min: 1, max: 20, message: '作者长度需在 1-20 个字符', trigger: 'blur' }
+    ],
+    phone: [
+        { required: true, message: '手机号不能为空', trigger: 'blur' },
+        { pattern: /^1\d{10}$/, message: '请输入有效的手机号（11位）', trigger: 'blur' }
+    ],
+    email: [
+        { required: true, message: '邮箱不能为空', trigger: 'blur' },
+        { type: 'email', message: '请输入有效的邮箱地址', trigger: ['blur', 'change'] }
+    ],
+    introduction: [
+        { max: 200, message: '自我介绍不超过 200 字', trigger: 'blur' }
+    ],
+    sex: [
+        { required: true, message: '请选择性别', trigger: 'change' }
+    ]
+}
 
+const blogRules = {
+    name: [
+        { required: true, message: '博客名称不能为空', trigger: 'blur' },
+        { min: 1, max: 30, message: '博客名称长度需在 1-30 个字符', trigger: 'blur' }
+    ],
+    logo: [
+        { validator: (_, value, cb) => { if (!formBlog.logo) return cb(new Error('请上传博客 Logo')); cb() }, trigger: 'change' }
+    ]
+}
 
 </script>
 
