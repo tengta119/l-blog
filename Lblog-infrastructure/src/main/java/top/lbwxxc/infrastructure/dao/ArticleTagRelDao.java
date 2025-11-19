@@ -22,4 +22,6 @@ public interface ArticleTagRelDao {
     int updateByPrimaryKey(ArticleTagRel record);
 
     int batchInsert(@Param("list") List<ArticleTagRel> list);
+
+    int logicalDeleteByArticleId(@Param("articleId") Long articleId);
 }

@@ -17,4 +17,9 @@ public class ArticleService implements IArticleService {
     public int publishArticle(PublishArticleEntity publishArticleEntity) {
         return articleRepository.publishArticle(publishArticleEntity);
     }
+
+    @Override
+    public int deleteArticle(Long articleId) {
+        return articleRepository.deleteArticleById(articleId);
+    }
 }

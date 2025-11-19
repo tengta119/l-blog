@@ -92,4 +92,17 @@ public class ArticleRepository implements IArticleRepository {
 
         return insertArticle + insertArticleContent + insertArticleCategoryRel + insertArticleTagRel;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteArticleById(long articleId) {
+
+        int deleteByPrimaryKey = articleDao.logicalDeleteByPrimaryKey(articleId);
+
+        int logicalDeleteCategory = articleCategoryRelDao.logicalDeleteByArticleId(articleId);
+
+        int logicalDeleteTag = articleTagRelDao.logicalDeleteByArticleId(articleId);
+
+        return deleteByPrimaryKey + logicalDeleteCategory + logicalDeleteTag;
+    }
 }

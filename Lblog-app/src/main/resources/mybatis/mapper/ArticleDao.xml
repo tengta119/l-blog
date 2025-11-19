@@ -127,4 +127,10 @@
             read_num = #{readNum,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+    <update id="logicalDeleteByPrimaryKey" >
+        update article
+        set is_deleted = 1
+        where id = #{id}
+    </update>
 </mapper>

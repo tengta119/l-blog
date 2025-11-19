@@ -81,4 +81,9 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
+    <update id="logicalDeleteByArticleId">
+        update article_category_rel
+        set is_deleted = 1
+        where article_id = ${articleId}
+    </update>
 </mapper>

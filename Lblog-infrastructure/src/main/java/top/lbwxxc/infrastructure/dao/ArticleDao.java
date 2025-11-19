@@ -17,4 +17,6 @@ public interface ArticleDao {
     int updateByPrimaryKeySelective(Article record);
 
     int updateByPrimaryKey(Article record);
+
+    int logicalDeleteByPrimaryKey(Long id);
 }

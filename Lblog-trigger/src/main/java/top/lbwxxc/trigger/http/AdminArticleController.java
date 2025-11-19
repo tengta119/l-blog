@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminArticleService;
+import top.lbwxxc.api.dto.article.DeleteArticleRequestDTO;
 import top.lbwxxc.api.dto.article.PublishArticleRequestDTO;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
@@ -39,6 +40,16 @@ public class AdminArticleController implements IAdminArticleService {
 
         return getStringResponse(published, "文章发布失败");
     }
+
+    @PostMapping("delete")
+    @Override
+    public Response<String> deleteArticle(@RequestBody DeleteArticleRequestDTO deleteArticleRequestDTO) {
+
+        int i = articleService.deleteArticle(deleteArticleRequestDTO.getId());
+
+        return getStringResponse(i, "删除文章失败");
+    }
+
 
     private Response<String> getStringResponse(int i, String info) {
         Response<String> response = new Response<>();

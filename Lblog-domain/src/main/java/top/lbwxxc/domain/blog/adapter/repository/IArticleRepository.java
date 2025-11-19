@@ -6,4 +6,6 @@ import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
 public interface IArticleRepository {
 
     int publishArticle(PublishArticleEntity publishArticleEntity);
+
+    int deleteArticleById(long articleId);
 }
