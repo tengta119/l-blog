@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lbwxxc.infrastructure.dao.ArticleTagRelDao">
+  <resultMap id="BaseResultMap" type="top.lbwxxc.infrastructure.dao.po.ArticleTagRel">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="tag_id" jdbcType="BIGINT" property="tagId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, article_id, tag_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article_tag_rel
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from article_tag_rel
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleTagRel" useGeneratedKeys="true">
+    insert into article_tag_rel (article_id, tag_id)
+    values (#{articleId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleTagRel" useGeneratedKeys="true">
+    insert into article_tag_rel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="tagId != null">
+        tag_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="tagId != null">
+        #{tagId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleTagRel">
+    update article_tag_rel
+    <set>
+      <if test="articleId != null">
+        article_id = #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="tagId != null">
+        tag_id = #{tagId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleTagRel">
+    update article_tag_rel
+    set article_id = #{articleId,jdbcType=BIGINT},
+      tag_id = #{tagId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
