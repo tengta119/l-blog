@@ -1,63 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.lbwxxc.infrastructure.dao.ArticleCategoryRelDao">
-  <resultMap id="BaseResultMap" type="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="article_id" jdbcType="BIGINT" property="articleId" />
-    <result column="category_id" jdbcType="BIGINT" property="categoryId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, article_id, category_id
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from article_category_rel
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from article_category_rel
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel" useGeneratedKeys="true">
-    insert into article_category_rel (article_id, category_id)
-    values (#{articleId,jdbcType=BIGINT}, #{categoryId,jdbcType=BIGINT})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel" useGeneratedKeys="true">
-    insert into article_category_rel
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        article_id,
-      </if>
-      <if test="categoryId != null">
-        category_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        #{articleId,jdbcType=BIGINT},
-      </if>
-      <if test="categoryId != null">
-        #{categoryId,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel">
-    update article_category_rel
-    <set>
-      <if test="articleId != null">
-        article_id = #{articleId,jdbcType=BIGINT},
-      </if>
-      <if test="categoryId != null">
-        category_id = #{categoryId,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel">
-    update article_category_rel
-    set article_id = #{articleId,jdbcType=BIGINT},
-      category_id = #{categoryId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+    <resultMap id="BaseResultMap" type="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="article_id" jdbcType="BIGINT" property="articleId" />
+        <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, article_id, category_id, is_deleted
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from article_category_rel
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from article_category_rel
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel" useGeneratedKeys="true">
+        insert into article_category_rel (article_id, category_id, is_deleted
+        )
+        values (#{articleId,jdbcType=BIGINT}, #{categoryId,jdbcType=BIGINT}, #{isDeleted,jdbcType=INTEGER}
+               )
+    </insert>
+
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel" useGeneratedKeys="true">
+        insert into article_category_rel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                #{articleId,jdbcType=BIGINT},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel">
+        update article_category_rel
+        <set>
+            <if test="articleId != null">
+                article_id = #{articleId,jdbcType=BIGINT},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel">
+        update article_category_rel
+        set article_id = #{articleId,jdbcType=BIGINT},
+            category_id = #{categoryId,jdbcType=BIGINT},
+            is_deleted = #{isDeleted,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
 </mapper>

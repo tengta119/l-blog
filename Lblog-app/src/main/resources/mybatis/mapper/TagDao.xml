@@ -123,7 +123,7 @@
         where is_deleted = 0
     </select>
 
-    <insert id="insetTags">
+    <insert id="insetTags" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
         insert into tag (name, create_time, update_time, is_deleted)
         values
             <foreach collection="tags" item="tag" separator=",">

@@ -31,5 +31,10 @@ public class ArticleTagRel implements Serializable {
      */
     private Long tagId;
 
+    /**
+     * 删除标志位：0：未删除 1：已删除
+     */
+    private int isDeleted;
+
     private static final long serialVersionUID = 1L;
 }

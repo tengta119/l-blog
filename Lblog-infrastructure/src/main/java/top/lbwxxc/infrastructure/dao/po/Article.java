@@ -1,6 +1,7 @@
 package top.lbwxxc.infrastructure.dao.po;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import lombok.*;
@@ -37,17 +38,17 @@ public class Article implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDate createTime;
 
     /**
      * 最后一次更新时间
      */
-    private Date updateTime;
+    private LocalDate updateTime;
 
     /**
      * 删除标志位：0：未删除 1：已删除
      */
-    private Byte isDeleted;
+    private int isDeleted;
 
     /**
      * 被阅读次数

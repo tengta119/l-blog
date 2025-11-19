@@ -2,7 +2,10 @@ package top.lbwxxc.infrastructure.dao;
 
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import top.lbwxxc.infrastructure.dao.po.ArticleTagRel;
+
+import java.util.List;
 
 @Mapper
 public interface ArticleTagRelDao {
@@ -17,4 +20,6 @@ public interface ArticleTagRelDao {
     int updateByPrimaryKeySelective(ArticleTagRel record);
 
     int updateByPrimaryKey(ArticleTagRel record);
+
+    int batchInsert(@Param("list") List<ArticleTagRel> list);
 }
