@@ -1,21 +1,20 @@
-package top.lbwxxc.infrastructure.dao.po;
+package top.lbwxxc.domain.blog.model.entity;
 
-import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import lombok.*;
-
-/**
- * 文章表
- * article
- */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class Article implements Serializable {
+public class ArticleEntity {
+
     /**
      * 文章id
      */
@@ -56,5 +55,4 @@ public class Article implements Serializable {
      */
     private Integer readNum;
 
-    private static final long serialVersionUID = 1L;
 }

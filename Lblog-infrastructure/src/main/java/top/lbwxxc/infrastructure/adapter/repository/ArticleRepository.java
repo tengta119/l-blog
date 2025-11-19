@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
+import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
 import top.lbwxxc.infrastructure.dao.*;
 import top.lbwxxc.infrastructure.dao.po.*;
@@ -38,8 +39,8 @@ public class ArticleRepository implements IArticleRepository {
                 .title(publishArticleEntity.getTitle())
                 .cover(publishArticleEntity.getCover())
                 .summary(publishArticleEntity.getSummary())
-                .createTime(LocalDate.now())
-                .updateTime(LocalDate.now())
+                .createTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
                 .isDeleted(0)
                 .readNum(0)
                 .build();
@@ -104,5 +105,31 @@ public class ArticleRepository implements IArticleRepository {
         int logicalDeleteTag = articleTagRelDao.logicalDeleteByArticleId(articleId);
 
         return deleteByPrimaryKey + logicalDeleteCategory + logicalDeleteTag;
+    }
+
+    @Override
+    public List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDate startDate, LocalDate endDate) {
+
+        List<ArticleEntity> articleEntities = new ArrayList<>();
+        List<Article> articles = articleDao.selectArticlePageList((page - 1) * pageSize, pageSize, title, startDate, endDate);
+        for (Article article : articles) {
+            articleEntities.add(ArticleEntity.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .cover(article.getCover())
+                    .readNum(article.getReadNum())
+                    .isDeleted(article.getIsDeleted())
+                    .createTime(article.getCreateTime())
+                    .updateTime(article.getUpdateTime())
+                    .build()
+            );
+        }
+
+        return articleEntities;
+    }
+
+    @Override
+    public int findArticleSize() {
+        return articleDao.selectArticleSize();
     }
 }

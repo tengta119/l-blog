@@ -9,11 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminArticleService;
 import top.lbwxxc.api.dto.article.DeleteArticleRequestDTO;
+import top.lbwxxc.api.dto.article.FindArticlePageListRequestDTO;
+import top.lbwxxc.api.dto.article.FindArticlePageListResponseDTO;
 import top.lbwxxc.api.dto.article.PublishArticleRequestDTO;
+import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
+import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
 import top.lbwxxc.domain.blog.service.IArticleService;
 import top.lbwxxc.types.enums.ResponseCode;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -48,6 +56,51 @@ public class AdminArticleController implements IAdminArticleService {
         int i = articleService.deleteArticle(deleteArticleRequestDTO.getId());
 
         return getStringResponse(i, "删除文章失败");
+    }
+
+    @PostMapping("list")
+    @Override
+    public PageResponse<FindArticlePageListResponseDTO> findArticlePageList(@RequestBody FindArticlePageListRequestDTO findArticlePageListRequestDTO) {
+        String title = findArticlePageListRequestDTO.getTitle();
+        LocalDate startDate = findArticlePageListRequestDTO.getStartDate();
+        LocalDate endDate = findArticlePageListRequestDTO.getEndDate();
+        int current = findArticlePageListRequestDTO.getCurrent();
+        int size = findArticlePageListRequestDTO.getSize();
+
+        int articleSize = articleService.findArticleSize();
+
+        PageResponse<FindArticlePageListResponseDTO> pageResponse = new PageResponse<>();
+        if (articleSize == 0) {
+            pageResponse.setCode(ResponseCode.UN_ERROR.getCode());
+            pageResponse.setInfo("文章不存在");
+            return pageResponse;
+        }
+
+        List<ArticleEntity> allArticlePageList = articleService.findAllArticlePageList(current, size, title, startDate, endDate);
+
+
+
+        if (allArticlePageList.isEmpty()) {
+            pageResponse.setCode(ResponseCode.UN_ERROR.getCode());
+            pageResponse.setInfo("文章不存在");
+            return pageResponse;
+        }
+
+        List<FindArticlePageListResponseDTO> findArticlePageListResponseDTOS = new ArrayList<>();
+        for (ArticleEntity articleEntity : allArticlePageList) {
+            findArticlePageListResponseDTOS.add(
+                    FindArticlePageListResponseDTO.builder()
+                            .id(articleEntity.getId())
+                            .title(articleEntity.getTitle())
+                            .cover(articleEntity.getCover())
+                            .createTime(articleEntity.getCreateTime())
+                            .build()
+            );
+        }
+        pageResponse.setData(findArticlePageListResponseDTOS);
+        pageResponse.setCode(ResponseCode.SUCCESS.getCode());
+        pageResponse.setInfo(ResponseCode.SUCCESS.getInfo());
+        return pageResponse;
     }
 
 

@@ -133,4 +133,24 @@
         set is_deleted = 1
         where id = #{id}
     </update>
+
+    <select id="selectArticlePageList" resultMap="BaseResultMap">
+        select *
+        from article
+        where is_deleted = 0
+        <if test="startDate != null and endDate != null">
+            and date(create_time) between #{startDate} and #{endDate}
+        </if>
+        <if test="title != null and title != ''">
+            and title like concat('%', #{title}, '%')  <!-- 拼接%实现模糊匹配，仅当 title 非空时生效 -->
+        </if>
+        order by id desc
+        limit #{offset}, #{pageSize}
+    </select>
+
+    <select id="selectArticleSize">
+        select *
+        from article
+        where is_deleted = 0
+    </select>
 </mapper>
