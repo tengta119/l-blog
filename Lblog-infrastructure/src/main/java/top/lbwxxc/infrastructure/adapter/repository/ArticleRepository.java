@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
+import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
 import top.lbwxxc.infrastructure.dao.*;
@@ -14,7 +15,9 @@ import top.lbwxxc.infrastructure.dao.po.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @Slf4j
@@ -131,5 +134,32 @@ public class ArticleRepository implements IArticleRepository {
     @Override
     public int findArticleSize() {
         return articleDao.selectArticleSize();
+    }
+
+    @Override
+    public ArticleDetailEntity findArticleDetailById(long articleId) {
+
+        Article article = articleDao.selectByPrimaryKey(articleId);
+
+        if (article == null) {
+            throw new RuntimeException("文章不存在");
+        }
+
+        ArticleContent articleContent = articleContentDao.selectByArticleId(articleId);
+
+        ArticleCategoryRel articleCategoryRel = articleCategoryRelDao.selectArticleCategoryRelByArticleId(articleId);
+
+        List<ArticleTagRel> articleTagRels = articleTagRelDao.selectByArticleId(articleId);
+        List<Long> tagIds = articleTagRels.stream().mapToLong(ArticleTagRel::getId).boxed().toList();
+
+        return ArticleDetailEntity.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .cover(article.getCover())
+                .summary(article.getSummary())
+                .content(articleContent.getContent())
+                .categoryId(articleCategoryRel.getCategoryId())
+                .tagIds(tagIds)
+                .build();
     }
 }

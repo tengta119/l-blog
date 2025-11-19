@@ -22,6 +22,7 @@
         <include refid="Base_Column_List" />
         from article
         where id = #{id,jdbcType=BIGINT}
+            and is_deleted = 0
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

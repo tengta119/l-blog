@@ -86,4 +86,11 @@
         set is_deleted = 1
         where article_id = ${articleId}
     </update>
+
+    <select id="selectArticleCategoryRelByArticleId" resultMap="BaseResultMap">
+        select *
+        from article_category_rel
+        where article_id = #{articleId}
+            and is_deleted = 0
+    </select>
 </mapper>

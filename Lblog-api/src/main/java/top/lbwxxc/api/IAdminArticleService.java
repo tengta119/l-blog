@@ -1,10 +1,7 @@
 package top.lbwxxc.api;
 
 
-import top.lbwxxc.api.dto.article.DeleteArticleRequestDTO;
-import top.lbwxxc.api.dto.article.FindArticlePageListRequestDTO;
-import top.lbwxxc.api.dto.article.FindArticlePageListResponseDTO;
-import top.lbwxxc.api.dto.article.PublishArticleRequestDTO;
+import top.lbwxxc.api.dto.article.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 
@@ -15,4 +12,6 @@ public interface IAdminArticleService {
     Response<String> deleteArticle(DeleteArticleRequestDTO deleteArticleRequestDTO);
 
     PageResponse<FindArticlePageListResponseDTO> findArticlePageList(FindArticlePageListRequestDTO findArticlePageListRequestDTO);
+
+    Response<FindArticleDetailResponseDTO>  findArticleDetail(FindArticleDetailRequestDTO findArticleDetailRequestDTO);
 }

@@ -1,63 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.lbwxxc.infrastructure.dao.ArticleContentDao">
-  <resultMap id="BaseResultMap" type="top.lbwxxc.infrastructure.dao.po.ArticleContent">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="article_id" jdbcType="BIGINT" property="articleId" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, article_id, content
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from article_content
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from article_content
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent" useGeneratedKeys="true">
-    insert into article_content (article_id, content)
-    values (#{articleId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent" useGeneratedKeys="true">
-    insert into article_content
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        article_id,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="articleId != null">
-        #{articleId,jdbcType=BIGINT},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent">
-    update article_content
-    <set>
-      <if test="articleId != null">
-        article_id = #{articleId,jdbcType=BIGINT},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent">
-    update article_content
-    set article_id = #{articleId,jdbcType=BIGINT},
-      content = #{content,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+    <resultMap id="BaseResultMap" type="top.lbwxxc.infrastructure.dao.po.ArticleContent">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="article_id" jdbcType="BIGINT" property="articleId" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, article_id, content
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from article_content
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from article_content
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent" useGeneratedKeys="true">
+        insert into article_content (article_id, content)
+        values (#{articleId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent" useGeneratedKeys="true">
+        insert into article_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                #{articleId,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent">
+        update article_content
+        <set>
+            <if test="articleId != null">
+                article_id = #{articleId,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent">
+        update article_content
+        set article_id = #{articleId,jdbcType=BIGINT},
+            content = #{content,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByArticleId" resultMap="BaseResultMap">
+        select *
+        from article_content
+        where article_id = #{articleId}
+    </select>
 </mapper>

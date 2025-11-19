@@ -19,4 +19,6 @@ public interface ArticleCategoryRelDao {
     int updateByPrimaryKey(ArticleCategoryRel record);
 
     int logicalDeleteByArticleId(Long articleId);
+
+    ArticleCategoryRel selectArticleCategoryRelByArticleId(Long articleId);
 }

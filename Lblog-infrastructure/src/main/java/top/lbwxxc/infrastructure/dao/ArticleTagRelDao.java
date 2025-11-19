@@ -24,4 +24,6 @@ public interface ArticleTagRelDao {
     int batchInsert(@Param("list") List<ArticleTagRel> list);
 
     int logicalDeleteByArticleId(@Param("articleId") Long articleId);
+
+    List<ArticleTagRel> selectByArticleId(@Param("articleId") Long articleId);
 }

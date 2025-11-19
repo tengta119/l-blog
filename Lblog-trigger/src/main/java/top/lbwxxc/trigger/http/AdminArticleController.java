@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminArticleService;
-import top.lbwxxc.api.dto.article.DeleteArticleRequestDTO;
-import top.lbwxxc.api.dto.article.FindArticlePageListRequestDTO;
-import top.lbwxxc.api.dto.article.FindArticlePageListResponseDTO;
-import top.lbwxxc.api.dto.article.PublishArticleRequestDTO;
+import top.lbwxxc.api.dto.article.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
+import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
 import top.lbwxxc.domain.blog.service.IArticleService;
@@ -101,6 +99,36 @@ public class AdminArticleController implements IAdminArticleService {
         pageResponse.setCode(ResponseCode.SUCCESS.getCode());
         pageResponse.setInfo(ResponseCode.SUCCESS.getInfo());
         return pageResponse;
+    }
+
+    @PostMapping("/detail")
+    @Override
+    public Response<FindArticleDetailResponseDTO> findArticleDetail(@RequestBody FindArticleDetailRequestDTO findArticleDetailRequestDTO) {
+
+        Response<FindArticleDetailResponseDTO> response = new Response<>();
+        try {
+            ArticleDetailEntity articleDetail = articleService.findArticleDetail(findArticleDetailRequestDTO.getId());
+            FindArticleDetailResponseDTO findArticleDetailResponseDTO = FindArticleDetailResponseDTO.builder()
+                    .id(articleDetail.getId())
+                    .title(articleDetail.getTitle())
+                    .cover(articleDetail.getCover())
+                    .categoryId(articleDetail.getCategoryId())
+                    .tagIds(articleDetail.getTagIds())
+                    .content(articleDetail.getContent())
+                    .summary(articleDetail.getSummary())
+                    .build();
+
+            response.setData(findArticleDetailResponseDTO);
+            response.setCode(ResponseCode.SUCCESS.getCode());
+            response.setInfo(ResponseCode.SUCCESS.getInfo());
+            return response;
+        } catch (Exception e) {
+            log.error("获取文章详细信息失败 {}", e.getMessage());
+            response.setCode(ResponseCode.UN_ERROR.getCode());
+            response.setInfo(e.getMessage());
+            return response;
+        }
+
     }
 
 

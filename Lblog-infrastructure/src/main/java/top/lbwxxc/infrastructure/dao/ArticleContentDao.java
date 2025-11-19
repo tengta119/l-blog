@@ -17,4 +17,6 @@ public interface ArticleContentDao {
     int updateByPrimaryKeySelective(ArticleContent record);
 
     int updateByPrimaryKey(ArticleContent record);
+
+    ArticleContent selectByArticleId(long articleId);
 }

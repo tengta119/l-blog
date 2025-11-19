@@ -1,6 +1,7 @@
 package top.lbwxxc.domain.blog.service;
 
 
+import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
 
@@ -16,4 +17,6 @@ public interface IArticleService {
     List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDate startDate, LocalDate endDate);
 
     int findArticleSize();
+
+    ArticleDetailEntity findArticleDetail(Long articleId);
 }

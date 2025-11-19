@@ -94,4 +94,11 @@
         set is_deleted = 1
         where article_id = #{articleId}
     </update>
+
+    <select id="selectByArticleId" resultMap="BaseResultMap">
+        select *
+        from article_tag_rel
+        where article_id = #{articleId}
+            and is_deleted = 0
+    </select>
 </mapper>
