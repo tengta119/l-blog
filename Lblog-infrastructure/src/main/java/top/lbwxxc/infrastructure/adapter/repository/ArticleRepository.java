@@ -135,7 +135,7 @@ public class ArticleRepository implements IArticleRepository {
         ArticleCategoryRel articleCategoryRel = articleCategoryRelDao.selectArticleCategoryRelByArticleId(articleId);
 
         List<ArticleTagRel> articleTagRels = articleTagRelDao.selectEffectiveByArticleId(articleId);
-        List<Long> tagIds = articleTagRels.stream().mapToLong(ArticleTagRel::getId).boxed().toList();
+        List<Long> tagIds = articleTagRels.stream().mapToLong(ArticleTagRel::getTagId).boxed().toList();
 
         return ArticleDetailEntity.builder()
                 .id(article.getId())

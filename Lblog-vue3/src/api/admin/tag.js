@@ -19,3 +19,9 @@ export function deleteTag(data) {
 export function getTagSelect() {
     return axios.post('/tag/select/list')
 }
+
+// 根据标签名模糊查询
+export function searchTags(key) {
+    return axios.post("/tag/select/list", key)
+}
+

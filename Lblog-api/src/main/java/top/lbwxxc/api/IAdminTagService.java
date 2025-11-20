@@ -2,10 +2,7 @@ package top.lbwxxc.api;
 
 
 import top.lbwxxc.api.dto.SelectResponse;
-import top.lbwxxc.api.dto.tag.AddTagRequestDTO;
-import top.lbwxxc.api.dto.tag.DeleteTagRequestDTO;
-import top.lbwxxc.api.dto.tag.FindTagPageListRequestDTO;
-import top.lbwxxc.api.dto.tag.FindTagPageListResponseDTO;
+import top.lbwxxc.api.dto.tag.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 
@@ -19,5 +16,6 @@ public interface IAdminTagService {
 
     Response<String> deleteTag(DeleteTagRequestDTO deleteTagRequestDTO);
 
-    Response<List<SelectResponse>> findTagSelectList();
+    Response<List<SelectResponse>> findTagSelectList(SearchTagRequestDTO searchTagRequestDTO);
+
 }

@@ -17,7 +17,6 @@ import top.lbwxxc.infrastructure.dao.po.Category;
 import top.lbwxxc.infrastructure.dao.po.Tag;
 import top.lbwxxc.infrastructure.dao.po.UserExternalUrls;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +112,17 @@ public class BlogRepository implements IBlogRepository {
     @Override
     public List<TagEntity> findAllTag() {
         List<Tag> tags = tagDao.selectTagAll();
+        return getTagEntities(tags);
+    }
+
+    @Override
+    public List<TagEntity> searchTagByKey(String key) {
+        List<Tag> tags = new ArrayList<>();
+        if (key.isEmpty()) {
+            tags = tagDao.selectTagByNae(null);
+        } else {
+            tags = tagDao.selectTagByNae(key);
+        }
         return getTagEntities(tags);
     }
 

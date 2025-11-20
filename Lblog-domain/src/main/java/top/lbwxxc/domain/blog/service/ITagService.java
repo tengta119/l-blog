@@ -17,6 +17,8 @@ public interface ITagService {
 
     List<TagEntity> findAllTag();
 
+    List<TagEntity> searchTagByKey(String key);
+
     int findTagSize();
 
     int addTags(List<String> tags);

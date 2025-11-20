@@ -59,6 +59,11 @@ public class TagService implements ITagService {
     }
 
     @Override
+    public List<TagEntity> searchTagByKey(String key) {
+        return blogRepository.searchTagByKey(key);
+    }
+
+    @Override
     public int findTagSize() {
         return blogRepository.findTagSize();
     }

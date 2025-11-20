@@ -32,6 +32,8 @@ public interface IBlogRepository {
 
     List<TagEntity> findAllTag();
 
+    List<TagEntity> searchTagByKey(String key);
+
     int findTagSize();
 
     int updateBlogSettings(String logo, String name);

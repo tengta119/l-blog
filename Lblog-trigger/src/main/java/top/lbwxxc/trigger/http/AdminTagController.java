@@ -9,17 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminTagService;
 import top.lbwxxc.api.dto.SelectResponse;
-import top.lbwxxc.api.dto.tag.AddTagRequestDTO;
-import top.lbwxxc.api.dto.tag.DeleteTagRequestDTO;
-import top.lbwxxc.api.dto.tag.FindTagPageListRequestDTO;
-import top.lbwxxc.api.dto.tag.FindTagPageListResponseDTO;
+import top.lbwxxc.api.dto.tag.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
 import top.lbwxxc.domain.blog.service.ITagService;
 import top.lbwxxc.types.enums.ResponseCode;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,8 +111,8 @@ public class AdminTagController implements IAdminTagService {
 
     @PostMapping("select/list")
     @Override
-    public Response<List<SelectResponse>> findTagSelectList() {
-        List<TagEntity> allTag = tagService.findAllTag();
+    public Response<List<SelectResponse>> findTagSelectList(@RequestBody SearchTagRequestDTO searchTagRequestDTO) {
+        List<TagEntity> allTag = tagService.searchTagByKey(searchTagRequestDTO.getKey());
         List<SelectResponse> selectRspVOS = null;
         if (!allTag.isEmpty()) {
             selectRspVOS = allTag.stream().map(tagEntity ->  SelectResponse.builder()

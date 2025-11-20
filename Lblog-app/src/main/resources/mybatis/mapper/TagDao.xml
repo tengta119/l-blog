@@ -130,4 +130,13 @@
                 (#{tag.name}, #{tag.createTime}, #{tag.updateTime}, 0)
             </foreach>
     </insert>
+
+    <select id="selectTagByNae" resultMap="BaseResultMap">
+        select *
+        from tag
+        where is_deleted = 0
+        <if test="name != null and name != ''">
+            and name like concat('%', #{name}, '%')  <!-- 拼接%实现模糊匹配，仅当name非空时生效 -->
+        </if>
+    </select>
 </mapper>

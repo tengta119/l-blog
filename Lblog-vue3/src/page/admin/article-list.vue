@@ -41,7 +41,7 @@
                             <!-- 靠右对齐 -->
                             <div class="ml-auto flex">
                                 <el-button @click="isArticlePublishEditorShow = false">取消</el-button>
-                                <el-button type="primary">
+                                <el-button type="primary" @click="publishArticleSubmit">
                                     <el-icon class="mr-1">
                                         <Promotion />
                                     </el-icon>
@@ -59,7 +59,7 @@
                     </el-form-item>
                     <el-form-item label="内容" prop="content">
                         <!-- Markdown 编辑器 -->
-                        <MdEditor v-model="form.content" editorId="publishArticleEditor" />
+                        <MdEditor v-model="form.content" @onUploadImg="onUploadImg" editorId="publishArticleEditor" />
                     </el-form-item>
                     <el-form-item label="封面" prop="cover">
                             <el-upload class="avatar-uploader" action="#" :on-change="handleCoverChange" :auto-upload="false" :show-file-list="false">
@@ -75,20 +75,87 @@
                     </el-form-item>
                     <el-form-item label="分类" prop="categoryId">
                         <el-select v-model="form.categoryId" clearable placeholder="---请选择---" size="large">
-                            
+                            <el-option v-for="item in categories" :key="item.value" :label="item.label" :value="item.value" />
                         </el-select>
                     </el-form-item>
                     <el-form-item label="标签" prop="tags">
-                        <!-- 标签选择 -->
-                        <el-select v-model="form.tags" multiple filterable remote reserve-keyword placeholder="---请输入---"
-                            remote-show-suffix :remote-method="remoteMethod" allow-create default-first-option
-                            :loading="tagSelectLoading" size="large">
-                            
+                    <span class="w-60">
+                            <!-- 标签选择 -->
+                        <el-select v-model="form.tags" multiple filterable remote reserve-keyword placeholder="请输入文章标签"
+                            remote-show-suffix allow-create default-first-option :remote-method="remoteMethod" :loading="tagSelectLoading"
+                            size="large">
+                            <el-option v-for="item in tags" :key="item.value" :label="item.label" :value="item.value" />
                         </el-select>
+                        </span>
                     </el-form-item>
                 </el-form>
             </el-dialog>
 
+                        <!-- 编辑博客 -->
+            <el-dialog v-model="isArticleUpdateEditorShow" :fullscreen="true" :show-close="false"
+                :close-on-press-escape="false">
+                <template #header="{ close, titleId, titleClass }">
+                    <!-- 固钉组件，固钉到顶部 -->
+                    <el-affix :offset="20" style="width: 100%;">
+                        <!-- 指定 flex 布局， 高度为 10， 背景色为白色 -->
+                        <div class="flex h-10 bg-white">
+                            <!-- 字体加粗 -->
+                            <h4 class="font-bold">编辑文章</h4>
+                            <!-- 靠右对齐 -->
+                            <div class="ml-auto flex">
+                                <el-button @click="isArticleUpdateEditorShow = false">取消</el-button>
+                                <el-button type="primary" @click="updateSubmit">
+                                    <el-icon class="mr-1">
+                                        <Promotion />
+                                    </el-icon>
+                                    保存
+                                </el-button>
+                            </div>
+                        </div>
+                    </el-affix>
+                </template>
+                <!-- label-position="top" 用于指定 label 元素在上面 -->
+                <el-form :model="updateArticleForm" ref="updateArticleFormRef" label-position="top" size="large" :rules="rules">
+                    <el-form-item label="标题" prop="title">
+                        <el-input v-model="updateArticleForm.title" autocomplete="off" size="large" maxlength="40"
+                            show-word-limit clearable />
+                    </el-form-item>
+                    <el-form-item label="内容" prop="content">
+                        <!-- Markdown 编辑器 -->
+                        <MdEditor v-model="updateArticleForm.content" @onUploadImg="onUploadImg"
+                            editorId="updateArticleEditor" />
+                    </el-form-item>
+                    <el-form-item label="封面" prop="cover">
+                        <el-upload class="avatar-uploader" action="#" :on-change="handleUpdateCoverChange" :auto-upload="false"
+                            :show-file-list="false">
+                            <img v-if="updateArticleForm.cover" :src="updateArticleForm.cover" class="avatar" />
+                            <el-icon v-else class="avatar-uploader-icon">
+                                <Plus />
+                            </el-icon>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item label="摘要" prop="summary">
+                        <!-- :rows="3" 指定 textarea 默认显示 3 行 -->
+                        <el-input v-model="updateArticleForm.summary" :rows="3" type="textarea" placeholder="请输入文章摘要" />
+                    </el-form-item>
+                    <el-form-item label="分类" prop="categoryId">
+                        <el-select v-model="updateArticleForm.categoryId" clearable placeholder="---请选择---" size="large">
+                            <el-option v-for="item in categories" :key="item.value" :label="item.label" :value="item.value" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="标签" prop="tags">
+                        <span class="w-60">
+                            <!-- 标签选择 -->
+                            <el-select v-model="updateArticleForm.tags" multiple filterable remote reserve-keyword
+                                placeholder="请输入文章标签" remote-show-suffix allow-create default-first-option
+                                :remote-method="remoteMethod" :loading="tagSelectLoading" size="large">
+                                <el-option v-for="item in tags" :key="item.value" :label="item.label" :value="item.value" />
+                            </el-select>
+                        </span>
+                    </el-form-item>
+                </el-form>
+            </el-dialog>
+  
             <!-- 分页列表 -->
             <el-table :data="tableData" border stripe style="width: 100%" v-loading="tableLoading">
                 <el-table-column prop="title" label="标题" width="180" />
@@ -104,7 +171,7 @@
                 </el-table-column>
                 <el-table-column label="操作" >
                     <template #default="scope">
-                        <el-button size="small">
+                        <el-button size="small" @click="showArticleUpdateEditor(scope.row)">
                         <el-icon class="mr-1">
                             <Edit />
                         </el-icon>
@@ -136,10 +203,12 @@
 import { ref, reactive } from 'vue'
 import { Search, RefreshRight, Edit, Delete, EditPen, Promotion, Plus } from '@element-plus/icons-vue'
 import moment from 'moment'
-import { getArticlePageList, deleteArticle } from '@/api/admin/article'
+import { getArticlePageList, deleteArticle,  publishArticle, getArticleDetail, updateArticle } from '@/api/admin/article'
+import {getCategorySelect} from '@/api/admin/category'
 import { showMessage, showModel } from '@/composables/util'
 import { MdEditor } from 'md-editor-v3'
 import { uploadFile } from '@/api/admin/file'
+import { searchTags } from '@/api/admin/tag'
 import 'md-editor-v3/lib/style.css'
 // 是否显示文章发布对话框
 const isArticlePublishEditorShow = ref(false)
@@ -213,6 +282,11 @@ const size = ref(10)
 // 获取分页数据
 function getTableData() {
     // 显示表格 loading
+
+    if (current.value == 0) {
+        current.value = 1
+    }
+
     tableLoading.value = true
     // 调用后台分页接口，并传入所需参数
     getArticlePageList({current: current.value, size: size.value, startDate: startDate.value, endDate: endDate.value, title: searchArticleTitle.value})
@@ -312,7 +386,184 @@ const handleCoverChange = (file) => {
     })
 }
 
+const onUploadImg = async (files, callback) => {
+    const res = await Promise.all(
+        files.map((file) => {
+            return new Promise((rev, rej) => {
+                console.log('==> 编辑器开始上传文件...')
+                let formData = new FormData()
+                formData.append("file", file);
+                uploadFile(formData).then((res) => {
+                    console.log(res)
+                    const data = res.data
+                    if (data.code != '0000') {
+                        let message = data.message
+                        showMessage(message, 'error')
+                        return
+                    }
+                    console.log('访问路径：' + data.data.url)
+                    // 调用 callback 函数，回显上传图片
+                    callback([data.data.url]);
+                })
+            });
+        })
+    );
+}
 
+const categories = ref([])
+getCategorySelect().then((e) => {
+    console.log('获取分类数据')
+    categories.value = e.data.data
+})
+
+// 标签 select Loading 状态，默认不显示
+const tagSelectLoading = ref(false)
+// 文章标签
+const tags = ref([])
+
+// 渲染标签数据
+searchTags({key: ''}).then(res => {
+    console.log("获取标签数据", res.data.data)
+    tags.value = res.data.data
+})
+
+// 根据用户输入的标签名称，远程模糊查询
+const remoteMethod = (query) => {
+    console.log('远程搜索：' + tags.value)
+    
+    // 显示 loading
+    tagSelectLoading.value = true
+    // 调用标签模糊查询接口
+    searchTags({key: query}).then((e) => {
+        const data = e.data
+        if (data.code == '0000') {
+            // 设置到 tags 变量中
+            tags.value = data.data
+        }
+    }).finally(() => tagSelectLoading.value = false) // 隐藏 loading
+}
+
+// 发布文章
+const publishArticleSubmit = () => {
+    console.log('提交 md 内容：' + form.content)
+    // 校验表单
+    publishArticleFormRef.value.validate((valid) => {
+        if (!valid) {
+            return false
+        }
+
+        publishArticle(form).then((res) => {
+            const data = res.data
+            if (data.code != '0000') {
+                // 获取服务端返回的错误消息
+                let message = data.info || '发布失败'
+                // 提示错误消息
+                showMessage(message, 'success')
+                return
+            }
+
+            showMessage('发布成功')
+            // 隐藏发布文章对话框
+            isArticlePublishEditorShow.value = false
+            // 将 form 表单字段置空
+            form.title = ''
+            form.content = ''
+            form.cover = ''
+            form.summary = ''
+            form.categoryId = null
+            form.tags = []
+            // 重新请求分页接口，渲染列表数据
+            getTableData()
+        })
+    })
+}
+
+// 是否显示编辑文章对话框
+const isArticleUpdateEditorShow = ref(false)
+// 编辑文章表单引用
+const updateArticleFormRef = ref(null)
+
+// 修改文章表单对象
+const updateArticleForm = reactive({
+    id: null,
+    title: '',
+    content: '请输入内容',
+    cover: '',
+    categoryId: null,
+    tags: [],
+    summary: ""
+})
+
+// 编辑文章：上传文章封面图片
+const handleUpdateCoverChange = (file) => {
+    // 表单对象
+    let formData = new FormData()
+    // 添加 file 字段，并将文件传入 
+    formData.append('file', file.raw)
+    uploadFile(formData).then((e) => {
+        // 响参失败，提示错误消息
+        const data = e.data
+        if (data.code != '0000') {
+            let message = data.message
+            showMessage(message, 'error')
+            return
+        }
+
+        // 成功则设置表单对象中的封面链接，并提示上传成功
+        updateArticleForm.cover = data.data.url
+        showMessage('上传成功')
+    })
+}
+
+// 编辑文章按钮点击事件
+const showArticleUpdateEditor = (row) => {
+    // 显示编辑文章对话框
+    isArticleUpdateEditorShow.value = true
+    // 拿到文章 ID
+    let articleId = row.id
+    getArticleDetail({id: articleId}).then((res) => {
+        const data = res.data
+        console.log(data)
+        if (data.code == '0000') {
+            // 设置表单数据
+            updateArticleForm.id = data.data.id
+            updateArticleForm.title = data.data.title
+            updateArticleForm.cover = data.data.cover
+            updateArticleForm.content = data.data.content
+            updateArticleForm.categoryId = data.data.categoryId
+            updateArticleForm.tags = data.data.tagIds
+            updateArticleForm.summary = data.data.summary
+        }
+    })
+}
+
+// 保存文章
+const updateSubmit = () => {
+    updateArticleFormRef.value.validate((valid) => {
+        // 校验表单
+        if (!valid) {
+            return false
+        }
+
+        // 请求更新文章接口
+        updateArticle(updateArticleForm).then((res) => {
+            const data = res.data
+            if (data.code != '0000') {
+                // 获取服务端返回的错误消息
+                let message = data.info || '更新失败'
+                // 提示错误消息
+                showMessage(message, 'error')
+                return
+            }
+
+            showMessage('保存成功')
+            // 隐藏编辑框
+            isArticleUpdateEditorShow.value = false
+            // 重新请求分页接口，渲染列表数据
+            getTableData()
+        })
+    })
+}
 
 </script>
 
@@ -330,5 +581,14 @@ const handleCoverChange = (file) => {
     width: 200px;
     height: 100px;
     text-align: center;
+}
+
+.md-editor-footer {
+    height: 40px;
+}
+
+/* 指定 select 下拉框宽度 */
+.el-select--large {
+    width: 600px;
 }
 </style>

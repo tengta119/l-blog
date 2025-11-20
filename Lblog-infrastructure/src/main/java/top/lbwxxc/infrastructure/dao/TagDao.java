@@ -31,4 +31,6 @@ public interface TagDao {
     int selectTagSize();
 
     int insetTags(@Param("tags") List<Tag> tags);
+
+    List<Tag> selectTagByNae(String name);
 }
