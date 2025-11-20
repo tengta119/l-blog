@@ -147,7 +147,7 @@
     </select>
 
     <select id="selectArticleSize">
-        select *
+        select count(1)
         from article
         where is_deleted = 0
     </select>

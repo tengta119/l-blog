@@ -32,8 +32,16 @@
             <!-- 分页列表 -->
             <el-table :data="tableData" border stripe style="width: 100%" v-loading="tableLoading">
                 <el-table-column prop="title" label="标题" width="180" />
-                <el-table-column prop="cover" label="封面" width="180" />
-                <el-table-column prop="createTime" label="发布时间" width="180" />
+                <el-table-column prop="cover" label="封面" width="180">
+                    <template #default="scope">
+                        <el-image style="width: 50px;" :src="scope.row.cover" />
+                    </template>
+                </el-table-column>
+                <el-table-column prop="createTime" label="发布时间" width="180">
+                    <template #default="scope">
+                        {{ moment(scope.row.createTime).format('YYYY-MM-DD HH:mm:ss') }}
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作" >
                     <template #default="scope">
                         <el-button size="small">
@@ -139,6 +147,21 @@ const size = ref(10)
 
 // 获取分页数据
 function getTableData() {
+    // 显示表格 loading
+    tableLoading.value = true
+    // 调用后台分页接口，并传入所需参数
+    getArticlePageList({current: current.value, size: size.value, startDate: startDate.value, endDate: endDate.value, title: searchArticleTitle.value})
+    .then((res) => {
+        const data = res.data
+        console.log(data)
+        if (data.code == '0000') {
+            tableData.value = data.data
+            current.value = data.current
+            size.value = data.size
+            total.value = data.total
+        }
+    })
+    .finally(() => tableLoading.value = false) // 隐藏表格 loading
 }
 getTableData()
 
