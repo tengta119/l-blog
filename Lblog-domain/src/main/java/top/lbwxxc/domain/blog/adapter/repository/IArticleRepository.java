@@ -3,14 +3,14 @@ package top.lbwxxc.domain.blog.adapter.repository;
 
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
-import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
+import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IArticleRepository {
 
-    int publishArticle(PublishArticleEntity publishArticleEntity);
+    int publishArticle(PublishUpdateArticleEntity publishUpdateArticleEntity);
 
     int deleteArticleById(long articleId);
 
@@ -19,4 +19,7 @@ public interface IArticleRepository {
     int findArticleSize();
 
     ArticleDetailEntity findArticleDetailById(long articleId);
+
+    int updateArticle(PublishUpdateArticleEntity publishUpdateArticleEntity);
+
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
-import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
+import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
 import top.lbwxxc.domain.blog.service.IArticleService;
 
 import java.time.LocalDate;
@@ -19,8 +19,8 @@ public class ArticleService implements IArticleService {
     private IArticleRepository articleRepository;
 
     @Override
-    public int publishArticle(PublishArticleEntity publishArticleEntity) {
-        return articleRepository.publishArticle(publishArticleEntity);
+    public int publishArticle(PublishUpdateArticleEntity publishUpdateArticleEntity) {
+        return articleRepository.publishArticle(publishUpdateArticleEntity);
     }
 
     @Override
@@ -42,5 +42,10 @@ public class ArticleService implements IArticleService {
     @Override
     public ArticleDetailEntity findArticleDetail(Long articleId) {
         return articleRepository.findArticleDetailById(articleId);
+    }
+
+    @Override
+    public int updateArticle(PublishUpdateArticleEntity publishUpdateArticleEntity) {
+        return articleRepository.updateArticle(publishUpdateArticleEntity);
     }
 }

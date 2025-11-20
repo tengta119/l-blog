@@ -95,10 +95,34 @@
         where article_id = #{articleId}
     </update>
 
-    <select id="selectByArticleId" resultMap="BaseResultMap">
+    <select id="selectEffectiveByArticleId" resultMap="BaseResultMap">
         select *
         from article_tag_rel
         where article_id = #{articleId}
             and is_deleted = 0
     </select>
+
+    <select id="selectAllByArticleId" resultMap="BaseResultMap">
+        select *
+        from article_tag_rel
+        where article_id = #{articleId}
+    </select>
+
+    <update id="batchUpdateEffective" parameterType="java.util.List">
+        UPDATE article_tag_rel
+        SET is_deleted = 0
+        WHERE id IN
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="batchLogicDelete" parameterType="java.util.List">
+        UPDATE article_tag_rel
+        SET is_deleted = 1
+        WHERE id IN
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
 </mapper>

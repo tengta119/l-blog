@@ -12,7 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-public class PublishArticleEntity {
+public class PublishUpdateArticleEntity {
+
+    private long articleId;
+
     // 标题
     private String title;
 

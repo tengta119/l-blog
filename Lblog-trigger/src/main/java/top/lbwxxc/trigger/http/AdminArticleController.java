@@ -13,7 +13,7 @@ import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
-import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
+import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
 import top.lbwxxc.domain.blog.service.IArticleService;
 import top.lbwxxc.types.enums.ResponseCode;
 
@@ -33,7 +33,7 @@ public class AdminArticleController implements IAdminArticleService {
     @Override
     public Response<String> publishArticle(@RequestBody PublishArticleRequestDTO publishArticleRequestDTO) {
 
-        PublishArticleEntity publishArticleEntity = PublishArticleEntity.builder()
+        PublishUpdateArticleEntity publishUpdateArticleEntity = PublishUpdateArticleEntity.builder()
                 .title(publishArticleRequestDTO.getTitle())
                 .content(publishArticleRequestDTO.getContent())
                 .cover(publishArticleRequestDTO.getCover())
@@ -42,7 +42,7 @@ public class AdminArticleController implements IAdminArticleService {
                 .categoryId(publishArticleRequestDTO.getCategoryId())
                 .build();
 
-        int published = articleService.publishArticle(publishArticleEntity);
+        int published = articleService.publishArticle(publishUpdateArticleEntity);
 
         return getStringResponse(published, "文章发布失败");
     }
@@ -127,6 +127,30 @@ public class AdminArticleController implements IAdminArticleService {
             response.setCode(ResponseCode.UN_ERROR.getCode());
             response.setInfo(e.getMessage());
             return response;
+        }
+
+    }
+
+    @PostMapping("update")
+    @Override
+    public Response<String> updateArticle(@RequestBody UpdateArticleRequestDTO updateArticleRequestDTO) {
+
+        try {
+            PublishUpdateArticleEntity publishUpdateArticleEntity = PublishUpdateArticleEntity.builder()
+                    .articleId(updateArticleRequestDTO.getId())
+                    .title(updateArticleRequestDTO.getTitle())
+                    .content(updateArticleRequestDTO.getContent())
+                    .cover(updateArticleRequestDTO.getCover())
+                    .tags(updateArticleRequestDTO.getTags())
+                    .summary(updateArticleRequestDTO.getSummary())
+                    .categoryId(updateArticleRequestDTO.getCategoryId())
+                    .build();
+
+            int i = articleService.updateArticle(publishUpdateArticleEntity);
+            return getStringResponse(i, "更新文章失败");
+        } catch (Exception e) {
+            log.error("更新文章失败 {}", e.getMessage());
+            return getStringResponse(0, e.getMessage());
         }
 
     }

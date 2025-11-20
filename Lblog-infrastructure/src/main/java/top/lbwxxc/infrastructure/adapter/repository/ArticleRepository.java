@@ -8,16 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
-import top.lbwxxc.domain.blog.model.entity.PublishArticleEntity;
+import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
 import top.lbwxxc.infrastructure.dao.*;
 import top.lbwxxc.infrastructure.dao.po.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @Slf4j
@@ -36,12 +34,12 @@ public class ArticleRepository implements IArticleRepository {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int publishArticle(PublishArticleEntity publishArticleEntity) {
+    public int publishArticle(PublishUpdateArticleEntity publishUpdateArticleEntity) {
 
         Article article = Article.builder()
-                .title(publishArticleEntity.getTitle())
-                .cover(publishArticleEntity.getCover())
-                .summary(publishArticleEntity.getSummary())
+                .title(publishUpdateArticleEntity.getTitle())
+                .cover(publishUpdateArticleEntity.getCover())
+                .summary(publishUpdateArticleEntity.getSummary())
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
                 .isDeleted(0)
@@ -54,7 +52,7 @@ public class ArticleRepository implements IArticleRepository {
 
         ArticleContent articleContent = ArticleContent.builder()
                 .articleId(articleId)
-                .content(publishArticleEntity.getContent())
+                .content(publishUpdateArticleEntity.getContent())
                 .build();
         int insertArticleContent = articleContentDao.insert(articleContent);
 
@@ -62,34 +60,21 @@ public class ArticleRepository implements IArticleRepository {
 
         ArticleCategoryRel articleCategoryRel = ArticleCategoryRel.builder()
                 .articleId(articleId)
-                .categoryId(publishArticleEntity.getCategoryId())
+                .categoryId(publishUpdateArticleEntity.getCategoryId())
                 .isDeleted(0)
                 .build();
         int insertArticleCategoryRel = articleCategoryRelDao.insert(articleCategoryRel);
 
         log.info("文章分类插入成功 {}", articleCategoryRel);
 
-        List<String> tags = publishArticleEntity.getTags();
+        List<String> tags = publishUpdateArticleEntity.getTags();
 
-        List<Long> tagId = new ArrayList<>();
+        List<Long> tagIds = new ArrayList<>();
 
-        List<Tag> tagInsert = new ArrayList<>();
-        for (String tag : tags) {
-            if (tag.matches("\\d+")) {
-                tagId.add(Long.parseLong(tag));
-            } else {
-                tagInsert.add(Tag.builder().name(tag).createTime(LocalDateTime.now()).updateTime(LocalDateTime.now()).isDeleted(0).build());
-            }
-        }
-        if (!tagInsert.isEmpty()) {
-            tagDao.insetTags(tagInsert);
-            log.info("标签插入成功 {}", tagInsert);
-        }
-
-        tagInsert.forEach(tag -> tagId.add(tag.getId()));
+        addTags(tags, tagIds);
 
         List<ArticleTagRel> articleTagRels = new ArrayList<>();
-        tagId.forEach(id -> articleTagRels.add(ArticleTagRel.builder().articleId(articleId).tagId(id).build()));
+        tagIds.forEach(id -> articleTagRels.add(ArticleTagRel.builder().articleId(articleId).tagId(id).build()));
 
         int insertArticleTagRel = articleTagRelDao.batchInsert(articleTagRels);
         log.info("文章标签插入成功 {}", articleTagRels);
@@ -149,7 +134,7 @@ public class ArticleRepository implements IArticleRepository {
 
         ArticleCategoryRel articleCategoryRel = articleCategoryRelDao.selectArticleCategoryRelByArticleId(articleId);
 
-        List<ArticleTagRel> articleTagRels = articleTagRelDao.selectByArticleId(articleId);
+        List<ArticleTagRel> articleTagRels = articleTagRelDao.selectEffectiveByArticleId(articleId);
         List<Long> tagIds = articleTagRels.stream().mapToLong(ArticleTagRel::getId).boxed().toList();
 
         return ArticleDetailEntity.builder()
@@ -161,5 +146,92 @@ public class ArticleRepository implements IArticleRepository {
                 .categoryId(articleCategoryRel.getCategoryId())
                 .tagIds(tagIds)
                 .build();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int updateArticle(PublishUpdateArticleEntity publishUpdateArticleEntity) {
+
+        Long articleId = publishUpdateArticleEntity.getArticleId();
+        Article article = Article.builder()
+                .id(articleId)
+                .title(publishUpdateArticleEntity.getTitle())
+                .cover(publishUpdateArticleEntity.getCover())
+                .summary(publishUpdateArticleEntity.getSummary())
+                .updateTime(LocalDateTime.now())
+                .build();
+        int updateArticle = articleDao.updateByPrimaryKey(article);
+        log.info("更新文章源数据成功 {}",  updateArticle);
+
+
+        ArticleContent articleContent = ArticleContent.builder()
+                .articleId(articleId)
+                .content(publishUpdateArticleEntity.getContent())
+                .build();
+        int updateContent = articleContentDao.updateContentByArticleId(articleContent);
+        log.info("更新文章内容成功, {}",  updateContent);
+
+        ArticleCategoryRel articleCategoryRel = ArticleCategoryRel.builder()
+                .articleId(articleId)
+                .categoryId(publishUpdateArticleEntity.getCategoryId())
+                .build();
+        int updateArticleCategoryRel = articleCategoryRelDao.updateArticleCategoryRelByArticleId(articleCategoryRel);
+        log.info("更新文章分类成功 {}",  updateArticleCategoryRel);
+
+
+        List<String> tags = publishUpdateArticleEntity.getTags();
+        List<Long> tagIds = new ArrayList<>();
+        addTags(tags, tagIds);
+
+        List<Long> tagUpdateDelete = new ArrayList<>();
+        List<Long> tagUpdateUpdateEffective = new ArrayList<>();
+        List<ArticleTagRel> tagInsert = new ArrayList<>();
+        List<ArticleTagRel> articleTagRels = articleTagRelDao.selectAllByArticleId(articleId);
+
+        for (ArticleTagRel articleTagRel : articleTagRels) {
+            if (tagIds.contains(articleTagRel.getTagId())) {
+                if (articleTagRel.getIsDeleted() == 1) {
+                    tagUpdateUpdateEffective.add(articleTagRel.getId());
+                }
+            } else {
+                tagUpdateDelete.add(articleTagRel.getId());
+            }
+            tagIds.remove(articleTagRel.getTagId());
+        }
+
+        tagIds.forEach(tagId -> tagInsert.add(ArticleTagRel.builder().articleId(articleId).tagId(tagId).build()));
+
+        int tagUpdate = 0;
+        if (!tagInsert.isEmpty()) {
+            tagUpdate += articleTagRelDao.batchInsert(tagInsert);
+            log.info("新增文章标记 {}", tagUpdate);
+        }
+        if (!tagUpdateUpdateEffective.isEmpty()) {
+            tagUpdate += articleTagRelDao.batchUpdateEffective(tagUpdateUpdateEffective);
+            log.info("使文章标签生效 {}", tagUpdate);
+        }
+        if (!tagUpdateDelete.isEmpty()) {
+            tagUpdate += articleTagRelDao.batchLogicDelete(tagUpdateDelete);
+            log.info("删除一些文章标记 {}", tagUpdate);
+        }
+
+        return updateArticle + updateContent + updateArticleCategoryRel + tagUpdate;
+    }
+
+    // 新增标签，并将标签 id 写入到 tagId
+    private void addTags(List<String> tags, List<Long> tagId) {
+        List<Tag> tagInsert = new ArrayList<>();
+        for (String tag : tags) {
+            if (tag.matches("\\d+")) {
+                tagId.add(Long.parseLong(tag));
+            } else {
+                tagInsert.add(Tag.builder().name(tag).createTime(LocalDateTime.now()).updateTime(LocalDateTime.now()).isDeleted(0).build());
+            }
+        }
+        if (!tagInsert.isEmpty()) {
+            tagDao.insetTags(tagInsert);
+            log.info("标签插入成功 {}", tagInsert);
+        }
+        tagInsert.forEach(tag -> tagId.add(tag.getId()));
     }
 }

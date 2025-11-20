@@ -25,5 +25,13 @@ public interface ArticleTagRelDao {
 
     int logicalDeleteByArticleId(@Param("articleId") Long articleId);
 
-    List<ArticleTagRel> selectByArticleId(@Param("articleId") Long articleId);
+    List<ArticleTagRel> selectEffectiveByArticleId(@Param("articleId") Long articleId);
+
+    int updateArticleTag(List<ArticleTagRel> list);
+
+    List<ArticleTagRel> selectAllByArticleId(@Param("articleId") Long articleId);
+
+    int batchUpdateEffective(@Param("list") List<Long> list);
+
+    int batchLogicDelete(@Param("list") List<Long> list);
 }

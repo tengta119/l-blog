@@ -122,10 +122,7 @@
         set title = #{title,jdbcType=VARCHAR},
             cover = #{cover,jdbcType=VARCHAR},
             summary = #{summary,jdbcType=VARCHAR},
-            create_time = #{createTime,jdbcType=TIMESTAMP},
-            update_time = #{updateTime,jdbcType=TIMESTAMP},
-            is_deleted = #{isDeleted,jdbcType=TINYINT},
-            read_num = #{readNum,jdbcType=INTEGER}
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=BIGINT}
     </update>
 

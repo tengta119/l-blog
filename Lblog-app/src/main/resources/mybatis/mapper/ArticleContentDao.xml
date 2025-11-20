@@ -67,4 +67,10 @@
         from article_content
         where article_id = #{articleId}
     </select>
+
+    <update id="updateContentByArticleId" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleContent">
+        update article_content
+        set content = #{content,jdbcType=VARCHAR}
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </update>
 </mapper>

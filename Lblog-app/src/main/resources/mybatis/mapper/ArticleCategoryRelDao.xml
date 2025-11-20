@@ -93,4 +93,10 @@
         where article_id = #{articleId}
             and is_deleted = 0
     </select>
+
+    <update id="updateArticleCategoryRelByArticleId" parameterType="top.lbwxxc.infrastructure.dao.po.ArticleCategoryRel">
+        update article_category_rel
+        set category_id = #{categoryId,jdbcType=BIGINT}
+        where article_id = #{articleId,jdbcType=BIGINT}
+    </update>
 </mapper>

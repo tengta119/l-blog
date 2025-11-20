@@ -14,4 +14,6 @@ public interface IAdminArticleService {
     PageResponse<FindArticlePageListResponseDTO> findArticlePageList(FindArticlePageListRequestDTO findArticlePageListRequestDTO);
 
     Response<FindArticleDetailResponseDTO>  findArticleDetail(FindArticleDetailRequestDTO findArticleDetailRequestDTO);
+
+    Response<String> updateArticle(UpdateArticleRequestDTO updateArticleRequestDTO);
 }
