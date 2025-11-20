@@ -96,7 +96,7 @@ public class ArticleRepository implements IArticleRepository {
     }
 
     @Override
-    public List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDate startDate, LocalDate endDate) {
+    public List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDateTime startDate, LocalDateTime endDate) {
 
         List<ArticleEntity> articleEntities = new ArrayList<>();
         List<Article> articles = articleDao.selectArticlePageList((page - 1) * pageSize, pageSize, title, startDate, endDate);

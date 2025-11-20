@@ -47,7 +47,7 @@ public class BlogRepository implements IBlogRepository {
     }
 
     @Override
-    public List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate) {
+    public List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDateTime startDate, LocalDateTime endDate) {
 
         List<Category> categories = categoryDao.selectCategoryByPageAndData((page - 1) * pageSize, pageSize, name, startDate, endDate);
         return getCategoryEntities(categories);
@@ -99,7 +99,7 @@ public class BlogRepository implements IBlogRepository {
     }
 
     @Override
-    public List<TagEntity> queryTagList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate) {
+    public List<TagEntity> queryTagList(int page, int pageSize, String name, LocalDateTime startDate, LocalDateTime endDate) {
 
         List<Tag> tags = tagDao.selectTagByPageAndData((page - 1) * pageSize, pageSize, name, startDate, endDate);
         return getTagEntities(tags);

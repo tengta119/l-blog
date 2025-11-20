@@ -7,13 +7,14 @@ import top.lbwxxc.domain.blog.model.entity.ExternalUrlEntity;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IBlogRepository {
 
     int addCategory(String name);
 
-    List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate);
+    List<CategoryEntity> queryCategoryList(int page, int pageSize, String name, LocalDateTime startDate, LocalDateTime endDate);
 
     int deleteCategory(long categoryId);
 
@@ -25,7 +26,7 @@ public interface IBlogRepository {
 
     int addTags(List<String> tags);
 
-    List<TagEntity> queryTagList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate);
+    List<TagEntity> queryTagList(int page, int pageSize, String name, LocalDateTime startDate, LocalDateTime endDate);
 
     int deleteTag(long categoryId);
 

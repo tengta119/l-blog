@@ -6,6 +6,7 @@ import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IArticleRepository {
@@ -14,7 +15,7 @@ public interface IArticleRepository {
 
     int deleteArticleById(long articleId);
 
-    List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDate startDate, LocalDate endDate);
+    List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDateTime startDate, LocalDateTime endDate);
 
     int findArticleSize();
 

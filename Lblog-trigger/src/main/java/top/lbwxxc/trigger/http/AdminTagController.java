@@ -20,6 +20,7 @@ import top.lbwxxc.domain.blog.service.ITagService;
 import top.lbwxxc.types.enums.ResponseCode;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,8 +64,8 @@ public class AdminTagController implements IAdminTagService {
 
         int current = findTagPageListRequestDTO.getCurrent();
         int size = findTagPageListRequestDTO.getSize();
-        LocalDate startDate = findTagPageListRequestDTO.getStartDate();
-        LocalDate endDate = findTagPageListRequestDTO.getEndDate();
+        LocalDateTime startDate = findTagPageListRequestDTO.getStartDate();
+        LocalDateTime endDate = findTagPageListRequestDTO.getEndDate();
         String name = findTagPageListRequestDTO.getName();
 
         log.info("请求参数 current: {}, size: {}, startDate: {}, endDate: {}, name: {}", current, size, startDate, endDate, name);

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import top.lbwxxc.infrastructure.dao.po.Tag;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -21,7 +22,7 @@ public interface TagDao {
 
     int updateByPrimaryKey(Tag record);
 
-    List<Tag> selectTagByPageAndData(int offset, int pageSize, String name, LocalDate startDate, LocalDate endDate);
+    List<Tag> selectTagByPageAndData(int offset, int pageSize, String name, LocalDateTime startDate, LocalDateTime endDate);
 
     int logicalDelete(Long id);
 

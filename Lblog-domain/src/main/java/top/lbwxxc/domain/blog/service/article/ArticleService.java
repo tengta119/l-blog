@@ -10,6 +10,7 @@ import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
 import top.lbwxxc.domain.blog.service.IArticleService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDate startDate, LocalDate endDate) {
+    public List<ArticleEntity> findAllArticlePageList(int page, int pageSize, String title, LocalDateTime startDate, LocalDateTime endDate) {
 
         return articleRepository.findAllArticlePageList(page, pageSize, title, startDate, endDate);
     }

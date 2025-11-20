@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import top.lbwxxc.api.dto.BasePageQuery;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -23,10 +24,10 @@ public class FindArticlePageListRequestDTO extends BasePageQuery {
     /**
      * 发布的起始日期
      */
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     /**
      * 发布的结束日期
      */
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 }

@@ -18,6 +18,7 @@ import top.lbwxxc.domain.blog.service.IArticleService;
 import top.lbwxxc.types.enums.ResponseCode;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +61,8 @@ public class AdminArticleController implements IAdminArticleService {
     @Override
     public PageResponse<FindArticlePageListResponseDTO> findArticlePageList(@RequestBody FindArticlePageListRequestDTO findArticlePageListRequestDTO) {
         String title = findArticlePageListRequestDTO.getTitle();
-        LocalDate startDate = findArticlePageListRequestDTO.getStartDate();
-        LocalDate endDate = findArticlePageListRequestDTO.getEndDate();
+        LocalDateTime startDate = findArticlePageListRequestDTO.getStartDate();
+        LocalDateTime endDate = findArticlePageListRequestDTO.getEndDate();
         int current = findArticlePageListRequestDTO.getCurrent();
         int size = findArticlePageListRequestDTO.getSize();
 

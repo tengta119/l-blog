@@ -232,7 +232,11 @@ const onSubmit = () => {
                 // 提示错误消息
                 showMessage(message, 'error')
             }
-        }).finally(() => formDialogRef.value.closeBtnLoading()) // 隐藏提交按钮 loading
+        }).finally(() => {
+            formDialogRef.value.closeBtnLoading()
+            // 重置表单字段
+            dynamicTags.value = []
+        }) // 隐藏提交按钮 loading
 
     })
 }

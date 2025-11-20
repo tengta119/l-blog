@@ -12,6 +12,7 @@ import top.lbwxxc.domain.blog.service.ITagService;
 import top.lbwxxc.types.common.RedisConstants;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class TagService implements ITagService {
     }
 
     @Override
-    public List<TagEntity> findTagList(int page, int pageSize, String name, LocalDate startDate, LocalDate endDate) {
+    public List<TagEntity> findTagList(int page, int pageSize, String name, LocalDateTime startDate, LocalDateTime endDate) {
 
         String key = RedisConstants.buildTagPageKey(page + name);
         List<TagEntity> tagEntities;

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import top.lbwxxc.infrastructure.dao.po.Article;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -23,7 +24,7 @@ public interface ArticleDao {
 
     int logicalDeleteByPrimaryKey(Long id);
 
-    List<Article> selectArticlePageList(int offset, int pageSize, String title, LocalDate startDate, LocalDate endDate);
+    List<Article> selectArticlePageList(int offset, int pageSize, String title, LocalDateTime startDate, LocalDateTime endDate);
 
     int selectArticleSize();
 }
