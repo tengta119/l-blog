@@ -24,7 +24,7 @@ public class AdminFileController implements IAdminFileService {
 
     @PostMapping("/upload")
     @Override
-    public Response<UploadFileResponseDTO> uploadFile(@RequestParam MultipartFile file) {
+    public Response<UploadFileResponseDTO> uploadFile(@RequestParam("file") MultipartFile file) {
 
         String url = fileService.uploadFile(file);
 
