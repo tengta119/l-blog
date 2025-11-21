@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.tag;
+package top.lbwxxc.api.dto.admin.tag;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.tag;
+package top.lbwxxc.api.dto.admin.settings;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class SearchTagRequestDTO {
+public class FindBlogSettingsResponseDTO {
 
-    private String key;
+    private String name;
+    private String logo;
 }

@@ -1,4 +1,5 @@
-package top.lbwxxc.api.dto.category;
+package top.lbwxxc.api.dto.admin.tag;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class AddCategoryRequestDTO {
+public class DeleteTagRequestDTO {
 
-    private String name;
+    private long id;
 }

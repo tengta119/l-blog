@@ -1,7 +1,7 @@
 package top.lbwxxc.api;
 
 
-import top.lbwxxc.api.dto.article.*;
+import top.lbwxxc.api.dto.admin.article.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 

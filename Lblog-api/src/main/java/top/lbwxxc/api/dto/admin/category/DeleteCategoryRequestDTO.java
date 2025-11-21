@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.article;
+package top.lbwxxc.api.dto.admin.category;
 
 
 import lombok.AllArgsConstructor;
@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
-public class DeleteArticleRequestDTO {
+public class DeleteCategoryRequestDTO {
 
-    Long id;
+    private long id;
 }

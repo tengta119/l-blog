@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.settings;
+package top.lbwxxc.api.dto.admin.settings;
 
 
 import lombok.AllArgsConstructor;
@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class FindBlogSettingsResponseDTO {
+public class UpdateBlogSettingsRequestVO {
+
+    private String logo;
 
     private String name;
-    private String logo;
+
 }

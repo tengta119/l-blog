@@ -1,18 +1,20 @@
-package top.lbwxxc.api.dto.category;
+package top.lbwxxc.api.dto.admin.tag;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import top.lbwxxc.api.dto.BasePageQuery;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class FindCategoryPageListRequestDTO extends BasePageQuery {
+public class FindTagPageListRequestDTO extends BasePageQuery {
 
     /**
      * 分类名称

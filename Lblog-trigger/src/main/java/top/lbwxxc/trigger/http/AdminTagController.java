@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IAdminTagService;
 import top.lbwxxc.api.dto.SelectResponse;
-import top.lbwxxc.api.dto.tag.*;
+import top.lbwxxc.api.dto.admin.tag.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;

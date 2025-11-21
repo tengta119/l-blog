@@ -1,5 +1,4 @@
-package top.lbwxxc.api.dto.oss;
-
+package top.lbwxxc.api.dto.admin.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class UploadFileResponseDTO {
+public class AddCategoryRequestDTO {
 
-    /**
-     * 文件的访问链接
-     */
-    private String url;
+    private String name;
 }

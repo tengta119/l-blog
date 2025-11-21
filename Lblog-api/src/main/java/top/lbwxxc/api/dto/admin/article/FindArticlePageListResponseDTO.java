@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.article;
+package top.lbwxxc.api.dto.admin.article;
 
 
 import lombok.AllArgsConstructor;
@@ -6,13 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class FindArticleDetailResponseDTO {
+public class FindArticlePageListResponseDTO {
 
     /**
      * 文章 ID
@@ -30,22 +30,7 @@ public class FindArticleDetailResponseDTO {
     private String cover;
 
     /**
-     * 文章内容
+     * 发布时间
      */
-    private String content;
-
-    /**
-     * 分类 ID
-     */
-    private Long categoryId;
-
-    /**
-     * 标签 ID 集合
-     */
-    private List<Long> tagIds;
-
-    /**
-     * 摘要
-     */
-    private String summary;
+    private LocalDateTime createTime;
 }

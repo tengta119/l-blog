@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import top.lbwxxc.api.IAdminFileService;
-import top.lbwxxc.api.dto.oss.UploadFileResponseDTO;
+import top.lbwxxc.api.dto.admin.oss.UploadFileResponseDTO;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.service.IFileService;
 import top.lbwxxc.types.enums.ResponseCode;

@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.settings;
+package top.lbwxxc.api.dto.admin.settings;
 
 
 import lombok.AllArgsConstructor;

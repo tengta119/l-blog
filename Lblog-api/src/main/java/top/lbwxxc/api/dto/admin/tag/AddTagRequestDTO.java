@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.settings;
+package top.lbwxxc.api.dto.admin.tag;
 
 
 import lombok.AllArgsConstructor;
@@ -6,14 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UpdateBlogSettingsRequestVO {
+public class AddTagRequestDTO {
 
-    private String logo;
-
-    private String name;
-
+    private List<String> tags;
 }

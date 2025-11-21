@@ -1,4 +1,5 @@
-package top.lbwxxc.api.dto.settings;
+package top.lbwxxc.api.dto.admin.article;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class AddExternalUrlRequestDTO {
+public class DeleteArticleRequestDTO {
 
-    private String name;
-    private String url;
-    private String logo;
+    Long id;
 }

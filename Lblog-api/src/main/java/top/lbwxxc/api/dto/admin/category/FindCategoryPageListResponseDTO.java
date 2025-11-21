@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.category;
+package top.lbwxxc.api.dto.admin.category;
 
 
 import lombok.AllArgsConstructor;

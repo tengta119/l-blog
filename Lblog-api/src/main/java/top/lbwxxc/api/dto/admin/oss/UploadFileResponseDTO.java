@@ -1,4 +1,4 @@
-package top.lbwxxc.api.dto.tag;
+package top.lbwxxc.api.dto.admin.oss;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class DeleteTagRequestDTO {
+public class UploadFileResponseDTO {
 
-    private long id;
+    /**
+     * 文件的访问链接
+     */
+    private String url;
 }

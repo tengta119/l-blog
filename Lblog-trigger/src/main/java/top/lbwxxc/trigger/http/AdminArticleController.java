@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.lbwxxc.api.dto.article.*;
+import top.lbwxxc.api.dto.admin.article.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;

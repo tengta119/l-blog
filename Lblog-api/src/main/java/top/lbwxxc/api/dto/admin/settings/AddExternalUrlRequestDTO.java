@@ -1,18 +1,16 @@
-package top.lbwxxc.api.dto.settings;
-
+package top.lbwxxc.api.dto.admin.settings;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class FindExternalUrlListResponseDTO {
+public class AddExternalUrlRequestDTO {
 
-    private Long id;
     private String name;
     private String url;
     private String logo;
