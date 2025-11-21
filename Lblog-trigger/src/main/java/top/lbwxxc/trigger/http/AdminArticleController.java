@@ -7,28 +7,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.lbwxxc.api.IAdminArticleService;
 import top.lbwxxc.api.dto.article.*;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
-import top.lbwxxc.domain.blog.service.IArticleService;
+import top.lbwxxc.domain.blog.service.IAdminArticleService;
 import top.lbwxxc.types.enums.ResponseCode;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/article/")
-public class AdminArticleController implements IAdminArticleService {
+@RequestMapping("/admin/article/")
+public class AdminArticleController implements top.lbwxxc.api.IAdminArticleService {
 
     @Resource
-    private IArticleService articleService;
+    private IAdminArticleService adminArticleService;
 
     @PostMapping("publish")
     @Override
@@ -43,7 +41,7 @@ public class AdminArticleController implements IAdminArticleService {
                 .categoryId(publishArticleRequestDTO.getCategoryId())
                 .build();
 
-        int published = articleService.publishArticle(publishUpdateArticleEntity);
+        int published = adminArticleService.publishArticle(publishUpdateArticleEntity);
 
         return getStringResponse(published, "文章发布失败");
     }
@@ -52,7 +50,7 @@ public class AdminArticleController implements IAdminArticleService {
     @Override
     public Response<String> deleteArticle(@RequestBody DeleteArticleRequestDTO deleteArticleRequestDTO) {
 
-        int i = articleService.deleteArticle(deleteArticleRequestDTO.getId());
+        int i = adminArticleService.deleteArticle(deleteArticleRequestDTO.getId());
 
         return getStringResponse(i, "删除文章失败");
     }
@@ -66,7 +64,7 @@ public class AdminArticleController implements IAdminArticleService {
         int current = findArticlePageListRequestDTO.getCurrent();
         int size = findArticlePageListRequestDTO.getSize();
 
-        int articleSize = articleService.findArticleSize();
+        int articleSize = adminArticleService.findArticleSize();
 
         PageResponse<FindArticlePageListResponseDTO> pageResponse = new PageResponse<>();
         if (articleSize == 0) {
@@ -75,7 +73,7 @@ public class AdminArticleController implements IAdminArticleService {
             return pageResponse;
         }
 
-        List<ArticleEntity> allArticlePageList = articleService.findAllArticlePageList(current, size, title, startDate, endDate);
+        List<ArticleEntity> allArticlePageList = adminArticleService.findAllArticlePageList(current, size, title, startDate, endDate);
 
 
 
@@ -108,7 +106,7 @@ public class AdminArticleController implements IAdminArticleService {
 
         Response<FindArticleDetailResponseDTO> response = new Response<>();
         try {
-            ArticleDetailEntity articleDetail = articleService.findArticleDetail(findArticleDetailRequestDTO.getId());
+            ArticleDetailEntity articleDetail = adminArticleService.findArticleDetail(findArticleDetailRequestDTO.getId());
             FindArticleDetailResponseDTO findArticleDetailResponseDTO = FindArticleDetailResponseDTO.builder()
                     .id(articleDetail.getId())
                     .title(articleDetail.getTitle())
@@ -147,7 +145,7 @@ public class AdminArticleController implements IAdminArticleService {
                     .categoryId(updateArticleRequestDTO.getCategoryId())
                     .build();
 
-            int i = articleService.updateArticle(publishUpdateArticleEntity);
+            int i = adminArticleService.updateArticle(publishUpdateArticleEntity);
             return getStringResponse(i, "更新文章失败");
         } catch (Exception e) {
             log.error("更新文章失败 {}", e.getMessage());

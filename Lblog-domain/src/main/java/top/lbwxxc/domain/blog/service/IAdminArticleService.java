@@ -5,11 +5,10 @@ import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface IArticleService {
+public interface IAdminArticleService {
 
     int publishArticle(PublishUpdateArticleEntity publishUpdateArticleEntity);
 

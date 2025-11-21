@@ -7,14 +7,13 @@ import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
-import top.lbwxxc.domain.blog.service.IArticleService;
+import top.lbwxxc.domain.blog.service.IAdminArticleService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ArticleService implements IArticleService {
+public class AdminArticleService implements IAdminArticleService {
 
     @Resource
     private IArticleRepository articleRepository;
