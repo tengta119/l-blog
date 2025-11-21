@@ -22,7 +22,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/tag/")
+@RequestMapping("/admin/tag/")
 public class AdminTagController implements IAdminTagService {
 
     @Resource

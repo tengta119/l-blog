@@ -21,7 +21,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/settings/")
+@RequestMapping("/admin/settings/")
 public class AdminBlogSettingsController implements IAdminBlogSettingsService {
 
     @Resource

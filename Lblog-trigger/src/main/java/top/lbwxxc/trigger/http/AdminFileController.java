@@ -16,7 +16,7 @@ import top.lbwxxc.types.enums.ResponseCode;
 
 @Slf4j
 @RestController
-@RequestMapping("/oss/")
+@RequestMapping("/admin/oss/")
 public class AdminFileController implements IAdminFileService {
 
     @Resource

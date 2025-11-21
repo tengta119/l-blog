@@ -26,7 +26,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/category/")
+@RequestMapping("/admin/category/")
 public class AdminCategoryController implements IAdminCategoryService {
 
     @Resource
