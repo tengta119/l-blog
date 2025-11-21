@@ -22,4 +22,7 @@ public interface ITagService {
     int findTagSize();
 
     int addTags(List<String> tags);
+
+    List<TagEntity> findTagsByArticleId(long articleId);
+
 }

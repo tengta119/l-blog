@@ -19,4 +19,6 @@ public interface ICategoryService {
     List<CategoryEntity> findAllCategory();
 
     int findCategorySize();
+
+    CategoryEntity findCategoryByArticleId(long articleId);
 }

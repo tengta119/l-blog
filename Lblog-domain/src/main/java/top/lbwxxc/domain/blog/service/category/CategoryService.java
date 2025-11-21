@@ -6,12 +6,12 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
 import top.lbwxxc.domain.blog.adapter.repository.IBlogRepository;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
 import top.lbwxxc.domain.blog.service.ICategoryService;
 import top.lbwxxc.types.common.RedisConstants;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +23,8 @@ public class CategoryService implements ICategoryService {
     private IBlogRepository blogRepository;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private IArticleRepository articleRepository;
 
     @Override
     public int addCategory(String name) {
@@ -74,5 +76,11 @@ public class CategoryService implements ICategoryService {
     @Override
     public int findCategorySize() {
         return blogRepository.findCategorySize();
+    }
+
+    @Override
+    public CategoryEntity findCategoryByArticleId(long articleId) {
+
+        return articleRepository.findCategoryByArticleId(articleId);
     }
 }

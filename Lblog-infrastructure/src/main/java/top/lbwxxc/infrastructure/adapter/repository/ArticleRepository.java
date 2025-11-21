@@ -6,16 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
-import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
-import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
-import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
+import top.lbwxxc.domain.blog.model.entity.*;
 import top.lbwxxc.infrastructure.dao.*;
 import top.lbwxxc.infrastructure.dao.po.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 @Slf4j
@@ -31,6 +30,8 @@ public class ArticleRepository implements IArticleRepository {
     private TagDao tagDao;
     @Resource
     private ArticleTagRelDao articleTagRelDao;
+    @Resource
+    private CategoryDao categoryDao;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -216,6 +217,41 @@ public class ArticleRepository implements IArticleRepository {
         }
 
         return updateArticle + updateContent + updateArticleCategoryRel + tagUpdate;
+    }
+
+    @Override
+    public List<TagEntity> findTagByArticleId(long articleId) {
+
+        List<ArticleTagRel> articleTagRels = articleTagRelDao.selectEffectiveByArticleId(articleId);
+        List<Long> tagIds = articleTagRels.stream().map(ArticleTagRel::getTagId).toList();
+        List<Tag> tags = tagDao.selectTagsById(tagIds);
+
+        return Optional.ofNullable(tags)
+                .orElse(new ArrayList<>())
+                .stream()
+                .filter(Objects::nonNull)
+                .map(tag -> {
+
+                    TagEntity entity = new TagEntity();
+                    entity.setId(tag.getId());
+                    entity.setName(tag.getName());
+                    entity.setCreateTime(tag.getCreateTime());
+                    return entity;
+                })
+                .toList();
+    }
+
+    @Override
+    public CategoryEntity findCategoryByArticleId(long articleId) {
+
+        ArticleCategoryRel articleCategoryRel = articleCategoryRelDao.selectArticleCategoryRelByArticleId(articleId);
+        Category category = categoryDao.selectByPrimaryKey(articleCategoryRel.getCategoryId());
+
+        return CategoryEntity.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .createTime(category.getCreateTime())
+                .build();
     }
 
     // 新增标签，并将标签 id 写入到 tagId

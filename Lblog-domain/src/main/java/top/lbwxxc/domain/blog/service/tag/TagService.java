@@ -6,6 +6,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
 import top.lbwxxc.domain.blog.adapter.repository.IBlogRepository;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
 import top.lbwxxc.domain.blog.service.ITagService;
@@ -23,6 +24,8 @@ public class TagService implements ITagService {
     private IBlogRepository blogRepository;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private IArticleRepository articleRepository;
 
     @Override
     public int addTag(String name) {
@@ -71,5 +74,10 @@ public class TagService implements ITagService {
     @Override
     public int addTags(List<String> tags) {
         return blogRepository.addTags(tags);
+    }
+
+    @Override
+    public List<TagEntity> findTagsByArticleId(long articleId) {
+        return articleRepository.findTagByArticleId(articleId);
     }
 }

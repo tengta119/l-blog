@@ -1,9 +1,7 @@
 package top.lbwxxc.domain.blog.adapter.repository;
 
 
-import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
-import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
-import top.lbwxxc.domain.blog.model.entity.PublishUpdateArticleEntity;
+import top.lbwxxc.domain.blog.model.entity.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,4 +21,7 @@ public interface IArticleRepository {
 
     int updateArticle(PublishUpdateArticleEntity publishUpdateArticleEntity);
 
+    List<TagEntity> findTagByArticleId(long articleId);
+
+    CategoryEntity findCategoryByArticleId(long articleId);
 }
