@@ -28,6 +28,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             SaRouter
                     .match("/**")
                     .notMatch("/article/**")
+                    .notMatch("/category/**")
                     .notMatch("/login/login")
                     .notMatch("/login/check")
                     .notMatch("/code/**")
