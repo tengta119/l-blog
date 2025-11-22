@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.lbwxxc.api.ICategoryFrontService;
+import top.lbwxxc.api.IFrontCategoryService;
 import top.lbwxxc.api.dto.front.category.FindCategoryListResponseDTO;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/category/")
-public class CategoryFrontController implements ICategoryFrontService {
+public class FrontCategoryController implements IFrontCategoryService {
 
 
     @Resource

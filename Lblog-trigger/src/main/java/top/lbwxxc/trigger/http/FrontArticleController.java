@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.lbwxxc.api.IArticleFrontService;
+import top.lbwxxc.api.IFrontArticleService;
 import top.lbwxxc.api.dto.front.article.FindIndexArticlePageListRequestDTO;
 import top.lbwxxc.api.dto.front.article.FindIndexArticlePageListResponseDTO;
 import top.lbwxxc.api.dto.front.category.FindCategoryListResponseDTO;
@@ -27,7 +27,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/article/")
-public class ArticleFrontController implements IArticleFrontService {
+public class FrontArticleController implements IFrontArticleService {
 
     @Resource
     private IArticleService articleService;

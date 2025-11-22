@@ -6,7 +6,7 @@ import top.lbwxxc.api.response.Response;
 
 import java.util.List;
 
-public interface ICategoryFrontService {
+public interface IFrontCategoryService {
 
     Response<List<FindCategoryListResponseDTO>> findCategoryList();
 }

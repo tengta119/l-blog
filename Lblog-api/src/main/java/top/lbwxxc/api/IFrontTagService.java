@@ -6,7 +6,7 @@ import top.lbwxxc.api.response.Response;
 
 import java.util.List;
 
-public interface ITagFrontService {
+public interface IFrontTagService {
 
     Response<List<FindTagListResponseDTO>> findTagList();
 }

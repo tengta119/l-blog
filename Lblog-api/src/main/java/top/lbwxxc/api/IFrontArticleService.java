@@ -7,7 +7,7 @@ import top.lbwxxc.api.response.Response;
 
 import java.util.List;
 
-public interface IArticleFrontService {
+public interface IFrontArticleService {
 
     Response<List<FindIndexArticlePageListResponseDTO>> findArticlePageList(FindIndexArticlePageListRequestDTO findIndexArticlePageListRequestDTO);
 }

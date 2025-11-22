@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.lbwxxc.api.ITagFrontService;
+import top.lbwxxc.api.IFrontTagService;
 import top.lbwxxc.api.dto.front.tag.FindTagListResponseDTO;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.TagEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/tag/")
-public class TagFrontController implements ITagFrontService {
+public class FrontTagController implements IFrontTagService {
 
     @Resource
     private ITagService tagService;
