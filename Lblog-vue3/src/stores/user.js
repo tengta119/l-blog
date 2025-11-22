@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { removeToken } from '@/composables/auth'
 import { getUserInfo } from '@/api/admin/user'
-
 export const useUserStore = defineStore('user', () => {
   // 用户信息（初始化为空对象，避免访问属性时报错）
   const userInfo = ref({})
@@ -26,7 +26,13 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  return { userInfo, setUserInfo }
+  // 退出登录
+  function logout() {
+    userInfo.value = {} // 清空用户信息
+    removeToken() 
+  }
+
+  return { userInfo, setUserInfo, logout }
 }, {
   persist: true,
 })

@@ -60,10 +60,10 @@
 import { Fold, FullScreen, ArrowDown, Expand, Aim, Refresh } from '@element-plus/icons-vue'
 import { useMenuStore } from '@/stores/menu'
 import { useFullscreen } from '@vueuse/core'
-import { logout } from '@/api/admin/user'
 import router from '@/router'
 import { showMessage} from '@/composables/util'
 import { removeToken } from '@/composables/auth'
+import { logout } from '@/api/admin/user'
 import { useUserStore } from '@/stores/user'
 import {ref} from 'vue'
 import UpdatePasswordModal from '@/components/UpdatePasswordModal.vue'
@@ -89,6 +89,7 @@ const handleMenuWidth = () => {
 const handleLogout = async () => {
     await logout()
     removeToken();
+    userStore.logout()
     showMessage('已登出', 'success');
     router.push('/')
 }
