@@ -206,6 +206,14 @@ public class BlogRepository implements IBlogRepository {
         return userExternalUrlsDao.selectUserExternalUrlsCount();
     }
 
+    @Override
+    public BlogSettingsEntity findBlogSettings() {
+
+        BlogSettings blogSettings = blogSettingsDao.selectByPrimaryKey(1L);
+
+        return BlogSettingsEntity.builder().name(blogSettings.getName()).logo(blogSettings.getLogo()).build();
+    }
+
     private List<TagEntity> getTagEntities(List<Tag> tags) {
         List<TagEntity> tagEntities = new ArrayList<>();
         for (Tag tag : tags) {

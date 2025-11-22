@@ -19,4 +19,6 @@ public interface IBlogSettingsService {
     List<ExternalUrlEntity> findExternalUrlList(int page, int pageSize);
 
     int findExternalUrlSize();
+
+    BlogSettingsEntity findBlogSettings();
 }

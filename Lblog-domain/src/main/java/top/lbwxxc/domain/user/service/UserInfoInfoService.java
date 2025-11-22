@@ -45,11 +45,11 @@ public class UserInfoInfoService implements IUserInfoService {
 
     @Override
     public UserInfoEntity getUserInfo() {
-        String userInfoKey = RedisConstants.buildUserInfoKey(LoginUserContextHolder.getUserId());
+        String userInfoKey = RedisConstants.buildUserInfoKey(10011L);
         String userInfoStr = stringRedisTemplate.opsForValue().get(userInfoKey);
         UserInfoEntity userInfo = null;
         if (userInfoStr == null) {
-            userInfo = userInfoRepository.getUserInfoById(LoginUserContextHolder.getUserId());
+            userInfo = userInfoRepository.getUserInfoById(10011L);
             stringRedisTemplate.opsForValue().set(userInfoKey, JSON.toJSONString(userInfo), 3, TimeUnit.HOURS);
         } else {
             log.info("查询用户详细信息击中缓存 {}", userInfoStr);

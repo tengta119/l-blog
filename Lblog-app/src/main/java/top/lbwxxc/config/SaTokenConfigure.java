@@ -30,6 +30,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
                     .notMatch("/article/**")
                     .notMatch("/category/**")
                     .notMatch("/tag/**")
+                    .notMatch("/blog/settings/**")
                     .notMatch("/login/login")
                     .notMatch("/login/check")
                     .notMatch("/code/**")

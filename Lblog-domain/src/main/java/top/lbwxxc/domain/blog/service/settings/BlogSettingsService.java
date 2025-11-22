@@ -45,4 +45,9 @@ public class BlogSettingsService implements IBlogSettingsService {
         return blogRepository.findExternalUrlSize();
     }
 
+    @Override
+    public BlogSettingsEntity findBlogSettings() {
+        return blogRepository.getBlogSettings();
+    }
+
 }
