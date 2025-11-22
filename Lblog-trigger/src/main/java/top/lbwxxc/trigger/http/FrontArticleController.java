@@ -12,6 +12,7 @@ import top.lbwxxc.api.dto.front.article.FindIndexArticlePageListRequestDTO;
 import top.lbwxxc.api.dto.front.article.FindIndexArticlePageListResponseDTO;
 import top.lbwxxc.api.dto.front.category.FindCategoryListResponseDTO;
 import top.lbwxxc.api.dto.front.tag.FindTagListResponseDTO;
+import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
@@ -38,18 +39,24 @@ public class FrontArticleController implements IFrontArticleService {
 
     @PostMapping("list")
     @Override
-    public Response<List<FindIndexArticlePageListResponseDTO>> findArticlePageList(@RequestBody FindIndexArticlePageListRequestDTO request) {
+    public PageResponse<FindIndexArticlePageListResponseDTO> findArticlePageList(@RequestBody FindIndexArticlePageListRequestDTO request) {
         int size = request.getSize();
         int current = request.getCurrent();
 
         List<ArticleEntity> articleEntities = articleService.findArticlePageList(current, size);
 
-        Response<List<FindIndexArticlePageListResponseDTO>> response = new Response<>();
+
+        PageResponse<FindIndexArticlePageListResponseDTO> response = new PageResponse<>();
         if (articleEntities.isEmpty()) {
             response.setCode(ResponseCode.UN_ERROR.getCode());
             response.setInfo("文章不存在");
         }
 
+        int articleSize = articleService.findArticleSize();
+        response.setTotal(articleSize);
+        response.setCurrent(current);
+        response.setSize(size);
+        response.setPages(articleSize / size);
         List<FindIndexArticlePageListResponseDTO>  responseList = new ArrayList<>();
 
         for (ArticleEntity articleEntity : articleEntities) {
@@ -82,6 +89,7 @@ public class FrontArticleController implements IFrontArticleService {
         response.setCode(ResponseCode.SUCCESS.getCode());
         response.setInfo(ResponseCode.SUCCESS.getInfo());
         response.setData(responseList);
+
         return response;
     }
 }

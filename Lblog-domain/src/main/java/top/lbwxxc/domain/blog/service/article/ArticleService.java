@@ -20,4 +20,9 @@ public class ArticleService implements IArticleService {
 
         return articleRepository.findAllArticlePageList(current, size, null, null, null);
     }
+
+    @Override
+    public int findArticleSize() {
+        return articleRepository.findArticleSize();
+    }
 }

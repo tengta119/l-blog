@@ -106,6 +106,7 @@ public class ArticleRepository implements IArticleRepository {
                     .id(article.getId())
                     .title(article.getTitle())
                     .cover(article.getCover())
+                    .summary(article.getSummary())
                     .readNum(article.getReadNum())
                     .isDeleted(article.getIsDeleted())
                     .createTime(article.getCreateTime())

@@ -89,18 +89,6 @@
                                     </div>
                                     <p v-if="errors.code" class="mt-1 text-xs text-red-600 text-left">{{ errors.code }}</p>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center">
-                                        <input 
-                                            type="checkbox" 
-                                            id="remember" 
-                                            v-model="form.remember" 
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                        >
-                                        <label for="remember" class="ml-2 text-sm text-gray-600">记住我</label>
-                                    </div>
-                                    <a href="#" class="text-sm text-blue-600 hover:underline" @click.prevent="forgotPassword">忘记密码？</a>
-                                </div>
                             </form>
                             <div class="mt-6">
                                 <button 
@@ -272,12 +260,6 @@ const userLogin = async () => {
         const userData = response.data.data;
         console.log('登录成功，用户数据:', userData);
         
-        // Store user data in localStorage or state management
-        if (form.remember) {
-            localStorage.setItem('userId', userData.id);
-        } else {
-            sessionStorage.setItem('userId', userData.id);
-        }
         setToken(userData.token || '');
         
         userStore.setUserInfo();
