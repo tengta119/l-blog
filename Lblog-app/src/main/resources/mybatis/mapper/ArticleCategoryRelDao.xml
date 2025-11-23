@@ -99,4 +99,11 @@
         set category_id = #{categoryId,jdbcType=BIGINT}
         where article_id = #{articleId,jdbcType=BIGINT}
     </update>
+
+    <select id="selectArticleSizeByCategoryId">
+        select count(1)
+        from article_category_rel
+        where is_deleted = 0
+            and category_id = #{categoryId}
+    </select>
 </mapper>

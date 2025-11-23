@@ -27,4 +27,6 @@ public interface ArticleDao {
     List<Article> selectArticlePageList(int offset, int pageSize, String title, LocalDateTime startDate, LocalDateTime endDate);
 
     int selectArticleSize();
+
+    List<Article> selectArticleListByCategoryId(long categoryId, int offset, int pageSize);
 }

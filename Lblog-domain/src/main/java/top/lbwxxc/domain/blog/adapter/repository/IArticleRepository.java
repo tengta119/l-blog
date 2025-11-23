@@ -24,4 +24,8 @@ public interface IArticleRepository {
     List<TagEntity> findTagByArticleId(long articleId);
 
     CategoryEntity findCategoryByArticleId(long articleId);
+
+    List<ArticleEntity> findArticleByCategoryId(long categoryId, int page, int pageSize);
+
+    int findArticleSizeByCategoryId(long categoryId);
 }

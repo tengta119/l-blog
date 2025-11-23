@@ -10,4 +10,8 @@ public interface IArticleService {
     List<ArticleEntity> findArticlePageList(int current, int size);
 
     int findArticleSize();
+
+    List<ArticleEntity> findArticlePageListByCategoryId(long categoryId, int current, int size);
+
+    int findArticleSizeByCategoryId(long categoryId);
 }

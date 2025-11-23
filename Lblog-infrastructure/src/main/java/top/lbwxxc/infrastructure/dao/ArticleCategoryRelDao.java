@@ -23,4 +23,6 @@ public interface ArticleCategoryRelDao {
     ArticleCategoryRel selectArticleCategoryRelByArticleId(Long articleId);
 
     int updateArticleCategoryRelByArticleId(ArticleCategoryRel articleCategoryRel);
+
+    int selectArticleSizeByCategoryId(Long categoryId);
 }
