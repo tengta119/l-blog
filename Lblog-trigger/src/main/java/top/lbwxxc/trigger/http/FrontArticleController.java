@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.lbwxxc.api.IFrontArticleService;
-import top.lbwxxc.api.dto.front.article.FindIndexArticlePageListRequestDTO;
-import top.lbwxxc.api.dto.front.article.FindIndexArticlePageListResponseDTO;
+import top.lbwxxc.api.dto.front.article.*;
 import top.lbwxxc.api.dto.front.category.FindCategoryListResponseDTO;
 import top.lbwxxc.api.dto.front.tag.FindTagListResponseDTO;
 import top.lbwxxc.api.response.PageResponse;
@@ -21,9 +20,13 @@ import top.lbwxxc.domain.blog.service.ICategoryService;
 import top.lbwxxc.domain.blog.service.ITagService;
 import top.lbwxxc.types.enums.ResponseCode;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -90,6 +93,42 @@ public class FrontArticleController implements IFrontArticleService {
         response.setInfo(ResponseCode.SUCCESS.getInfo());
         response.setData(responseList);
 
+        return response;
+    }
+
+    @PostMapping("/archive/list")
+    @Override
+    public Response<List<FindArchiveArticlePageListResponseDTO>> findArchivePageList(@RequestBody FindArchiveArticlePageListRequestDTO findArchiveArticlePageListRequestDTO) {
+
+        int current = findArchiveArticlePageListRequestDTO.getCurrent();
+        int size = findArchiveArticlePageListRequestDTO.getSize();
+
+        List<ArticleEntity> articlePageList = articleService.findArticlePageList(current, size);
+        Map<YearMonth, List<ArticleEntity>> yearMonthToArticle = articlePageList.stream()
+                .collect(Collectors.groupingBy(articleEntity -> YearMonth.from(articleEntity.getCreateTime())));
+
+        List<FindArchiveArticlePageListResponseDTO> archiveArticlePageListResponseDTOS = new ArrayList<>();
+        for (Map.Entry<YearMonth, List<ArticleEntity>> entry : yearMonthToArticle.entrySet()) {
+            FindArchiveArticlePageListResponseDTO findArchiveArticlePageListResponseDTO = FindArchiveArticlePageListResponseDTO.builder()
+                    .month(entry.getKey()).build();
+            List<FindArchiveArticleResponseDTO> findArchiveArticleResponseDTOS = entry.getValue().stream().map(articleEntity -> FindArchiveArticleResponseDTO.builder()
+                    .id(articleEntity.getId())
+                    .cover(articleEntity.getCover())
+                    .title(articleEntity.getTitle())
+                    .createDate(LocalDate.from(articleEntity.getCreateTime()))
+                    .createMonth(YearMonth.from(articleEntity.getCreateTime()))
+                    .build()
+
+            ).toList();
+            findArchiveArticlePageListResponseDTO.setArticles(findArchiveArticleResponseDTOS);
+
+            archiveArticlePageListResponseDTOS.add(findArchiveArticlePageListResponseDTO);
+        }
+
+        Response<List<FindArchiveArticlePageListResponseDTO>>  response = new Response<>();
+        response.setCode(ResponseCode.SUCCESS.getCode());
+        response.setInfo(ResponseCode.SUCCESS.getInfo());
+        response.setData(archiveArticlePageListResponseDTOS);
         return response;
     }
 }
