@@ -10,6 +10,7 @@ import ArchiveList from '@/page/frontend/archive-list.vue'
 import CategoryList from '@/page/frontend/category-list.vue'
 import CategoryArticleList from '@/page/frontend/category-article-list.vue'
 import TagList from '@/page/frontend/tag-list.vue'
+import TagArticleList from '@/page/frontend/tag-article-list.vue'
 // 统一在这里声明所有路由
 const routes = [
     {
@@ -46,6 +47,13 @@ const routes = [
             meta: { // meta 信息
                 title: 'Weblog 标签列表页'
             }
+    },
+    {
+        path: '/tag/article/list', // 标签列表页
+        component: TagArticleList,
+        meta: { // meta 信息
+            title: 'Weblog 标签文章页'
+        }
     },
     {
         path: "/admin", // 后台首页
