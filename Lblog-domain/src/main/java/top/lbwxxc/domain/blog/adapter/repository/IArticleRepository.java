@@ -28,4 +28,8 @@ public interface IArticleRepository {
     List<ArticleEntity> findArticleByCategoryId(long categoryId, int page, int pageSize);
 
     int findArticleSizeByCategoryId(long categoryId);
+
+    int findArticleSizeByTagId(long tagId);
+
+    List<ArticleEntity> findArticleByTagId(long tagId, int page, int pageSize);
 }

@@ -125,4 +125,11 @@
             #{id}
         </foreach>
     </update>
+
+    <select id="selectArticleSizeByTagId">
+        select count(1)
+        from article_tag_rel
+        where is_deleted = 0
+            and tag_id = #{tagId}
+    </select>
 </mapper>

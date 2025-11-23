@@ -14,4 +14,8 @@ public interface IArticleService {
     List<ArticleEntity> findArticlePageListByCategoryId(long categoryId, int current, int size);
 
     int findArticleSizeByCategoryId(long categoryId);
+
+    int findArticleSizeByTagId(long tagId);
+
+    List<ArticleEntity> findArticlePageListByTagId(long tagId, int current, int size);
 }

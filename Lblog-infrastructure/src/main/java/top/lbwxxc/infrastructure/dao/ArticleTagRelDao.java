@@ -34,4 +34,6 @@ public interface ArticleTagRelDao {
     int batchUpdateEffective(@Param("list") List<Long> list);
 
     int batchLogicDelete(@Param("list") List<Long> list);
+
+    int selectArticleSizeByTagId(@Param("tagId") Long tagId);
 }

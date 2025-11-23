@@ -29,4 +29,6 @@ public interface ArticleDao {
     int selectArticleSize();
 
     List<Article> selectArticleListByCategoryId(long categoryId, int offset, int pageSize);
+
+    List<Article> selectArticleListByTag(long tagId, int offset, int pageSize);
 }

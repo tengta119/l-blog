@@ -276,6 +276,27 @@ public class ArticleRepository implements IArticleRepository {
         return articleCategoryRelDao.selectArticleSizeByCategoryId(categoryId);
     }
 
+    @Override
+    public int findArticleSizeByTagId(long tagId) {
+        return articleTagRelDao.selectArticleSizeByTagId(tagId);
+    }
+
+    @Override
+    public List<ArticleEntity> findArticleByTagId(long tagId, int page, int pageSize) {
+        List<Article> articles = articleDao.selectArticleListByTag(tagId, (page - 1) * pageSize, pageSize);
+        return articles.stream().map(article -> ArticleEntity.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .summary(article.getSummary())
+                .createTime(article.getCreateTime())
+                .isDeleted(article.getIsDeleted())
+                .updateTime(article.getUpdateTime())
+                .readNum(article.getReadNum())
+                .cover(article.getCover())
+                .build()
+        ).toList();
+    }
+
     // 新增标签，并将标签 id 写入到 tagId
     private void addTags(List<String> tags, List<Long> tagId) {
         List<Tag> tagInsert = new ArrayList<>();

@@ -40,4 +40,14 @@ public class ArticleService implements IArticleService {
     public int findArticleSizeByCategoryId(long categoryId) {
         return articleRepository.findArticleSizeByCategoryId(categoryId);
     }
+
+    @Override
+    public int findArticleSizeByTagId(long tagId) {
+        return articleRepository.findArticleSizeByTagId(tagId);
+    }
+
+    @Override
+    public List<ArticleEntity> findArticlePageListByTagId(long tagId, int current, int size) {
+        return articleRepository.findArticleByTagId(tagId, current, size);
+    }
 }

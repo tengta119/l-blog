@@ -153,12 +153,26 @@
     </select>
 
     <select id="selectArticleListByCategoryId" resultMap="BaseResultMap">
-        SELECT *
+        SELECT a.*
             FROM article a
             INNER JOIN article_category_rel acr
         ON a.id = acr.article_id
             AND acr.is_deleted = 0
             AND acr.category_id = #{categoryId}
+        WHERE
+            a.is_deleted = 0
+        GROUP BY a.id
+        ORDER BY a.id desc
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="selectArticleListByTag" resultMap="BaseResultMap">
+        SELECT a.*
+        FROM article a
+                INNER JOIN article_tag_rel atr
+                            ON a.id = atr.article_id
+                                AND atr.is_deleted = 0
+                                AND atr.tag_id = #{tagId}
         WHERE
             a.is_deleted = 0
         GROUP BY a.id
