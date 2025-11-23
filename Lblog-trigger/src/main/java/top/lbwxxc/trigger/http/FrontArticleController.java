@@ -98,7 +98,7 @@ public class FrontArticleController implements IFrontArticleService {
 
     @PostMapping("/archive/list")
     @Override
-    public Response<List<FindArchiveArticlePageListResponseDTO>> findArchivePageList(@RequestBody FindArchiveArticlePageListRequestDTO findArchiveArticlePageListRequestDTO) {
+    public PageResponse<FindArchiveArticlePageListResponseDTO> findArchivePageList(@RequestBody FindArchiveArticlePageListRequestDTO findArchiveArticlePageListRequestDTO) {
 
         int current = findArchiveArticlePageListRequestDTO.getCurrent();
         int size = findArchiveArticlePageListRequestDTO.getSize();
@@ -125,10 +125,17 @@ public class FrontArticleController implements IFrontArticleService {
             archiveArticlePageListResponseDTOS.add(findArchiveArticlePageListResponseDTO);
         }
 
-        Response<List<FindArchiveArticlePageListResponseDTO>>  response = new Response<>();
+        PageResponse<FindArchiveArticlePageListResponseDTO> response = new PageResponse<>();
         response.setCode(ResponseCode.SUCCESS.getCode());
         response.setInfo(ResponseCode.SUCCESS.getInfo());
         response.setData(archiveArticlePageListResponseDTOS);
+
+        int articleSize = articleService.findArticleSize();
+        response.setTotal(articleSize);
+        response.setCurrent(current);
+        response.setSize(size);
+        response.setPages(articleSize / size);
+
         return response;
     }
 }

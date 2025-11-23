@@ -6,6 +6,7 @@ import AdminTagList from '@/page/admin/tag-list.vue'
 import AdminBlogSetting from '@/page/admin/blog-setting.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Admin from '@/layouts/admin/admin.vue'
+import ArchiveList from '@/page/frontend/archive-list.vue'
 // 统一在这里声明所有路由
 const routes = [
     {
@@ -13,6 +14,13 @@ const routes = [
         component: Index, // 对应组件
         meta: { // meta 信息
             title: 'Lblog 首页' // 页面标题
+        }
+    },
+    {
+        path: '/archive/list', // 归档页
+        component: ArchiveList,
+        meta: { // meta 信息
+            title: 'Weblog 归档页'
         }
     },
     {
