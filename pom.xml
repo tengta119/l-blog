@@ -201,6 +201,39 @@
                 <version>2.2.0</version>
             </dependency>
 
+            <!-- Markdown 解析 -->
+            <dependency>
+                <groupId>org.commonmark</groupId>
+                <artifactId>commonmark</artifactId>
+                <version>0.20.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.commonmark</groupId>
+                <artifactId>commonmark-ext-gfm-tables</artifactId>
+                <version>0.20.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.commonmark</groupId>
+                <artifactId>commonmark-ext-heading-anchor</artifactId>
+                <version>0.20.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.commonmark</groupId>
+                <artifactId>commonmark-ext-image-attributes</artifactId>
+                <version>0.20.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.commonmark</groupId>
+                <artifactId>commonmark-ext-task-list-items</artifactId>
+                <version>0.20.0</version>
+            </dependency>
+
+
+
             <!-- 工程模块 -->
             <dependency>
                 <groupId>top.lbwxxc</groupId>
