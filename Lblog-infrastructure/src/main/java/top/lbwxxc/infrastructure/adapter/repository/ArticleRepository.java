@@ -143,10 +143,12 @@ public class ArticleRepository implements IArticleRepository {
                 .id(article.getId())
                 .title(article.getTitle())
                 .cover(article.getCover())
+                .createTime(article.getCreateTime())
                 .summary(article.getSummary())
                 .content(articleContent.getContent())
                 .categoryId(articleCategoryRel.getCategoryId())
                 .tagIds(tagIds)
+                .readNum(article.getReadNum())
                 .build();
     }
 
@@ -225,21 +227,7 @@ public class ArticleRepository implements IArticleRepository {
 
         List<ArticleTagRel> articleTagRels = articleTagRelDao.selectEffectiveByArticleId(articleId);
         List<Long> tagIds = articleTagRels.stream().map(ArticleTagRel::getTagId).toList();
-        List<Tag> tags = tagDao.selectTagsById(tagIds);
-
-        return Optional.ofNullable(tags)
-                .orElse(new ArrayList<>())
-                .stream()
-                .filter(Objects::nonNull)
-                .map(tag -> {
-
-                    TagEntity entity = new TagEntity();
-                    entity.setId(tag.getId());
-                    entity.setName(tag.getName());
-                    entity.setCreateTime(tag.getCreateTime());
-                    return entity;
-                })
-                .toList();
+        return getTagEntities(tagIds);
     }
 
     @Override
@@ -295,6 +283,67 @@ public class ArticleRepository implements IArticleRepository {
                 .cover(article.getCover())
                 .build()
         ).toList();
+    }
+
+    @Override
+    public ArticleEntity findPreArticleByArticleId(long articleId) {
+
+        Article article = articleDao.selectPreArticleByArticleId(articleId);
+
+        if (article != null) {
+            return ArticleEntity.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .build();
+        }
+        return null;
+    }
+
+    @Override
+    public ArticleEntity findNextArticleByArticleId(long articleId) {
+
+        Article article = articleDao.selectNextArticleByArticleId(articleId);
+
+        if (article != null) {
+            return ArticleEntity.builder()
+                    .id(article.getId())
+                    .title(article.getTitle())
+                    .build();
+        }
+        return null;
+    }
+
+    @Override
+    public CategoryEntity findCategoryByCategoryId(long categoryId) {
+
+        Category category = categoryDao.selectEffectiveCategoryCategoryId(categoryId);
+
+        return CategoryEntity.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
+    }
+
+    @Override
+    public List<TagEntity> findTagsByTagIds(List<Long> tagIds) {
+        return getTagEntities(tagIds);
+    }
+
+    private List<TagEntity> getTagEntities(List<Long> tagIds) {
+        List<Tag> tags = tagDao.selectTagsById(tagIds);
+
+        return Optional.ofNullable(tags)
+                .orElse(new ArrayList<>())
+                .stream()
+                .filter(Objects::nonNull)
+                .map(tag -> {
+                    TagEntity entity = new TagEntity();
+                    entity.setId(tag.getId());
+                    entity.setName(tag.getName());
+                    entity.setCreateTime(tag.getCreateTime());
+                    return entity;
+                })
+                .toList();
     }
 
     // 新增标签，并将标签 id 写入到 tagId

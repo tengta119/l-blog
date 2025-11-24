@@ -122,4 +122,11 @@
         from category
         where is_deleted = 0
     </select>
+
+    <select id="selectEffectiveCategoryCategoryId" resultMap="BaseResultMap">
+        select *
+        from category
+        where id = #{id}
+            and is_deleted = 0
+    </select>
 </mapper>

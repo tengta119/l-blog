@@ -4,6 +4,7 @@ package top.lbwxxc.domain.blog.service.article;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
+import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.service.IArticleService;
 
@@ -49,5 +50,20 @@ public class ArticleService implements IArticleService {
     @Override
     public List<ArticleEntity> findArticlePageListByTagId(long tagId, int current, int size) {
         return articleRepository.findArticleByTagId(tagId, current, size);
+    }
+
+    @Override
+    public ArticleDetailEntity findArticleDetailByArticleId(long articleId) {
+        return articleRepository.findArticleDetailById(articleId);
+    }
+
+    @Override
+    public ArticleEntity findPreArticleByArticleId(long articleId) {
+        return articleRepository.findPreArticleByArticleId(articleId);
+    }
+
+    @Override
+    public ArticleEntity findNextArticleByArticleId(long articleId) {
+        return articleRepository.findNextArticleByArticleId(articleId);
     }
 }

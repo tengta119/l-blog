@@ -83,4 +83,10 @@ public class CategoryService implements ICategoryService {
 
         return articleRepository.findCategoryByArticleId(articleId);
     }
+
+    @Override
+    public CategoryEntity findCategoryByCategoryId(long categoryId) {
+
+        return articleRepository.findCategoryByCategoryId(categoryId);
+    }
 }

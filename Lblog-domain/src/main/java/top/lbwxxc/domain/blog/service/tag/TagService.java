@@ -12,7 +12,6 @@ import top.lbwxxc.domain.blog.model.entity.TagEntity;
 import top.lbwxxc.domain.blog.service.ITagService;
 import top.lbwxxc.types.common.RedisConstants;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,5 +78,11 @@ public class TagService implements ITagService {
     @Override
     public List<TagEntity> findTagsByArticleId(long articleId) {
         return articleRepository.findTagByArticleId(articleId);
+    }
+
+    @Override
+    public List<TagEntity> findTagsByTagIds(List<Long> tagIds) {
+
+        return articleRepository.findTagsByTagIds(tagIds);
     }
 }

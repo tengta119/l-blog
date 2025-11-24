@@ -32,4 +32,12 @@ public interface IArticleRepository {
     int findArticleSizeByTagId(long tagId);
 
     List<ArticleEntity> findArticleByTagId(long tagId, int page, int pageSize);
+
+    ArticleEntity findPreArticleByArticleId(long articleId);
+
+    ArticleEntity findNextArticleByArticleId(long articleId);
+
+    CategoryEntity findCategoryByCategoryId(long categoryId);
+
+    List<TagEntity> findTagsByTagIds(List<Long> tagIds);
 }

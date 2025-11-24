@@ -1,6 +1,7 @@
 package top.lbwxxc.domain.blog.service;
 
 
+import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface IArticleService {
     int findArticleSizeByTagId(long tagId);
 
     List<ArticleEntity> findArticlePageListByTagId(long tagId, int current, int size);
+
+    ArticleDetailEntity findArticleDetailByArticleId(long articleId);
+
+    ArticleEntity findPreArticleByArticleId(long articleId);
+
+    ArticleEntity findNextArticleByArticleId(long articleId);
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -35,6 +36,11 @@ public class ArticleDetailEntity {
     private String content;
 
     /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
      * 分类 ID
      */
     private Long categoryId;
@@ -48,4 +54,9 @@ public class ArticleDetailEntity {
      * 摘要
      */
     private String summary;
+
+    /**
+     * 被阅读次数
+     */
+    private Integer readNum;
 }

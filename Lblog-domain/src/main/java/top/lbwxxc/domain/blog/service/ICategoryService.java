@@ -21,4 +21,6 @@ public interface ICategoryService {
     int findCategorySize();
 
     CategoryEntity findCategoryByArticleId(long articleId);
+
+    CategoryEntity findCategoryByCategoryId(long categoryId);
 }

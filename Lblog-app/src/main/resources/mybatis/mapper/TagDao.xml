@@ -143,13 +143,21 @@
     <select id="selectTagsById" resultMap="BaseResultMap">
         select *
         from tag
-        <where>  <!-- where 标签会自动剔除多余的 and/or -->
-            <if test="ids != null and ids.size() > 0">
-                id in
-                <foreach collection="ids" item="id" separator="," open="(" close=")">
-                    #{id}
-                </foreach>
-            </if>
+        <where>
+            <!-- 2. 核心优化：ids为空时，用 1=0 让条件失效，返回空结果 -->
+            <choose>
+                <when test="ids != null and ids.size() > 0">
+                    id in
+                    <foreach collection="ids" item="id" separator="," open="(" close=")">
+                        <!-- 3. 过滤 ids 中的 null 元素，避免生成 null 值 -->
+                        <if test="id != null">#{id}</if>
+                    </foreach>
+                    and is_deleted = 0
+                </when>
+                <otherwise>
+                    1 = 0
+                </otherwise>
+            </choose>
         </where>
     </select>
 </mapper>

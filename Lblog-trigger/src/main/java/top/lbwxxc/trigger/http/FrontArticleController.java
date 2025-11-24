@@ -13,6 +13,8 @@ import top.lbwxxc.api.dto.front.category.FindCategoryListResponseDTO;
 import top.lbwxxc.api.dto.front.tag.FindTagListResponseDTO;
 import top.lbwxxc.api.response.PageResponse;
 import top.lbwxxc.api.response.Response;
+import top.lbwxxc.domain.blog.marketdown.MarkdownHelper;
+import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
 import top.lbwxxc.domain.blog.model.entity.CategoryEntity;
 import top.lbwxxc.domain.blog.service.IArticleService;
@@ -137,5 +139,71 @@ public class FrontArticleController implements IFrontArticleService {
         response.setPages(articleSize / size);
 
         return response;
+    }
+
+
+    @PostMapping("/detail")
+    @Override
+    public Response<FindArticleDetailResponseDTO> findArticleDetail(@RequestBody FindArticleDetailRequestDTO findArticleDetailRequestDTO) {
+        Long articleId = findArticleDetailRequestDTO.getArticleId();
+        try {
+            ArticleDetailEntity articleDetail = articleService.findArticleDetailByArticleId(articleId);
+            CategoryEntity categoryEntity = categoryService.findCategoryByCategoryId(articleDetail.getCategoryId());
+
+            FindArticleDetailResponseDTO findArticleDetailResponseDTO = FindArticleDetailResponseDTO.builder()
+                    .title(articleDetail.getTitle())
+                    .content(MarkdownHelper.convertMarkdown2Html(articleDetail.getContent()))
+                    .createTime(articleDetail.getCreateTime())
+                    .categoryId(categoryEntity.getId())
+                    .categoryName(categoryEntity.getName())
+                    .readNum(Long.valueOf(articleDetail.getReadNum()))
+                    .build();
+
+            List<Long> tagIds = articleDetail.getTagIds();
+            List<FindTagListResponseDTO> findTagListResponseDTOS = tagService.findTagsByTagIds(tagIds).stream()
+                    .map(tagEntity -> FindTagListResponseDTO
+                    .builder()
+                    .id(tagEntity.getId())
+                    .name(tagEntity.getName())
+                    .build()
+            ).toList();
+
+            findArticleDetailResponseDTO.setTags(findTagListResponseDTOS);
+
+            ArticleEntity preArticle = articleService.findPreArticleByArticleId(articleId);
+            if (preArticle != null) {
+                findArticleDetailResponseDTO.setPreArticle(FindPreNextArticleResponseDTO
+                        .builder()
+                        .articleId(preArticle.getId())
+                        .articleTitle(preArticle.getTitle())
+                        .build()
+                );
+            }
+
+            ArticleEntity nextArticle = articleService.findNextArticleByArticleId(articleId);
+            if (nextArticle != null) {
+                findArticleDetailResponseDTO.setNextArticle(FindPreNextArticleResponseDTO
+                        .builder()
+                        .articleId(nextArticle.getId())
+                        .articleTitle(nextArticle.getTitle())
+                        .build()
+                );
+            }
+
+            return Response.<FindArticleDetailResponseDTO>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(findArticleDetailResponseDTO)
+                    .build();
+
+        } catch (ClassCastException e) {
+
+            log.error("获取文章详细信息失败 {}", e.getMessage());
+            return Response.<FindArticleDetailResponseDTO>builder()
+                    .code(ResponseCode.UN_ERROR.getCode())
+                    .info(e.getMessage())
+                    .build();
+        }
+
     }
 }

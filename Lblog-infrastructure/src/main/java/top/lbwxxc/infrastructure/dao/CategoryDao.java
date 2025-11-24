@@ -29,4 +29,6 @@ public interface CategoryDao {
     List<Category> selectAllCategory();
 
     int selectCategorySize();
+
+    Category selectEffectiveCategoryCategoryId(long id);
 }
