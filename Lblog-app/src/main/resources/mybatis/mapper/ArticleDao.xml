@@ -197,4 +197,10 @@
         limit 1
         ]]>
     </select>
+
+    <update id="addArticleReadNum">
+        update article
+        set read_num = read_num + 1
+        where id = #{articleId}
+    </update>
 </mapper>

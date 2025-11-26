@@ -329,6 +329,11 @@ public class ArticleRepository implements IArticleRepository {
         return getTagEntities(tagIds);
     }
 
+    @Override
+    public int addArticleReadNum(long articleId) {
+        return articleDao.addArticleReadNum(articleId);
+    }
+
     private List<TagEntity> getTagEntities(List<Long> tagIds) {
         List<Tag> tags = tagDao.selectTagsById(tagIds);
 

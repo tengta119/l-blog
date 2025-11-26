@@ -2,10 +2,12 @@ package top.lbwxxc.domain.blog.service.article;
 
 
 import jakarta.annotation.Resource;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import top.lbwxxc.domain.blog.adapter.repository.IArticleRepository;
 import top.lbwxxc.domain.blog.model.entity.ArticleDetailEntity;
 import top.lbwxxc.domain.blog.model.entity.ArticleEntity;
+import top.lbwxxc.domain.blog.model.event.ReadArticleEvent;
 import top.lbwxxc.domain.blog.service.IArticleService;
 
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ public class ArticleService implements IArticleService {
 
     @Resource
     private IArticleRepository articleRepository;
+    @Resource
+    private ApplicationEventPublisher eventPublisher;
 
     @Override
     public List<ArticleEntity> findArticlePageList(int current, int size) {
@@ -54,7 +58,11 @@ public class ArticleService implements IArticleService {
 
     @Override
     public ArticleDetailEntity findArticleDetailByArticleId(long articleId) {
-        return articleRepository.findArticleDetailById(articleId);
+
+        ArticleDetailEntity articleDetailById = articleRepository.findArticleDetailById(articleId);
+        eventPublisher.publishEvent(new ReadArticleEvent(this, articleId));
+
+        return articleDetailById;
     }
 
     @Override
@@ -65,5 +73,10 @@ public class ArticleService implements IArticleService {
     @Override
     public ArticleEntity findNextArticleByArticleId(long articleId) {
         return articleRepository.findNextArticleByArticleId(articleId);
+    }
+
+    @Override
+    public int addArticleReadNum(long articleId) {
+        return articleRepository.addArticleReadNum(articleId);
     }
 }

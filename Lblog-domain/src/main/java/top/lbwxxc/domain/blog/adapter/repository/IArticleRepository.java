@@ -40,4 +40,6 @@ public interface IArticleRepository {
     CategoryEntity findCategoryByCategoryId(long categoryId);
 
     List<TagEntity> findTagsByTagIds(List<Long> tagIds);
+
+    int addArticleReadNum(long articleId);
 }

@@ -34,4 +34,6 @@ public interface ArticleDao {
     Article selectPreArticleByArticleId(long articleId);
 
     Article selectNextArticleByArticleId(long articleId);
+
+    int addArticleReadNum(long articleId);
 }

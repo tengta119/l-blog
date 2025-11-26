@@ -25,4 +25,6 @@ public interface IArticleService {
     ArticleEntity findPreArticleByArticleId(long articleId);
 
     ArticleEntity findNextArticleByArticleId(long articleId);
+
+    int addArticleReadNum(long articleId);
 }
