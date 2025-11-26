@@ -142,6 +142,9 @@
 
     </main>
 
+        <!-- 返回顶部 -->
+    <ScrollToTopButton></ScrollToTopButton>
+
     <Footer></Footer>
 </template>
 
@@ -154,6 +157,7 @@ import CategoryListCard from '@/layouts/frontend/components/CategoryListCard.vue
 import { getArticleDetail } from '@/api/frontend/article'
 import { useRoute, useRouter } from 'vue-router'
 import { ref, watch, onMounted } from 'vue'
+import ScrollToTopButton from '@/layouts/frontend/components/ScrollToTopButton.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/tokyo-night-dark.css'
 

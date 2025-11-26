@@ -13,7 +13,6 @@ import TagList from '@/page/frontend/tag-list.vue'
 import TagArticleList from '@/page/frontend/tag-article-list.vue'
 import NotFound from '@/page/frontend/404.vue'
 import ArticleDetail from '@/page/frontend/article-detail.vue'
-import NotFound from '@/page/frontend/404.vue'
 // 统一在这里声明所有路由
 const routes = [
     {
