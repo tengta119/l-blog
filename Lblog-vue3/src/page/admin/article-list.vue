@@ -158,6 +158,7 @@
   
             <!-- 分页列表 -->
             <el-table :data="tableData" border stripe style="width: 100%" v-loading="tableLoading">
+                <el-table-column prop="id" label="ID" width="50" />
                 <el-table-column prop="title" label="标题" width="180" />
                 <el-table-column prop="cover" label="封面" width="180">
                     <template #default="scope">
@@ -176,6 +177,11 @@
                             <Edit />
                         </el-icon>
                         编辑</el-button>
+                        <el-button size="small" @click="goArticleDetailPage(scope.row.id)">
+                            <el-icon class="mr-1">
+                                <View />
+                            </el-icon>
+                            预览</el-button>
                         <el-button type="danger" size="small" @click="deleteArticleSubmit(scope.row)">
                             <el-icon class="mr-1">
                                 <Delete />
@@ -201,7 +207,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { Search, RefreshRight, Edit, Delete, EditPen, Promotion, Plus } from '@element-plus/icons-vue'
+import { Search, RefreshRight, Edit, Delete, EditPen, Promotion, Plus, View } from '@element-plus/icons-vue'
 import moment from 'moment'
 import { getArticlePageList, deleteArticle,  publishArticle, getArticleDetail, updateArticle } from '@/api/admin/article'
 import {getCategorySelect} from '@/api/admin/category'
@@ -209,6 +215,7 @@ import { showMessage, showModel } from '@/composables/util'
 import { MdEditor } from 'md-editor-v3'
 import { uploadFile } from '@/api/admin/file'
 import { searchTags } from '@/api/admin/tag'
+import { useRouter } from 'vue-router'
 import 'md-editor-v3/lib/style.css'
 // 是否显示文章发布对话框
 const isArticlePublishEditorShow = ref(false)
@@ -216,7 +223,8 @@ const isArticlePublishEditorShow = ref(false)
 const searchArticleTitle = ref('')
 // 日期
 const pickDate = ref('')
-
+				
+const router = useRouter()
 // 查询条件：开始结束时间
 const startDate = reactive({})
 const endDate = reactive({})
@@ -266,7 +274,9 @@ const reset = () => {
     endDate.value = null
     searchArticleTitle.value = ''
 }
-
+const goArticleDetailPage = (articleId) => {
+    router.push('/article/' + articleId)
+}
 // 表格加载 Loading
 const tableLoading = ref(false)
 // 表格数据
