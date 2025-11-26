@@ -171,6 +171,10 @@ function refreshArticleDetail(articleId) {
         const data = res.data;
         if (data.code == '0000') {
             article.value = data.data
+        } else {
+            // 手动跳转 404 页面
+            router.push({name : 'NotFound'})
+            return
         }
     })
 }

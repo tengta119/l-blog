@@ -11,7 +11,9 @@ import CategoryList from '@/page/frontend/category-list.vue'
 import CategoryArticleList from '@/page/frontend/category-article-list.vue'
 import TagList from '@/page/frontend/tag-list.vue'
 import TagArticleList from '@/page/frontend/tag-article-list.vue'
+import NotFound from '@/page/frontend/404.vue'
 import ArticleDetail from '@/page/frontend/article-detail.vue'
+import NotFound from '@/page/frontend/404.vue'
 // 统一在这里声明所有路由
 const routes = [
     {
@@ -107,7 +109,15 @@ const routes = [
                 }
             }
         ]
-    }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound,
+        meta: {
+            title: '404 页'
+        }
+    },
 ]
 
 // 创建路由
