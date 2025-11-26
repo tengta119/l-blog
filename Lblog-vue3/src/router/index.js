@@ -11,6 +11,7 @@ import CategoryList from '@/page/frontend/category-list.vue'
 import CategoryArticleList from '@/page/frontend/category-article-list.vue'
 import TagList from '@/page/frontend/tag-list.vue'
 import TagArticleList from '@/page/frontend/tag-article-list.vue'
+import ArticleDetail from '@/page/frontend/article-detail.vue'
 // 统一在这里声明所有路由
 const routes = [
     {
@@ -18,6 +19,13 @@ const routes = [
         component: Index, // 对应组件
         meta: { // meta 信息
             title: 'Lblog 首页' // 页面标题
+        }
+    },
+    {
+        path: '/article/:articleId', // 文章详情页
+        component: ArticleDetail,
+        meta: { // meta 信息
+            title: 'Weblog 详情页'
         }
     },
     {

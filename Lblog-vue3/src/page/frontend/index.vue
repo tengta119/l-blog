@@ -12,7 +12,7 @@
                     <div v-for="(article, index) in articles" :key="index" class="col-span-2 md:col-span-1">
                         <div class="bg-white h-full border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                             <!-- 文章封面 -->
-                            <a href="#">
+                            <a @click="goArticleDetailPage(article.id)" class="cursor-pointer">
                                 <img class="rounded-t-lg h-48 w-full"
                                     :src="article.cover" />
                             </a>
@@ -25,7 +25,7 @@
                                     </span>
                                 </div>
                                 <!-- 文章标题 -->
-                                <a href="#">
+                                <a @click="goArticleDetailPage(article.id)" class="cursor-pointer">
                                     <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                         {{ article.title }}</h2>
                                 </a>
@@ -172,5 +172,10 @@ getArticles(current.value)
 const goCategoryArticleListPage = (id, name) => {
     // 跳转时通过 query 携带参数（分类 ID、分类名称）
     router.push({path: '/category/article/list', query: {id, name}})
+}
+
+// 跳转文章详情页
+const goArticleDetailPage = (articleId) => {
+    router.push('/article/' + articleId)
 }
 </script>

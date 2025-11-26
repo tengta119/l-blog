@@ -90,7 +90,7 @@ public class FrontCategoryController implements IFrontCategoryService {
                 .build()
         ).toList();
         response.setTotal(articleSizeByCategoryId);
-        response.setPages(articleSizeByCategoryId / size);
+        response.setPages((int)Math.ceil((double) articleSizeByCategoryId / size));
         response.setData(findCategoryArticlePageListResponseDTOS);
         return response;
     }

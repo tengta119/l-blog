@@ -61,7 +61,7 @@ public class FrontArticleController implements IFrontArticleService {
         response.setTotal(articleSize);
         response.setCurrent(current);
         response.setSize(size);
-        response.setPages(articleSize / size);
+        response.setPages((int)Math.ceil((double) articleSize / size));
         List<FindIndexArticlePageListResponseDTO>  responseList = new ArrayList<>();
 
         for (ArticleEntity articleEntity : articleEntities) {
@@ -136,7 +136,7 @@ public class FrontArticleController implements IFrontArticleService {
         response.setTotal(articleSize);
         response.setCurrent(current);
         response.setSize(size);
-        response.setPages(articleSize / size);
+        response.setPages((int)Math.ceil((double) articleSize / size));
 
         return response;
     }

@@ -74,7 +74,7 @@ public class FrontTagController implements IFrontTagService {
         response.setCurrent(current);
         response.setSize(size);
         response.setTotal(articleSizeByTagId);
-        response.setPages(articleSizeByTagId / size);
+        response.setPages((int)Math.ceil((double) articleSizeByTagId / size));
         if (articleSizeByTagId == 0) {
             return response;
         }

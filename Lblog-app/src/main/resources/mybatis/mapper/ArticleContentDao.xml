@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="top.lbwxxc.infrastructure.dao.po.ArticleContent">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="article_id" jdbcType="BIGINT" property="articleId" />
-        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="content" property="content" />
     </resultMap>
     <sql id="Base_Column_List">
         id, article_id, content
